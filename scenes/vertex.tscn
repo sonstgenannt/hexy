@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://x16xg6p7er1s"]
+
+[ext_resource type="Script" path="res://vertex.gd" id="1_i53qj"]
+[ext_resource type="Shader" path="res://scenes/vertex.gdshader" id="1_xicnw"]
+[ext_resource type="Texture2D" uid="uid://dw5bx7b5lfncy" path="res://icon.svg" id="2_657u0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n2ym6"]
+resource_local_to_scene = true
+shader = ExtResource("1_xicnw")
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[node name="vertex" type="TextureButton"]
+material = SubResource("ShaderMaterial_n2ym6")
+anchors_preset = -1
+anchor_right = 0.064
+anchor_bottom = 0.064
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+size_flags_horizontal = 6
+size_flags_vertical = 6
+toggle_mode = true
+action_mode = 0
+button_mask = 3
+texture_normal = ExtResource("2_657u0")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("1_i53qj")
+growth_factor = 1.3
+lerp_speed = 0.1
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
