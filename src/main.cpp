@@ -41,6 +41,7 @@ void init_circles(const float& poly_radius, const float& circle_radius) {
       circles[i].set_current_radius(circle_radius);
       circles[i].set_initial_radius(circle_radius);
       circles[i].set_mouse_over_growth_mult(GROWTH_MULT);
+      circles[i].set_color(DEFAULT_CIRCLE_COLOR);
    }
 }
 
@@ -117,9 +118,10 @@ int main(void)
             circles[i].set_current_radius(circles[i].get_initial_radius());
 
          if ( &circles[i] != source )
-            DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), DEFAULT_CIRCLE_COLOR);
+            circles[i].set_color(DEFAULT_CIRCLE_COLOR);
          else
-            DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), SOURCE_CIRCLE_COLOR);
+            circles[i].set_color(SOURCE_CIRCLE_COLOR);
+         DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), circles[i].get_color());
       }
 
 
