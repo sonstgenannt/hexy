@@ -6,6 +6,7 @@ class circle {
       float initial_radius;
       float current_radius;
       float mouse_over_growth_mult;
+      Color col;
 
    public:
       circle(Vector2 centre, float radius);
@@ -24,5 +25,8 @@ class circle {
       float get_mouse_over_growth_mult() const;
 
       bool is_mouse_over() const;
+
+      void set_color(Color col);
+      Color get_color() const;
       
 };

@@ -43,3 +43,11 @@ float circle::get_mouse_over_growth_mult() const {
 bool circle::is_mouse_over() const {
    return CheckCollisionPointCircle(GetMousePosition(), this->centre, this->current_radius);
 }
+
+void circle::set_color(Color col) {
+   this->col = col;
+}
+
+Color circle::get_color() const {
+   return this->col;
+}
