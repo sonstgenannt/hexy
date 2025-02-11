@@ -4,9 +4,8 @@
 #include <cmath>
 #include <iostream>
 
-const int screen_width = 1000;
-const int screen_height = 1000;
-
+const int SCREEN_WIDTH = 1000;
+const int SCREEN_HEIGHT = 1000;
 
 circle circles[6];
 circle* source = nullptr;
@@ -20,8 +19,8 @@ const Color DEFAULT_CIRCLE_COLOR = BLACK;
 
 void init_circles(unsigned int number_of_vertices, float poly_radius, float circle_radius) {
 
-   int centre_x = screen_width / 2.0f;
-   int centre_y = screen_height / 2.0f;
+   int centre_x = SCREEN_WIDTH / 2.0f;
+   int centre_y = SCREEN_HEIGHT / 2.0f;
 
    double angle = (2.0f * std::numbers::pi) / number_of_vertices;
 
@@ -39,7 +38,7 @@ void init_circles(unsigned int number_of_vertices, float poly_radius, float circ
 int main(void)
 {
    init_circles(6, 300.0f, 30.0f);
-   InitWindow(screen_width, screen_height, "hexy");
+   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "hexy");
    SetTargetFPS(144);               
 
    while (!WindowShouldClose())    
