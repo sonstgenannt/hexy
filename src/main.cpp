@@ -10,6 +10,7 @@ const int SCREEN_HEIGHT = 1000;
 const int TOTAL_CIRCLES = 6;
 const int TOTAL_LINES = ( TOTAL_CIRCLES * (TOTAL_CIRCLES - 1) ) / 2; // Total number of edges in the complete graph on TOTAL_CIRCLES vertices
 
+const float GROWTH_MULT = 1.3f;
 
 circle circles[TOTAL_CIRCLES];
 circle* source = nullptr;
@@ -39,7 +40,7 @@ void init_circles(const float& poly_radius, const float& circle_radius) {
       circles[i].set_centre(Vector2{ static_cast<float>(x), static_cast<float>(y)});
       circles[i].set_current_radius(circle_radius);
       circles[i].set_initial_radius(circle_radius);
-      circles[i].set_mouse_over_growth_mult(1.2f);
+      circles[i].set_mouse_over_growth_mult(GROWTH_MULT);
    }
 }
 
