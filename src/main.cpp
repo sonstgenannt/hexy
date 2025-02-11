@@ -16,6 +16,7 @@ circle* draggable_circle = nullptr;
 Vector2 circle_initial_positions[6];
 
 const Color DEFAULT_CIRCLE_COLOR = BLACK;
+const Color SOURCE_CIRCLE_COLOR = BLUE;
 
 void init_circles(unsigned int number_of_vertices, float poly_radius, float circle_radius) {
 
@@ -103,7 +104,7 @@ int main(void)
          if ( &circles[i] != source )
             DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), DEFAULT_CIRCLE_COLOR);
          else
-            DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), BLUE);
+            DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), SOURCE_CIRCLE_COLOR);
       }
 
 
