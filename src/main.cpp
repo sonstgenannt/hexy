@@ -136,7 +136,12 @@ int main(void)
 
 
       if (draggable_circle != nullptr) {
-         draggable_circle->set_centre(GetMousePosition());
+         Vector2 mp = GetMousePosition();
+         float cr = draggable_circle->get_current_radius();
+         if ( ( mp.x > 0 ) && ( mp.x < SCREEN_WIDTH ) && ( mp.y > 0 ) && ( mp.y < SCREEN_HEIGHT ) )
+            draggable_circle->set_centre(GetMousePosition());
+         else
+            draggable_circle = nullptr;
       }
 
       // Reset circle positions
