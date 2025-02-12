@@ -51,3 +51,11 @@ void circle::set_color(Color col) {
 Color circle::get_color() const {
    return this->col;
 }
+
+void circle::set_frozen(bool b) {
+   this->frozen = b;
+}
+
+bool circle::is_frozen() const {
+   return this->frozen;
+}

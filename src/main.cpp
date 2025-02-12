@@ -21,7 +21,8 @@ circle* draggable_circle = nullptr;
 Vector2 circle_initial_positions[6];
 
 const Color DEFAULT_CIRCLE_COLOR = BLACK;
-const Color SOURCE_CIRCLE_COLOR = BLUE;
+const Color SOURCE_CIRCLE_COLOR = RED;
+const Color FROZEN_CIRCLE_COLOR = BLUE;
 
 void init_circles(const float& poly_radius, const float& circle_radius) {
 
@@ -42,6 +43,7 @@ void init_circles(const float& poly_radius, const float& circle_radius) {
       circles[i].set_initial_radius(circle_radius);
       circles[i].set_mouse_over_growth_mult(GROWTH_MULT);
       circles[i].set_color(DEFAULT_CIRCLE_COLOR);
+      circles[i].set_frozen(false);
    }
 }
 
@@ -67,9 +69,15 @@ int main(void)
          if ( circles[i].is_mouse_over() ) {
             circles[i].set_current_radius(circles[i].get_mouse_over_growth_mult() * circles[i].get_initial_radius());
 
+            if ( IsKeyPressed(KEY_F) ) {
+               circles[i].set_frozen(!circles[i].is_frozen());
+            }
+
             // If RMB is pressed
-            if ( IsMouseButtonPressed(1) ) 
-               draggable_circle = &circles[i];
+            if ( IsMouseButtonPressed(1) ) {
+               if ( !circles[i].is_frozen() ) 
+                  draggable_circle = &circles[i];
+            }
 
             else if ( IsMouseButtonReleased(1) && draggable_circle != nullptr) 
                draggable_circle = nullptr;
@@ -117,8 +125,12 @@ int main(void)
          else
             circles[i].set_current_radius(circles[i].get_initial_radius());
 
-         if ( &circles[i] != source )
-            circles[i].set_color(DEFAULT_CIRCLE_COLOR);
+         if ( &circles[i] != source ) {
+            if ( circles[i].is_frozen() ) 
+               circles[i].set_color(FROZEN_CIRCLE_COLOR);
+            else
+               circles[i].set_color(DEFAULT_CIRCLE_COLOR);
+         }
          else
             circles[i].set_color(SOURCE_CIRCLE_COLOR);
          DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), circles[i].get_color());
@@ -132,7 +144,8 @@ int main(void)
       // Reset circle positions
       if ( IsKeyDown(KEY_R) ) {
          for (int i = 0; i < TOTAL_CIRCLES; ++i) {
-            circles[i].set_centre(circle_initial_positions[i]);
+            if ( !circles[i].is_frozen() )
+               circles[i].set_centre(circle_initial_positions[i]);
          }
       }
 

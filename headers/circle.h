@@ -6,6 +6,7 @@ class circle {
       float initial_radius;
       float current_radius;
       float mouse_over_growth_mult;
+      bool frozen;
       Color col;
 
    public:
@@ -28,5 +29,8 @@ class circle {
 
       void set_color(Color col);
       Color get_color() const;
+
+      bool is_frozen() const;
+      void set_frozen(bool b);
       
 };
