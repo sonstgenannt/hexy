@@ -71,6 +71,9 @@ int main(void)
 
             if ( IsKeyPressed(KEY_F) ) {
                circles[i].set_frozen(!circles[i].is_frozen());
+               // The below if statement is required to ensure that if a circle is frozen whilst being dragged, then it cannot continue to be dragged.
+               if ( draggable_circle = &circles[i] )
+                  draggable_circle = nullptr;
             }
 
             // If RMB is pressed
