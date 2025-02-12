@@ -86,16 +86,13 @@ int main(void)
             else if ( IsMouseButtonPressed(0) ) {
                if ( source == nullptr ) {
                   source = &circles[i];
-                  std::cout << "source: " << i << std::endl;
                }
                else {
                   if ( source != &circles[i] ) {
                      target = &circles[i];
-                     std::cout << "target: " << i << std::endl;
                   }
                   else {
                      source = nullptr;
-                     std::cout << "source: null" << std::endl;
                   }
                }
             }
@@ -115,10 +112,8 @@ int main(void)
                   lines[line_counter][0] = source;
                   lines[line_counter][1] = target;
                   line_counter++;
-                  std::cout << "added line: " << line_counter << std::endl;
                   source = nullptr;
                   target = nullptr;
-                  std::cout << "source = target = null" << std::endl;
                }
             }
          }
