@@ -14,7 +14,6 @@ const int TOTAL_LINES = ( TOTAL_CIRCLES * (TOTAL_CIRCLES - 1) ) / 2; // Total nu
 
 const float GROWTH_MULT = 1.3f;
 
-std::vector<circle> circles;
 std::vector<Color> player_colors = {RED, BLUE};
 
 int main(void)
@@ -22,7 +21,7 @@ int main(void)
    //init_circles(300.0f, 30.0f);
    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "hexy");
    SetTargetFPS(144);               
-   board b(1000, circles, player_colors, 6, 2);
+   board b(1000, 6, 2, player_colors);
    b.init_circles(300.0f, 30.0f);
    
    while (!WindowShouldClose())    

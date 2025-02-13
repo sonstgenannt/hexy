@@ -1,6 +1,6 @@
 #include "../headers/board.h"
 
-board::board(const unsigned int& board_size, const std::vector<circle>& circles, const std::vector<Color>& player_colors, const unsigned int& max_circles, const unsigned int& total_players) {
+board::board(const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) {
    this->circles = circles;
    this->board_size = board_size;
 

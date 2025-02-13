@@ -30,7 +30,7 @@ class board {
       std::vector<Vector2> circle_initial_positions;
 
    public:
-      board(const unsigned int& board_size, const std::vector<circle>& circles, const std::vector<Color>& player_colors, const unsigned int& max_circles, const unsigned int& total_players); 
+      board(const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
 
       void poll_input_events();
       void draw();
