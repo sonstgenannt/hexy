@@ -23,10 +23,6 @@ circle* draggable_circle = nullptr;
 Vector2 circle_initial_positions[6];
 std::vector<Color> player_colors = {RED, BLUE};
 
-const Color DEFAULT_CIRCLE_COLOR = BLACK;
-const Color SOURCE_CIRCLE_COLOR = RED;
-const Color FROZEN_CIRCLE_COLOR = BLUE;
-
 int main(void)
 {
    //init_circles(300.0f, 30.0f);
@@ -57,5 +53,4 @@ int main(void)
    CloseWindow();
 
    return 0;
-   //
 }
