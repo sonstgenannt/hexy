@@ -9,11 +9,6 @@
 const int SCREEN_WIDTH = 1920; 
 const int SCREEN_HEIGHT = 1080;
 
-const int TOTAL_CIRCLES = 6;
-const int TOTAL_LINES = ( TOTAL_CIRCLES * (TOTAL_CIRCLES - 1) ) / 2; // Total number of edges in the complete graph on TOTAL_CIRCLES vertices
-
-const float GROWTH_MULT = 1.3f;
-
 std::vector<Color> player_colors = {RED, BLUE};
 
 int main(void)
