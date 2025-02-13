@@ -18,6 +18,8 @@ board::board(const unsigned int& board_size, const std::vector<circle>& circles,
    this->default_circle_color = BLACK;
    this->frozen_circle_color = BLUE;
    this->source_circle_color = RED;
+
+   this->circle_growth_mult = 1.2f;
 }
 
 void board::poll_input_events() {
@@ -128,3 +130,28 @@ void board::draw() {
    }
 }
 
+void board::init_circles(const float& poly_radius, const float& circle_radius) {
+
+   int centre_x = this->board_size / 2;
+   int centre_y = this->board_size / 2;
+   double angle = (2.0f * std::numbers::pi) / (double)this->max_circles; 
+
+   for (int i = 0; i < max_circles; ++i) {
+
+      circle c {};
+
+      int x = centre_x + (poly_radius * std::cos(i * angle));
+      int y = centre_y + (poly_radius * std::sin(i * angle));
+
+      // We are safe to cast x and y to floats since we do not expect them to be larger than 2^24.
+      this->circle_initial_positions.push_back(Vector2{ static_cast<float>(x), static_cast<float>(y) });
+      c.set_centre(Vector2{ static_cast<float>(x), static_cast<float>(y)});
+      c.set_current_radius(circle_radius);
+      c.set_initial_radius(circle_radius);
+      c.set_mouse_over_growth_mult(this->circle_growth_mult);
+      c.set_color(this->default_circle_color);
+      c.set_frozen(false);
+
+      this->circles.push_back(c);
+   }
+}
