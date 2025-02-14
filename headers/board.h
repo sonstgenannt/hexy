@@ -47,5 +47,13 @@ class board {
       void set_position(const Vector2& position);
 
       unsigned int get_size() const;
+
+      void set_default_circle_color(const Color& col);
+      void set_frozen_circle_color(const Color& col);
+      void set_source_circle_color(const Color& col);
+
+      Color get_default_circle_color() const;
+      Color get_frozen_circle_color() const;
+      Color get_source_circle_color() const;
 };
 

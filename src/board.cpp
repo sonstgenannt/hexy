@@ -17,7 +17,7 @@ board::board(const unsigned int& board_size, const Vector2& board_position, cons
 
    this->default_circle_color = BLACK;
    this->frozen_circle_color = BLUE;
-   this->source_circle_color = WHITE;
+   this->source_circle_color = RED;
 
    this->board_position = board_position;
    this->circle_growth_mult = 1.2f;
@@ -174,3 +174,24 @@ void board::set_position(const Vector2& position) {
 unsigned int board::get_size() const {
    return this->board_size;
 }
+void board::set_default_circle_color(const Color& col) {
+   this->default_circle_color = col;
+}
+void board::set_frozen_circle_color(const Color& col) {
+   this->frozen_circle_color = col;
+}
+void board::set_source_circle_color(const Color& col) {
+   this->source_circle_color = col;
+}
+
+Color board::get_default_circle_color() const {
+   return this->default_circle_color;
+}
+Color board::get_frozen_circle_color() const {
+   return this->frozen_circle_color;
+}
+
+Color board::get_source_circle_color() const {
+   return this->source_circle_color;
+}
+
