@@ -9,16 +9,16 @@
 const int SCREEN_WIDTH = 1000; 
 const int SCREEN_HEIGHT = 1000;
 
-std::vector<Color> player_colors = {WHITE};
+std::vector<Color> player_colors = {RED, BLUE, GREEN};
 
 int main(void)
 {
    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "hexy");
    const Vector2 screen_centre = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
    SetTargetFPS(144);               
-   board b(800, screen_centre, 6, 2, player_colors);
+   board b(1000, Vector2(0,0), 6, 2, player_colors);
    b.init_circles(300.0f, 30.0f);
-   b.set_background_color(PINK);
+   b.set_background_color(WHITE);
    
    while (!WindowShouldClose())    
    {

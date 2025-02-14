@@ -27,6 +27,7 @@ class board {
 
       std::vector<circle> circles;
       std::vector<std::array<circle*, 2>> lines;
+      std::vector<Color> line_colors;
       std::vector<Color> player_colors;
 
       std::vector<Vector2> circle_initial_positions;
@@ -55,5 +56,7 @@ class board {
       Color get_default_circle_color() const;
       Color get_frozen_circle_color() const;
       Color get_source_circle_color() const;
+
+      void reset_board();
 };
 

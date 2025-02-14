@@ -10,6 +10,7 @@ board::board(const unsigned int& board_size, const Vector2& board_position, cons
    this->line_counter = 0;
 
    this->player_colors = player_colors;
+   this->player_turn_idx = 0;
 
    this->line_source = nullptr;
    this->line_target = nullptr;
@@ -87,6 +88,8 @@ void board::poll_input_events() {
 
             if ( valid_line ) {
                this->lines.push_back( {this->line_source, this->line_target} );
+               this->line_colors.push_back( this->player_colors[this->player_turn_idx] );
+               this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
                this->line_counter++;
                this->line_source = nullptr;
                this->line_target = nullptr;
@@ -103,7 +106,7 @@ void board::poll_input_events() {
             this->circles[i].set_color(this->default_circle_color);
       }
       else {
-         this->circles[i].set_color(this->source_circle_color);
+         this->circles[i].set_color( this->player_colors[player_turn_idx] );
       }
 
 
@@ -118,6 +121,10 @@ void board::poll_input_events() {
             this->draggable_circle = nullptr;
       }
    }
+
+   if (IsKeyPressed(KEY_SPACE)) {
+      this->reset_board();
+   }
 }
 
 void board::draw() {
@@ -127,7 +134,7 @@ void board::draw() {
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
          if ( (&this->lines[i][0] != nullptr) && (&this->lines[i][1] != nullptr) ) {
-            DrawLineEx(this->lines[i][0]->get_centre(), this->lines[i][1]->get_centre(), 5.0f, WHITE);
+            DrawLineEx(this->lines[i][0]->get_centre(), this->lines[i][1]->get_centre(), 5.0f, this->line_colors[i]);
          }
       }
    }
@@ -165,6 +172,15 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
 Vector2 board::get_position() const {
    return this->board_position;
+}
+
+void board::reset_board() {
+   this->player_turn_idx = 0;
+   this->lines.clear();
+   this->line_source = nullptr;
+   this->line_target = nullptr;
+   this->draggable_circle = nullptr;
+   this->line_counter = 0;
 }
 
 void board::set_position(const Vector2& position) {
