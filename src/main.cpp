@@ -6,29 +6,25 @@
 #include <vector>
 #include <array>
 
-const int SCREEN_WIDTH = 1600; 
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_WIDTH = 1000; 
+const int SCREEN_HEIGHT = 1000;
 
 std::vector<Color> player_colors = {WHITE};
 
 int main(void)
 {
    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "hexy");
+   const Vector2 screen_centre = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
    SetTargetFPS(144);               
-   board b(800, Vector2(0,0), 6, 2, player_colors);
+   board b(800, screen_centre, 6, 2, player_colors);
    b.init_circles(300.0f, 30.0f);
-   b.set_background_color(GREEN);
-   board bb(800, Vector2(800,0), 8, 2, player_colors);
-   bb.init_circles(300.0f, 30.0f);
-   bb.set_background_color(ORANGE);
+   b.set_background_color(PINK);
    
    while (!WindowShouldClose())    
    {
       b.poll_input_events();
-      bb.poll_input_events();
       BeginDrawing();
       b.draw();
-      bb.draw();
 
       /*
       // Reset circle positions

@@ -17,7 +17,7 @@ board::board(const unsigned int& board_size, const Vector2& board_position, cons
 
    this->default_circle_color = BLACK;
    this->frozen_circle_color = BLUE;
-   this->source_circle_color = RED;
+   this->source_circle_color = WHITE;
 
    this->board_position = board_position;
    this->circle_growth_mult = 1.2f;
@@ -127,7 +127,7 @@ void board::draw() {
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
          if ( (&this->lines[i][0] != nullptr) && (&this->lines[i][1] != nullptr) ) {
-            DrawLineEx(this->lines[i][0]->get_centre(), this->lines[i][1]->get_centre(), 5.0f, RED);
+            DrawLineEx(this->lines[i][0]->get_centre(), this->lines[i][1]->get_centre(), 5.0f, WHITE);
          }
       }
    }
