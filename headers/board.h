@@ -17,6 +17,8 @@ class board {
       Color frozen_circle_color;
       Color source_circle_color;
 
+      Color background_color;
+
       float circle_growth_mult;
 
       circle* line_source;
@@ -28,13 +30,20 @@ class board {
       std::vector<Color> player_colors;
 
       std::vector<Vector2> circle_initial_positions;
+      Vector2 board_position;
 
    public:
-      board(const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
+      board(const unsigned int& board_size, const Vector2& board_position, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
 
       void poll_input_events();
       void draw();
 
       void init_circles(const float& poly_radius, const float& circle_radius);
+
+      Color get_background_color() const;
+      void set_background_color(const Color& col);
+
+      Vector2 get_position() const;
+      unsigned int get_size() const;
 };
 
