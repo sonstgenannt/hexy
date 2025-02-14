@@ -28,6 +28,10 @@ void board::set_background_color(const Color& col) {
 }
 
 Color board::get_background_color() const {
+   return this->background_color;
+}
+
+Color board::get_background_color() const {
    return this->background_color; 
 }
 
