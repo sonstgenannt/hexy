@@ -31,10 +31,6 @@ Color board::get_background_color() const {
    return this->background_color;
 }
 
-Color board::get_background_color() const {
-   return this->background_color; 
-}
-
 void board::poll_input_events() {
    for (int i = 0; i < this->max_circles; ++i) {
       if ( this->circles[i].is_mouse_over() ) {
@@ -169,6 +165,10 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
 Vector2 board::get_position() const {
    return this->board_position;
+}
+
+void board::set_position(const Vector2& position) {
+   this->board_position = position;
 }
 
 unsigned int board::get_size() const {

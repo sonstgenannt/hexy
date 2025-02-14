@@ -40,12 +40,12 @@ class board {
 
       void init_circles(const float& poly_radius, const float& circle_radius);
 
-      Color get_background_color() const;
-
       void set_background_color(const Color& col);
       Color get_background_color() const;
 
       Vector2 get_position() const;
+      void set_position(const Vector2& position);
+
       unsigned int get_size() const;
 };
 
