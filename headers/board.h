@@ -1,7 +1,7 @@
 #ifndef BOARD
 #define BOARD
 
-#include "circle.h"
+#include "line.h"
 #include <vector>
 #include <array>
 #include <cmath>
@@ -27,8 +27,7 @@ class board : public entity {
       circle* draggable_circle;
 
       std::vector<circle> circles;
-      std::vector<std::array<circle*, 2>> lines;
-      std::vector<Color> line_colors;
+      std::vector<line> lines;
       std::vector<Color> player_colors;
 
       std::vector<Vector2> circle_initial_positions;

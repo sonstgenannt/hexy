@@ -13,6 +13,7 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
 
    this->line_source = nullptr;
    this->line_target = nullptr;
+
    this->draggable_circle = nullptr;
 
    this->default_circle_color = BLACK;
@@ -69,7 +70,7 @@ void board::poll_input_events() {
             // Checking whether the lines [source -> target] and [target -> source] already exist
             if ( !lines.empty() ) {
                for (int j = 0; j < this->line_counter; ++j) {
-                  if ( ((this->lines[j][0] == this->line_source) && (this->lines[j][1] == this->line_target)) || ((this->lines[j][0] == this->line_target) && (this->lines[j][1] == this->line_source)) ) {
+                  if ( ((this->lines[j].get_source() == this->line_source) && (this->lines[j].get_target() == this->line_target)) || ((this->lines[j].get_source() == this->line_target) && (this->lines[j].get_target() == this->line_source)) ) {
                      valid_line = false;
                      break;
                   }
@@ -77,8 +78,7 @@ void board::poll_input_events() {
             }
 
             if ( valid_line ) {
-               this->lines.push_back( {this->line_source, this->line_target} );
-               this->line_colors.push_back( this->player_colors[this->player_turn_idx] );
+               this->lines.push_back( line(this->line_source, this->line_target, this->player_colors[this->player_turn_idx]) );
                this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
                this->line_counter++;
                this->line_source = nullptr;
@@ -127,8 +127,8 @@ void board::draw() {
 
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
-         if ( (&this->lines[i][0] != nullptr) && (&this->lines[i][1] != nullptr) ) {
-            DrawLineEx(this->lines[i][0]->get_position(), this->lines[i][1]->get_position(), 5.0f, this->line_colors[i]);
+         if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) {
+            DrawLineEx(this->lines[i].get_source()->get_position(), this->lines[i].get_target()->get_position(), 5.0f, this->lines[i].get_color());
          }
       }
    }
