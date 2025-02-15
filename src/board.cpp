@@ -144,7 +144,7 @@ void board::draw() {
    }
 
    for (int i = 0; i < this->circles.size(); ++i) {
-      DrawCircle(circles[i].get_position().x, circles[i].get_position().y, circles[i].get_current_radius(), circles[i].get_color());
+      circles[i].draw();
    }
 }
 
