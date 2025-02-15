@@ -1,3 +1,6 @@
+#ifndef BOARD
+#define BOARD
+
 #include "circle.h"
 #include <vector>
 #include <array>
@@ -61,4 +64,4 @@ class board {
 
       void reset_board();
 };
-
+#endif

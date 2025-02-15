@@ -1,20 +1,18 @@
-#include "raylib.h"
+#ifndef CIRCLE
+#define CIRCLE
 
-class circle {
+#include "entity.h"
+
+class circle : public entity {
    private:
-      Vector2 centre;
       float initial_radius;
       float current_radius;
       float mouse_over_growth_mult;
       bool frozen;
-      Color col;
 
    public:
-      circle(Vector2 centre, float radius);
+      circle(Vector2 position, float radius);
       circle();
-
-      Vector2 get_centre() const;
-      void set_centre(Vector2 centre);
 
       void set_initial_radius(float radius);
       float get_initial_radius() const;
@@ -27,10 +25,10 @@ class circle {
 
       bool is_mouse_over() const;
 
-      void set_color(Color col);
-      Color get_color() const;
-
       bool is_frozen() const;
       void set_frozen(bool b);
-      
+
+      void draw();
 };
+
+#endif

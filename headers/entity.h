@@ -1,5 +1,6 @@
 #ifndef ENTITY
 #define ENTITY
+
 #include "raylib.h"
 
 class entity {
@@ -10,6 +11,7 @@ class entity {
 
    public:
       entity(const Vector2& position);
+      entity();
 
       void set_position(const Vector2& position);
       Vector2 get_position() const;
@@ -20,7 +22,8 @@ class entity {
       void set_color(const Color& color);
       Color get_color() const;
 
-      virtual void draw();
+      virtual void draw() = 0;
+      virtual ~entity() = default;
 };
 
 #endif

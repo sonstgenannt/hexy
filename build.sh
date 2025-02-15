@@ -1,1 +1,1 @@
-g++ -std=c++20 src/circle.cpp src/board.cpp src/main.cpp -o main -lraylib && ./main
+g++ -std=c++20 src/entity.cpp src/circle.cpp src/board.cpp src/main.cpp -o main -lraylib && ./main

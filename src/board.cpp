@@ -116,7 +116,7 @@ void board::poll_input_events() {
          float cr = draggable_circle->get_current_radius();
 
          if ( ( mp.x > this->board_position.x ) && ( mp.x < this->board_position.x + this->board_size ) && ( mp.y > this->board_position.y ) && ( mp.y < this->board_position.y + this->board_size ) )
-            this->draggable_circle->set_centre(GetMousePosition());
+            this->draggable_circle->set_position(GetMousePosition());
          else
             this->draggable_circle = nullptr;
       }
@@ -138,13 +138,13 @@ void board::draw() {
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
          if ( (&this->lines[i][0] != nullptr) && (&this->lines[i][1] != nullptr) ) {
-            DrawLineEx(this->lines[i][0]->get_centre(), this->lines[i][1]->get_centre(), 5.0f, this->line_colors[i]);
+            DrawLineEx(this->lines[i][0]->get_position(), this->lines[i][1]->get_position(), 5.0f, this->line_colors[i]);
          }
       }
    }
 
    for (int i = 0; i < this->circles.size(); ++i) {
-      DrawCircle(circles[i].get_centre().x, circles[i].get_centre().y, circles[i].get_current_radius(), circles[i].get_color());
+      DrawCircle(circles[i].get_position().x, circles[i].get_position().y, circles[i].get_current_radius(), circles[i].get_color());
    }
 }
 
@@ -163,7 +163,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
       // We are safe to cast x and y to floats since we do not expect them to be larger than 2^24.
       this->circle_initial_positions.push_back(Vector2{ static_cast<float>(x), static_cast<float>(y) });
-      c.set_centre(Vector2{ static_cast<float>(x), static_cast<float>(y)});
+      c.set_position(Vector2{ static_cast<float>(x), static_cast<float>(y)});
       c.set_current_radius(circle_radius);
       c.set_initial_radius(circle_radius);
       c.set_mouse_over_growth_mult(this->circle_growth_mult);
@@ -176,7 +176,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
 void board::return_circles_to_initial_positions() {
    for (int i = 0; i < max_circles; ++i) {
-      this->circles[i].set_centre(this->circle_initial_positions[i]);
+      this->circles[i].set_position(this->circle_initial_positions[i]);
    }
 }
 
