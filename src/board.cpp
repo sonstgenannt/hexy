@@ -78,7 +78,7 @@ void board::poll_input_events() {
             }
 
             if ( valid_line ) {
-               this->lines.push_back( line(this->line_source, this->line_target, this->player_colors[this->player_turn_idx]) );
+               this->lines.push_back( line(this->line_source, this->line_target, 5.0f, this->player_colors[this->player_turn_idx]) );
                this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
                this->line_counter++;
                this->line_source = nullptr;
@@ -128,7 +128,7 @@ void board::draw() {
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
          if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) {
-            DrawLineEx(this->lines[i].get_source()->get_position(), this->lines[i].get_target()->get_position(), 5.0f, this->lines[i].get_color());
+            lines[i].draw();
          }
       }
    }
