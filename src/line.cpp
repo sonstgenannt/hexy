@@ -3,12 +3,14 @@
 line::line(circle* source, circle* target) {
    this->source = source;
    this->target = target;
+   this->thickness = 1.0f;
    this->color = BLACK;
 }
 
 line::line(circle* source, circle* target, const Color& color) {
    this->source = source;
    this->target = target;
+   this->thickness = 1.0f;
    this->color = color;
 }
 
