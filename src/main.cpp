@@ -9,11 +9,11 @@
 const int SCREEN_WIDTH = 1000; 
 const int SCREEN_HEIGHT = 1000;
 
-std::vector<Color> player_colors = {RED, BLUE, GREEN};
+std::vector<Color> player_colors = { RED, BLUE };
 
 int main(void)
 {
-   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "hexy");
+   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "rokkaku");
    const Vector2 screen_centre = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
    SetTargetFPS(144);               
    board b(1000, Vector2(0,0), 6, 2, player_colors);
@@ -23,18 +23,9 @@ int main(void)
    while (!WindowShouldClose())    
    {
       b.poll_input_events();
+      b.set_default_circle_color(BLACK);
       BeginDrawing();
       b.draw();
-
-      /*
-      // Reset circle positions
-      if ( IsKeyDown(KEY_R) ) {
-         for (int i = 0; i < TOTAL_CIRCLES; ++i) {
-            if ( !circles[i].is_frozen() )
-               circles[i].set_centre(circle_initial_positions[i]);
-         }
-      }
-      */
 
       ClearBackground(RAYWHITE);
       EndDrawing();

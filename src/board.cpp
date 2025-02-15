@@ -125,6 +125,10 @@ void board::poll_input_events() {
    if (IsKeyPressed(KEY_SPACE)) {
       this->reset_board();
    }
+
+   if (IsKeyPressed(KEY_R)) {
+      this->return_circles_to_initial_positions();
+   }
 }
 
 void board::draw() {
@@ -167,6 +171,12 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
       c.set_frozen(false);
 
       this->circles.push_back(c);
+   }
+}
+
+void board::return_circles_to_initial_positions() {
+   for (int i = 0; i < max_circles; ++i) {
+      this->circles[i].set_centre(this->circle_initial_positions[i]);
    }
 }
 

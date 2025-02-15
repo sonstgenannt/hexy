@@ -53,6 +53,8 @@ class board {
       void set_frozen_circle_color(const Color& col);
       void set_source_circle_color(const Color& col);
 
+      void return_circles_to_initial_positions();
+
       Color get_default_circle_color() const;
       Color get_frozen_circle_color() const;
       Color get_source_circle_color() const;
