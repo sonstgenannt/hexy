@@ -8,10 +8,12 @@ class line {
       circle* source;
       circle* target;
       Color color;
+      float thickness;
 
    public:
       line(circle* source, circle* target);
       line(circle* source, circle* target, const Color& color);
+      line(circle* source, circle* target, const float& thickness, const Color& color);
 
       circle* get_source() const;
       void set_source(circle* source);
@@ -21,6 +23,9 @@ class line {
 
       Color get_color() const;
       void set_color(const Color& color);
+
+      void set_thickness(const float& thickness);
+      float get_thickness() const;
 
       ~line() = default;
 };

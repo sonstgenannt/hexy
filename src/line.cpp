@@ -12,6 +12,13 @@ line::line(circle* source, circle* target, const Color& color) {
    this->color = color;
 }
 
+line::line(circle* source, circle* target, const float& thickness, const Color& color) {
+   this->source = source;
+   this->target = target;
+   this->thickness = thickness;
+   this->color = color;
+}
+
 circle* line::get_source() const {
    return this->source;
 }
@@ -31,4 +38,11 @@ Color line::get_color() const {
 }
 void line::set_color(const Color& color) {
    this->color = color;
+}
+
+void line::set_thickness(const float& thickness) {
+   this->thickness = thickness;
+}
+float line::get_thickness() const {
+   return this->thickness;
 }
