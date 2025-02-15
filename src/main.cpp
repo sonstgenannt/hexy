@@ -16,9 +16,9 @@ int main(void)
    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "rokkaku");
    const Vector2 screen_centre = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
    SetTargetFPS(144);               
-   board b(1000, Vector2(0,0), 6, 2, player_colors);
+   board b(Vector2(0,0), 1000, 6, 2, player_colors);
    b.init_circles(300.0f, 30.0f);
-   b.set_background_color(WHITE);
+   b.set_color(WHITE);
    
    while (!WindowShouldClose())    
    {

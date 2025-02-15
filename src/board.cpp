@@ -1,7 +1,6 @@
 #include "../headers/board.h"
 
-board::board(const unsigned int& board_size, const Vector2& board_position, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) {
-   this->circles = circles;
+board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
    this->board_size = board_size;
 
    this->total_players = total_players;
@@ -20,16 +19,7 @@ board::board(const unsigned int& board_size, const Vector2& board_position, cons
    this->frozen_circle_color = BLUE;
    this->source_circle_color = RED;
 
-   this->board_position = board_position;
    this->circle_growth_mult = 1.2f;
-}
-
-void board::set_background_color(const Color& col) {
-   this->background_color = col;
-}
-
-Color board::get_background_color() const {
-   return this->background_color;
 }
 
 void board::poll_input_events() {
@@ -115,7 +105,7 @@ void board::poll_input_events() {
          Vector2 mp = GetMousePosition();
          float cr = draggable_circle->get_current_radius();
 
-         if ( ( mp.x > this->board_position.x ) && ( mp.x < this->board_position.x + this->board_size ) && ( mp.y > this->board_position.y ) && ( mp.y < this->board_position.y + this->board_size ) )
+         if ( ( mp.x > this->get_position().x ) && ( mp.x < this->get_position().x + this->board_size ) && ( mp.y > this->get_position().y ) && ( mp.y < this->get_position().y + this->board_size ) )
             this->draggable_circle->set_position(GetMousePosition());
          else
             this->draggable_circle = nullptr;
@@ -133,7 +123,7 @@ void board::poll_input_events() {
 
 void board::draw() {
    // Drawing the background rectangle of the board
-   DrawRectangleV(this->board_position, Vector2(this->board_size, this->board_size), this->background_color);
+   DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
    if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
@@ -150,8 +140,8 @@ void board::draw() {
 
 void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
-   int centre_x = this->board_position.x + (this->board_size / 2); 
-   int centre_y = this->board_position.y + (this->board_size / 2);
+   int centre_x = this->get_position().x + (this->board_size / 2); 
+   int centre_y = this->get_position().y + (this->board_size / 2);
    double angle = (2.0f * std::numbers::pi) / (double)this->max_circles; 
 
    for (int i = 0; i < max_circles; ++i) {
@@ -180,10 +170,6 @@ void board::return_circles_to_initial_positions() {
    }
 }
 
-Vector2 board::get_position() const {
-   return this->board_position;
-}
-
 void board::reset_board() {
    this->player_turn_idx = 0;
    this->lines.clear();
@@ -191,10 +177,6 @@ void board::reset_board() {
    this->line_target = nullptr;
    this->draggable_circle = nullptr;
    this->line_counter = 0;
-}
-
-void board::set_position(const Vector2& position) {
-   this->board_position = position;
 }
 
 unsigned int board::get_size() const {
