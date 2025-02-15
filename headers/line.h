@@ -27,6 +27,8 @@ class line {
       void set_thickness(const float& thickness);
       float get_thickness() const;
 
+      void draw() const;
+
       ~line() = default;
 };
 

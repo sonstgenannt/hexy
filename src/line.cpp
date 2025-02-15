@@ -48,3 +48,7 @@ void line::set_thickness(const float& thickness) {
 float line::get_thickness() const {
    return this->thickness;
 }
+
+void line::draw() const {
+   DrawLineEx(this->source->get_position(), this->target->get_position(), this->thickness, this->color);
+}
