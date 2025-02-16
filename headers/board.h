@@ -29,6 +29,8 @@ class board : public entity {
 
       std::tuple<bool, std::vector<circle*>, Color> mono_tri_data;
 
+      bool game_over;
+
       std::vector<circle> circles;
       std::vector<line> lines;
       std::vector<Color> player_colors;

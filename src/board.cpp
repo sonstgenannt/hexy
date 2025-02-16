@@ -4,6 +4,7 @@
 
 board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
    this->board_size = board_size;
+   this->game_over = false;
 
    this->total_players = total_players;
    this->max_circles = max_circles;
@@ -29,7 +30,7 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
 
 void board::poll_input_events() {
    for (int i = 0; i < this->max_circles; ++i) {
-      if ( this->circles[i].is_mouse_over() ) {
+      if ( this->circles[i].is_mouse_over() && !this->game_over ) {
          this->hover_circle = &circles[i];
          this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
@@ -92,6 +93,9 @@ void board::poll_input_events() {
 
                
                this->mono_tri_data = contains_monochromatic_triangle();
+               
+               if (std::get<0>(this->mono_tri_data))
+                  this->game_over = true;
             }
          }
       }
@@ -129,21 +133,18 @@ void board::poll_input_events() {
       this->return_circles_to_initial_positions();
    }
 
+   /*
+    * This doesn't currently work...
    if (IsKeyPressed(KEY_L)) {
       this->only_show_hover_lines = !this->only_show_hover_lines;
    }
+   */
 }
 
 void board::draw() {
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
-   if (std::get<0>( this->mono_tri_data) ) {
-      const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
-      const Color tri_color = std::get<2>(this->mono_tri_data);
-      DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
-      DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
-   }
 
    if ( this->only_show_hover_lines) {
       if ( this->hover_circle != nullptr) {
@@ -159,6 +160,13 @@ void board::draw() {
             lines[i].draw();
          }
       }
+   }
+
+   if (std::get<0>( this->mono_tri_data) ) {
+      const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
+      const Color tri_color = std::get<2>(this->mono_tri_data);
+      DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
+      DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
    }
 
    for (int i = 0; i < this->circles.size(); ++i) {
@@ -252,6 +260,8 @@ void board::reset_board() {
    this->line_target = nullptr;
    this->draggable_circle = nullptr;
    this->line_counter = 0;
+   this->game_over = false;
+   this->mono_tri_data = std::make_tuple(false, std::vector<circle*>{}, BLACK);
 
    for (size_t i = 0; i < this->circles.size(); ++i)
       this->circles[i].kill_outgoing_lines();
