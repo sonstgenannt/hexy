@@ -202,11 +202,39 @@ void board::return_circles_to_initial_positions() {
    }
 }
 
+std::vector<circle> board::prune(const std::vector<circle>& circles) const {
+   //std::cout<<"preprune"<<circles.size()<<std::endl;
+   std::vector<circle> pruned_circles;
+   for (size_t i=0; i < circles.size(); ++i) {
+      circle circ = circles[i];
+      //std::cout<<i<<":c:"<<circ.get_outgoing_lines().size()<<std::endl;
+      if (circ.get_outgoing_lines().size() > 1)
+         pruned_circles.push_back(circ);
+   }
+   //std::cout<<"pruned"<<pruned_circles.size()<<std::endl;
+   return pruned_circles;
+}
+
 std::pair<bool, std::vector<circle*>> board::contains_monochromatic_triangle() const {
-   if (this->line_counter < 5)
-      return std::make_pair(false, std::vector<circle*>());
+   std::vector<circle> pruned_circles = this->circles;
+   int i = 0;
+   while (pruned_circles.size() != this->prune(pruned_circles).size() || i == 10) {
+      pruned_circles = this->prune(pruned_circles);
+      //std::cout<<i<<":p:"<<pruned_circles.size()<<std::endl;
+      i++;
+   }
+   std::vector<circle*> tripoints;
+   for (size_t i=0; i < pruned_circles.size(); i++) {
+      circle circ = pruned_circles[i];
+      if (circ.get_outgoing_lines().size() > 1) {
+         tripoints.push_back(&circ);
+      }
+   }
+   //std::cout<<tripoints.size()<<std::endl;
+   if (tripoints.size() > 0)
+      return std::make_pair(true, tripoints);
    else
-      return std::make_pair(false, std::vector<circle*>());
+      return std::make_pair(false, tripoints);
 }
 
 void board::reset_board() {
@@ -244,4 +272,3 @@ Color board::get_frozen_circle_color() const {
 Color board::get_source_circle_color() const {
    return this->source_circle_color;
 }
-
