@@ -3,8 +3,8 @@
 
 #include "line.h"
 #include <vector>
-#include <array>
 #include <cmath>
+#include <utility>
 
 class board : public entity {
    private:
@@ -25,6 +25,8 @@ class board : public entity {
       circle* line_source;
       circle* line_target;
       circle* draggable_circle;
+
+      circle* triangle[3];
 
       std::vector<circle> circles;
       std::vector<line> lines;
@@ -53,5 +55,6 @@ class board : public entity {
       Color get_source_circle_color() const;
 
       void reset_board();
+      std::pair<bool, std::vector<circle*>> contains_monochromatic_triangle() const;
 };
 #endif

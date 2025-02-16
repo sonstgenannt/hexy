@@ -1,7 +1,12 @@
 #include "../headers/board.h"
+#include <iostream>
 
 board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
    this->board_size = board_size;
+
+   for (size_t i = 0; i < 3; ++i) {
+      this->triangle[i] = nullptr;
+   }
 
    this->total_players = total_players;
    this->max_circles = max_circles;
@@ -83,6 +88,14 @@ void board::poll_input_events() {
                this->line_counter++;
                this->line_source = nullptr;
                this->line_target = nullptr;
+
+               if ( (line_counter >= 5) && contains_monochromatic_triangle().first ) {
+                  std::cout << "TRIANGLE FOUND" << std::endl;
+                  std::vector<circle*> two = contains_monochromatic_triangle().second;
+                  triangle[0] = two[0];
+                  triangle[1] = two[1];
+                  triangle[2] = two[2];
+               }
             }
          }
       }
@@ -136,6 +149,10 @@ void board::draw() {
    for (int i = 0; i < this->circles.size(); ++i) {
       circles[i].draw();
    }
+
+   if (triangle[0] != nullptr) {
+      DrawTriangle(triangle[0]->get_position(), triangle[1]->get_position(), triangle[2]->get_position(), PINK);
+   }
 }
 
 void board::init_circles(const float& poly_radius, const float& circle_radius) {
@@ -169,6 +186,12 @@ void board::return_circles_to_initial_positions() {
       this->circles[i].set_position(this->circle_initial_positions[i]);
    }
 }
+
+std::pair<bool, std::vector<circle*>> board::contains_monochromatic_triangle() const {
+   return std::make_pair(false, std::vector<circle*>());
+}
+
+
 
 void board::reset_board() {
    this->player_turn_idx = 0;
