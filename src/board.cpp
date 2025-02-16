@@ -83,6 +83,7 @@ void board::poll_input_events() {
             }
 
             if ( valid_line ) {
+
                this->lines.push_back( line(this->line_source, this->line_target, 5.0f, this->player_colors[this->player_turn_idx]) );
                this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
                this->line_counter++;
@@ -91,10 +92,6 @@ void board::poll_input_events() {
 
                
                this->mono_tri_data = contains_monochromatic_triangle();
-
-               if ( std::get<0>(this->mono_tri_data) ) {
-                  std::cout << "TRIANGLE FOUND" << std::endl;
-               }
             }
          }
       }
@@ -145,6 +142,7 @@ void board::draw() {
       const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
       const Color tri_color = std::get<2>(this->mono_tri_data);
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
+      DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
    }
 
    if ( this->only_show_hover_lines) {
@@ -166,7 +164,6 @@ void board::draw() {
    for (int i = 0; i < this->circles.size(); ++i) {
       circles[i].draw();
    }
-
 }
 
 void board::init_circles(const float& poly_radius, const float& circle_radius) {
@@ -239,22 +236,7 @@ std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_tria
                   const Color tri_color = line_data_ij.second->get_color();
                   std::vector<circle*> temp;
 
-                  // Centre of the triangle
-                  const Vector2 centroid = Vector2Scale( Vector2Add( Vector2Add(this->circles[i].get_position(), this->circles[j].get_position()), this->circles[k].get_position() ), (1.0f / 3.0f) );
-
-                  // Vectors pointing from triangle's centroid to each corner
-                  const Vector2 v_i = Vector2Subtract(this->circles[i].get_position(), centroid);
-                  const Vector2 v_j = Vector2Subtract(this->circles[j].get_position(), centroid);
-                  const Vector2 v_k = Vector2Subtract(this->circles[k].get_position(), centroid);
-
-                  const Vector3 delta_ji = {v_j.x - v_i.x, v_j.y - v_i.y, 0.0f};
-                  const Vector3 delta_kj = {v_k.x - v_j.x, v_k.y - v_j.y, 0.0f};
-
-                  const Vector3 cross = Vector3CrossProduct(delta_ji, delta_kj);
-                  const float D = Vector3DotProduct(cross, Vector3(0.0f, 0.0f, -1.0f));
-
-                  if (D > 0) { temp.push_back(&this->circles[i]); temp.push_back(&this->circles[j]); temp.push_back(&this->circles[k]); }
-                  else { temp.push_back(&this->circles[j]); temp.push_back(&this->circles[i]); temp.push_back(&this->circles[k]); }
+                  temp.push_back(&this->circles[i]); temp.push_back(&this->circles[j]); temp.push_back(&this->circles[k]); 
                   return std::make_tuple(true, temp, tri_color);
                }
          }
@@ -262,10 +244,6 @@ std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_tria
    }
    return std::make_tuple(false, std::vector<circle*>{}, BLACK);
 }
-
-   
-
-
 
 void board::reset_board() {
    this->player_turn_idx = 0;
