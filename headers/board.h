@@ -5,6 +5,7 @@
 #include <vector>
 #include <cmath>
 #include <utility>
+#include <tuple>
 
 class board : public entity {
    private:
@@ -26,7 +27,7 @@ class board : public entity {
       circle* line_target;
       circle* draggable_circle;
 
-      circle* triangle[3];
+      std::tuple<bool, std::vector<circle*>, Color> mono_tri_data;
 
       std::vector<circle> circles;
       std::vector<line> lines;
@@ -37,7 +38,8 @@ class board : public entity {
 
       std::vector<Vector2> circle_initial_positions;
 
-      std::vector<circle> prune(const std::vector<circle>& circles) const;
+      std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
+      bool are_colors_equal(const Color& col_a, const Color& col_b) const;
 
    public:
       board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
@@ -60,6 +62,6 @@ class board : public entity {
       Color get_source_circle_color() const;
 
       void reset_board();
-      std::pair<bool, std::vector<circle*>> contains_monochromatic_triangle() const;
+      std::tuple<bool, std::vector<circle*>, Color> contains_monochromatic_triangle();
 };
 #endif

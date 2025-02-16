@@ -1,12 +1,9 @@
 #include "../headers/board.h"
 #include <iostream>
+#include "raymath.h"
 
 board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
    this->board_size = board_size;
-
-   for (size_t i = 0; i < 3; ++i) {
-      this->triangle[i] = nullptr;
-   }
 
    this->total_players = total_players;
    this->max_circles = max_circles;
@@ -92,12 +89,11 @@ void board::poll_input_events() {
                this->line_source = nullptr;
                this->line_target = nullptr;
 
-               if ( (line_counter >= 5) && contains_monochromatic_triangle().first ) {
+               
+               this->mono_tri_data = contains_monochromatic_triangle();
+
+               if ( std::get<0>(this->mono_tri_data) ) {
                   std::cout << "TRIANGLE FOUND" << std::endl;
-                  std::vector<circle*> two = contains_monochromatic_triangle().second;
-                  triangle[0] = two[0];
-                  triangle[1] = two[1];
-                  triangle[2] = two[2];
                }
             }
          }
@@ -145,6 +141,12 @@ void board::draw() {
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
+   if (std::get<0>( this->mono_tri_data) ) {
+      const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
+      const Color tri_color = std::get<2>(this->mono_tri_data);
+      DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
+   }
+
    if ( this->only_show_hover_lines) {
       if ( this->hover_circle != nullptr) {
          for (int i = 0; i < this->hover_circle->get_outgoing_lines().size(); ++i) {
@@ -165,9 +167,6 @@ void board::draw() {
       circles[i].draw();
    }
 
-   if (triangle[0] != nullptr) {
-      DrawTriangle(triangle[0]->get_position(), triangle[1]->get_position(), triangle[2]->get_position(), PINK);
-   }
 }
 
 void board::init_circles(const float& poly_radius, const float& circle_radius) {
@@ -202,40 +201,71 @@ void board::return_circles_to_initial_positions() {
    }
 }
 
-std::vector<circle> board::prune(const std::vector<circle>& circles) const {
-   //std::cout<<"preprune"<<circles.size()<<std::endl;
-   std::vector<circle> pruned_circles;
-   for (size_t i=0; i < circles.size(); ++i) {
-      circle circ = circles[i];
-      //std::cout<<i<<":c:"<<circ.get_outgoing_lines().size()<<std::endl;
-      if (circ.get_outgoing_lines().size() > 1)
-         pruned_circles.push_back(circ);
-   }
-   //std::cout<<"pruned"<<pruned_circles.size()<<std::endl;
-   return pruned_circles;
+bool board::are_colors_equal(const Color& col_a, const Color& col_b) const {
+   if (col_a.r == col_b.r && col_a.g == col_b.g && col_a.b == col_b.b && col_a.a == col_b.a)
+      return true;
+   return false;
 }
 
-std::pair<bool, std::vector<circle*>> board::contains_monochromatic_triangle() const {
-   std::vector<circle> pruned_circles = this->circles;
-   int i = 0;
-   while (pruned_circles.size() != this->prune(pruned_circles).size() || i == 10) {
-      pruned_circles = this->prune(pruned_circles);
-      //std::cout<<i<<":p:"<<pruned_circles.size()<<std::endl;
-      i++;
+std::pair<bool, line*> board::does_line_exist(circle* c_a, circle* c_b) {
+   if ( c_a == nullptr || c_b == nullptr) 
+      return std::make_pair(false, nullptr);
+
+   for (size_t i = 0; i < this->lines.size(); ++i) {
+      if ( ( this->lines[i].get_source() == c_a && this->lines[i].get_target() == c_b ) ||
+           ( this->lines[i].get_target() == c_a && this->lines[i].get_source() == c_b ) ) 
+         return std::make_pair(true, &this->lines[i]);
    }
-   std::vector<circle*> tripoints;
-   for (size_t i=0; i < pruned_circles.size(); i++) {
-      circle circ = pruned_circles[i];
-      if (circ.get_outgoing_lines().size() > 1) {
-         tripoints.push_back(&circ);
+   return std::make_pair(false, nullptr);
+}
+
+std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_triangle() {
+   for (size_t i = 0; i < this->circles.size(); ++i) {
+
+      for (size_t j = i + 1; j < this->circles.size(); ++j) {
+
+         for (size_t k = j + 1; k < this->circles.size(); ++k) {
+
+            // Obtaining line data
+            const std::pair<bool, line*> line_data_ij = this->does_line_exist(&this->circles[i], &this->circles[j]);
+            const std::pair<bool, line*> line_data_jk = this->does_line_exist(&this->circles[j], &this->circles[k]);
+            const std::pair<bool, line*> line_data_ki = this->does_line_exist(&this->circles[k], &this->circles[i]);
+
+            // Verifying that a triangle exists
+            if ( line_data_ij.first && line_data_jk.first && line_data_ki.first)
+
+               if ( are_colors_equal(line_data_ij.second->get_color(), line_data_jk.second->get_color()) && are_colors_equal( line_data_jk.second->get_color(), line_data_ki.second->get_color()) ) {
+
+                  const Color tri_color = line_data_ij.second->get_color();
+                  std::vector<circle*> temp;
+
+                  // Centre of the triangle
+                  const Vector2 centroid = Vector2Scale( Vector2Add( Vector2Add(this->circles[i].get_position(), this->circles[j].get_position()), this->circles[k].get_position() ), (1.0f / 3.0f) );
+
+                  // Vectors pointing from triangle's centroid to each corner
+                  const Vector2 v_i = Vector2Subtract(this->circles[i].get_position(), centroid);
+                  const Vector2 v_j = Vector2Subtract(this->circles[j].get_position(), centroid);
+                  const Vector2 v_k = Vector2Subtract(this->circles[k].get_position(), centroid);
+
+                  const Vector3 delta_ji = {v_j.x - v_i.x, v_j.y - v_i.y, 0.0f};
+                  const Vector3 delta_kj = {v_k.x - v_j.x, v_k.y - v_j.y, 0.0f};
+
+                  const Vector3 cross = Vector3CrossProduct(delta_ji, delta_kj);
+                  const float D = Vector3DotProduct(cross, Vector3(0.0f, 0.0f, -1.0f));
+
+                  if (D > 0) { temp.push_back(&this->circles[i]); temp.push_back(&this->circles[j]); temp.push_back(&this->circles[k]); }
+                  else { temp.push_back(&this->circles[j]); temp.push_back(&this->circles[i]); temp.push_back(&this->circles[k]); }
+                  return std::make_tuple(true, temp, tri_color);
+               }
+         }
       }
    }
-   //std::cout<<tripoints.size()<<std::endl;
-   if (tripoints.size() > 0)
-      return std::make_pair(true, tripoints);
-   else
-      return std::make_pair(false, tripoints);
+   return std::make_tuple(false, std::vector<circle*>{}, BLACK);
 }
+
+   
+
+
 
 void board::reset_board() {
    this->player_turn_idx = 0;
