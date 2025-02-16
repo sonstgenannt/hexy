@@ -21,7 +21,7 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->hover_circle = nullptr;
 
    this->default_circle_color = BLACK;
-   this->frozen_circle_color = BLUE;
+   this->frozen_circle_color = GREEN;
    this->source_circle_color = RED;
    this->only_show_hover_lines = false;
 
@@ -202,7 +202,8 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
 
 void board::return_circles_to_initial_positions() {
    for (int i = 0; i < max_circles; ++i) {
-      this->circles[i].set_position(this->circle_initial_positions[i]);
+      if (!this->circles[i].is_frozen())
+         this->circles[i].set_position(this->circle_initial_positions[i]);
    }
 }
 
