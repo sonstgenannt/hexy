@@ -2,6 +2,9 @@
 #define CIRCLE
 
 #include "entity.h"
+#include <vector>
+
+class line;
 
 class circle : public entity {
    private:
@@ -9,6 +12,7 @@ class circle : public entity {
       float current_radius;
       float mouse_over_growth_mult;
       bool frozen;
+      std::vector<line*> outgoing_lines;
 
    public:
       circle(Vector2 position, float radius);
@@ -19,6 +23,10 @@ class circle : public entity {
 
       void set_current_radius(float radius);
       float get_current_radius() const;
+
+      void add_outgoing_line(line* outgoing_lines);
+      std::vector<line*> get_outgoing_lines() const;
+      void kill_outgoing_lines();
 
       void set_mouse_over_growth_mult(float mult);
       float get_mouse_over_growth_mult() const;

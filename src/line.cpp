@@ -3,6 +3,8 @@
 line::line(circle* source, circle* target) {
    this->source = source;
    this->target = target;
+   source->add_outgoing_line(this);
+   target->add_outgoing_line(this);
    this->thickness = 1.0f;
    this->color = BLACK;
 }
@@ -10,6 +12,8 @@ line::line(circle* source, circle* target) {
 line::line(circle* source, circle* target, const Color& color) {
    this->source = source;
    this->target = target;
+   source->add_outgoing_line(this);
+   target->add_outgoing_line(this);
    this->thickness = 1.0f;
    this->color = color;
 }
@@ -17,6 +21,8 @@ line::line(circle* source, circle* target, const Color& color) {
 line::line(circle* source, circle* target, const float& thickness, const Color& color) {
    this->source = source;
    this->target = target;
+   source->add_outgoing_line(this);
+   target->add_outgoing_line(this);
    this->thickness = thickness;
    this->color = color;
 }

@@ -188,10 +188,11 @@ void board::return_circles_to_initial_positions() {
 }
 
 std::pair<bool, std::vector<circle*>> board::contains_monochromatic_triangle() const {
-   return std::make_pair(false, std::vector<circle*>());
+   if (this->line_counter < 5)
+      return std::make_pair(false, std::vector<circle*>());
+   else
+      return std::make_pair(false, std::vector<circle*>());
 }
-
-
 
 void board::reset_board() {
    this->player_turn_idx = 0;

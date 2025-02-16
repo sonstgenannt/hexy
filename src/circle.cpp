@@ -31,6 +31,18 @@ float circle::get_mouse_over_growth_mult() const {
    return this->mouse_over_growth_mult;
 }
 
+void circle::add_outgoing_line(line* outgoing_line) {
+   this->outgoing_lines.push_back(outgoing_line);
+}
+
+std::vector<line*> circle::get_outgoing_lines() const {
+   return this->outgoing_lines;
+}
+
+void circle::kill_outgoing_lines() {
+   this->outgoing_lines.clear();
+}
+
 bool circle::is_mouse_over() const {
    return CheckCollisionPointCircle(GetMousePosition(), get_position(), this->current_radius);
 }
