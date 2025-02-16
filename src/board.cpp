@@ -20,10 +20,12 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->line_target = nullptr;
 
    this->draggable_circle = nullptr;
+   this->hover_circle = nullptr;
 
    this->default_circle_color = BLACK;
    this->frozen_circle_color = BLUE;
    this->source_circle_color = RED;
+   this->only_show_hover_lines = false;
 
    this->circle_growth_mult = 1.2f;
 }
@@ -31,6 +33,7 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
 void board::poll_input_events() {
    for (int i = 0; i < this->max_circles; ++i) {
       if ( this->circles[i].is_mouse_over() ) {
+         this->hover_circle = &circles[i];
          this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
          //////////////////////////////////////////////////////////////
@@ -132,13 +135,25 @@ void board::poll_input_events() {
    if (IsKeyPressed(KEY_R)) {
       this->return_circles_to_initial_positions();
    }
+
+   if (IsKeyPressed(KEY_L)) {
+      this->only_show_hover_lines = !this->only_show_hover_lines;
+   }
 }
 
 void board::draw() {
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
-   if ( !this->lines.empty() ) {
+   if ( this->only_show_hover_lines) {
+      if ( this->hover_circle != nullptr) {
+         for (int i = 0; i < this->hover_circle->get_outgoing_lines().size(); ++i) {
+            this->hover_circle->get_outgoing_lines()[i]->draw();
+         }
+      }
+   }
+
+   else if ( !this->lines.empty() ) {
       for (int i = 0; i < this->line_counter; ++i) {
          if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) {
             lines[i].draw();
@@ -201,6 +216,9 @@ void board::reset_board() {
    this->line_target = nullptr;
    this->draggable_circle = nullptr;
    this->line_counter = 0;
+
+   for (size_t i = 0; i < this->circles.size(); ++i)
+      this->circles[i].kill_outgoing_lines();
 }
 
 unsigned int board::get_size() const {

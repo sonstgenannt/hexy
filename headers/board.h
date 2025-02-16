@@ -32,6 +32,9 @@ class board : public entity {
       std::vector<line> lines;
       std::vector<Color> player_colors;
 
+      bool only_show_hover_lines;
+      circle* hover_circle;
+
       std::vector<Vector2> circle_initial_positions;
 
    public:
