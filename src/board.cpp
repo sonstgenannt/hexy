@@ -28,6 +28,11 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->circle_growth_mult = 1.2f;
 }
 
+board::board(const Vector2& position, const unsigned int& board_size) {
+   this->position = position;
+   this->board_size = board_size;
+}
+
 void board::poll_input_events() {
    for (int i = 0; i < this->max_circles; ++i) {
       if ( this->circles[i].is_mouse_over() && !this->game_over ) {
@@ -180,7 +185,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
    int centre_y = this->get_position().y + (this->board_size / 2);
    double angle = (2.0f * std::numbers::pi) / (double)this->max_circles; 
 
-   for (int i = 0; i < max_circles; ++i) {
+   for (int i = 0; i < this->max_circles; ++i) {
 
       circle c {};
 
