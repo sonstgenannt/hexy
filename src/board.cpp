@@ -4,32 +4,14 @@
 
 board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
    this->board_size = board_size;
-   this->game_over = false;
-
    this->total_players = total_players;
-   this->max_circles = max_circles;
-   this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2;
-   this->line_counter = 0;
-
    this->player_colors = player_colors;
-   this->player_turn_idx = 0;
+   this->max_circles = max_circles;
 
-   this->line_source = nullptr;
-   this->line_target = nullptr;
-
-   this->draggable_circle = nullptr;
-   this->hover_circle = nullptr;
-
-   this->default_circle_color = BLACK;
-   this->frozen_circle_color = GREEN;
-   this->source_circle_color = RED;
-   this->only_show_hover_lines = false;
-
-   this->circle_growth_mult = 1.2f;
+   this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2; 
 }
 
-board::board(const Vector2& position, const unsigned int& board_size) {
-   this->position = position;
+board::board(const Vector2& position, const unsigned int& board_size) : entity(position) {
    this->board_size = board_size;
 }
 

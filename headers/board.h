@@ -11,32 +11,32 @@ class board : public entity {
    private:
       unsigned int board_size;
 
-      unsigned int total_players;
-      unsigned int max_circles;
-      unsigned int max_lines;
-      unsigned int player_turn_idx;
-      unsigned int line_counter;
+      unsigned int total_players = 2;
+      unsigned int max_circles = 0;
+      unsigned int max_lines = 0;
+      unsigned int player_turn_idx = 0;
+      unsigned int line_counter = 0;
 
-      Color default_circle_color;
-      Color frozen_circle_color;
-      Color source_circle_color;
+      Color default_circle_color = BLACK;
+      Color frozen_circle_color = PURPLE;
+      Color source_circle_color = PINK;
 
-      float circle_growth_mult;
+      float circle_growth_mult = 1.2f;
 
-      circle* line_source;
-      circle* line_target;
-      circle* draggable_circle;
+      circle* line_source = nullptr;
+      circle* line_target = nullptr;
+      circle* draggable_circle = nullptr;
+      circle* hover_circle = nullptr;
 
       std::tuple<bool, std::vector<circle*>, Color> mono_tri_data;
 
-      bool game_over;
+      bool game_over = false;
+      bool only_show_hover_lines = false;
 
       std::vector<circle> circles;
       std::vector<line> lines;
       std::vector<Color> player_colors;
 
-      bool only_show_hover_lines;
-      circle* hover_circle;
 
       std::vector<Vector2> circle_initial_positions;
 
