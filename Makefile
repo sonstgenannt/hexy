@@ -3,13 +3,13 @@ CXX_LINUX = g++
 CXX_WINDOWS = x86_64-w64-mingw32-g++
 
 # Raylib paths
-RAYLIB_INCLUDE_WINDOWS = /usr/x86_64-w64-mingw32/include/raylib
+RAYLIB_INCLUDE = /include/
 WINDOWS_LIB = /usr/x86_64-w64-mingw32/lib
 
 # Compiler flags
-CXXFLAGS_COMMON = -std=c++20 -O2
-CXXFLAGS_LINUX = $(CXXFLAGS_COMMON) -I/usr/include
-CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE_WINDOWS)
+CXXFLAGS_COMMON = -std=c++20 -Os -flto
+CXXFLAGS_LINUX = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
+CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
 
 # Source files
 SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/main.cpp
@@ -27,7 +27,7 @@ linux: $(SOURCES)
 
 # Windows build
 windows: $(SOURCES)
-	$(CXX_WINDOWS) $(CXXFLAGS_WINDOWS) -o $(OUTPUT_WINDOWS) $(SOURCES) -L$(WINDOWS_LIB) -lraylib -lopengl32 -lgdi32 -lwinmm -lkernel32 -luser32 -lshell32 -lws2_32 -static
+	$(CXX_WINDOWS) $(CXXFLAGS_WINDOWS) -o $(OUTPUT_WINDOWS) $(SOURCES) -L$(WINDOWS_LIB) -lraylib -lopengl32 -lgdi32 -lwinmm -lkernel32 -luser32 -lshell32 -lws2_32 -s
 
 # Run the Linux version
 run: $(OUTPUT_LINUX)
