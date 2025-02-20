@@ -9,7 +9,7 @@ WINDOWS_LIB = /usr/x86_64-w64-mingw32/lib
 # Compiler flags
 CXXFLAGS_COMMON = -std=c++20 -Os -flto
 CXXFLAGS_LINUX = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
-CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
+CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 
 # Source files
 SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/main.cpp
