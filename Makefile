@@ -27,7 +27,7 @@ linux: $(SOURCES)
 
 # Windows build
 windows: $(SOURCES)
-	$(CXX_WINDOWS) $(CXXFLAGS_WINDOWS) -o $(OUTPUT_WINDOWS) $(SOURCES) -L$(WINDOWS_LIB) -lraylib -lopengl32 -lgdi32 -lwinmm -lkernel32 -luser32 -lshell32 -lws2_32 -s
+	$(CXX_WINDOWS) $(CXXFLAGS_WINDOWS) -o $(OUTPUT_WINDOWS) $(SOURCES) -L$(WINDOWS_LIB) -lraylib -lopengl32 -lgdi32 -lwinmm -lmwindows -lkernel32 -luser32 -lshell32 -lws2_32 -s
 
 # Run the Linux version
 run: $(OUTPUT_LINUX)
