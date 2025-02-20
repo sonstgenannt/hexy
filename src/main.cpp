@@ -58,7 +58,7 @@ int main(void)
 
       if (!start_game) 
       {
-         GuiLabel((Rectangle){ 4, window_height - 40, 300, 48}, "rakkaku v0.02 by gjoa");
+         GuiLabel((Rectangle){ 4, window_height - 40, 300, 48}, "rokkaku v0.02 by gjoa");
          if (!sr_dd_edit) 
          {
             // Play button
