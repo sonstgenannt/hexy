@@ -15,8 +15,8 @@ CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
 SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/main.cpp
 
 # Output names
-OUTPUT_LINUX = rokkaku_v_0.01
-OUTPUT_WINDOWS = rokkaku_v_0.01.exe
+OUTPUT_LINUX = rokkaku_v_0.02
+OUTPUT_WINDOWS = rokkaku_v_0.02.exe
 
 # Default target
 all: linux windows
