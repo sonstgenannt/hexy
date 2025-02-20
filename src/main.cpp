@@ -1,4 +1,7 @@
 #include "raylib.h" 
+#define RAYGUI_IMPLEMENTATION
+#include "../include/raygui.h"
+
 #include "../headers/board.h"
 #include <numbers>
 #include <cmath>
@@ -6,31 +9,118 @@
 #include <vector>
 #include <array>
 
-const int SCREEN_WIDTH = 800; 
-const int SCREEN_HEIGHT = 800;
+unsigned int window_width = 800; 
+unsigned int window_height = 800;
 
 std::vector<Color> player_colors = { RED, BLUE };
+std::vector<std::pair<int, int>> resolutions = 
+{
+   {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
+};
+
+int temp_val = 6;
+int* val_ptr = &temp_val;
+
+bool start_game = false;
+bool board_initalised = false;
+bool change_resolution = false;
+
+Color red = RED;
+Color* p1 = &red;
+Color* p2 = nullptr;
+
+board b(Vector2(0,0), 800);
 
 int main(void)
 {
-   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "rokkaku");
-   const Vector2 screen_centre = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-   SetTargetFPS(144);               
-   board b(Vector2(0,0), 800, 6, 2, player_colors);
-   b.init_circles(300.0f, 30.0f);
-   b.set_color(WHITE);
-   
+   InitWindow(window_width, window_height, "rokkaku");
+   SetWindowState(FLAG_WINDOW_RESIZABLE);
+   SetWindowMinSize(800, 800);
+   GuiLoadStyle("styles/cherry/style_cherry.rgs");
+   Vector2 window_centre = {window_width / 2, window_height / 2};
+   SetTargetFPS(60);               
+
+   Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0);
+
+   if (rockwell.texture.id == 0)
+      std::cout << "APPLICATON ERROR: Failed to load font." << std::endl;
+   else
+      GuiSetFont(rockwell);
+
+   GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
+
+   int sr_dd_active_item = 0;
+   bool sr_dd_edit = false;
+
    while (!WindowShouldClose())    
    {
-      b.poll_input_events();
-      b.set_default_circle_color(BLACK);
-      b.set_frozen_circle_color(DARKPURPLE);
-      BeginDrawing();
-      b.draw();
-
       ClearBackground(RAYWHITE);
+
+      if (!start_game) 
+      {
+         GuiLabel((Rectangle){ 4, window_height - 40, 300, 48}, "rakkaku v0.02 by gjoa");
+         if (!sr_dd_edit) 
+         {
+            // Play button
+            start_game = GuiButton((Rectangle) { window_centre.x - 100, window_centre.y + 200, 200, 48}, "Play");
+            // Number of vertices selector
+            GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", val_ptr, 6, 24, false);
+         }
+
+         // Resolution selector
+         if ( GuiDropdownBox((Rectangle){ window_centre.x - 100, window_centre.y - 200, 200, 48 }, "800x800;900x900;1000x1000;1100x1100;1200x1200", &sr_dd_active_item, sr_dd_edit) ) 
+         {
+            sr_dd_edit = !sr_dd_edit;
+         }
+
+         // Apply resolution change button
+         change_resolution = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y - 200, 100, 48}, "Apply");
+
+         if ( change_resolution) 
+         {
+            window_width = resolutions[sr_dd_active_item].first;
+            window_height = resolutions[sr_dd_active_item].second;
+            SetWindowSize(window_width, window_height);
+            b.set_size(window_width);
+            window_centre = {window_width / 2, window_height / 2};
+
+            int monitor_width = GetMonitorWidth(GetCurrentMonitor());
+            int monitor_height = GetMonitorHeight(GetCurrentMonitor());
+            int monitor_centre_x = monitor_width / 2;
+            int monitor_centre_y = monitor_height / 2;
+
+            SetWindowPosition(monitor_centre_x - (window_width / 2), monitor_centre_y - (window_height / 2));
+         }
+      }
+      if (start_game && !board_initalised) 
+      {
+         b.set_color(WHITE);
+         b.set_player_colors(player_colors);
+         b.set_default_circle_color(BLACK);
+         b.set_frozen_circle_color(DARKPURPLE);
+         b.set_max_circles(*val_ptr);
+         b.init_circles(300.0f, 30.0f);
+         board_initalised = true;
+      }
+
+      if (board_initalised)
+         b.poll_input_events();
+
+      if (IsKeyPressed(KEY_M) && start_game)
+      {
+         start_game = false;
+         board_initalised = false;
+         b.kill_board();
+      }
+
+      BeginDrawing();
+
+      if (board_initalised)
+         b.draw();
+
       EndDrawing();
    }
+
    CloseWindow();
 
    return 0;

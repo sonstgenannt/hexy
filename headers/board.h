@@ -36,8 +36,6 @@ class board : public entity {
       std::vector<circle> circles;
       std::vector<line> lines;
       std::vector<Color> player_colors;
-
-
       std::vector<Vector2> circle_initial_positions;
 
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
@@ -53,18 +51,26 @@ class board : public entity {
       void init_circles(const float& poly_radius, const float& circle_radius);
 
       unsigned int get_size() const;
+      void set_size(const unsigned int& size);
+
+      void return_circles_to_initial_positions();
 
       void set_default_circle_color(const Color& col);
       void set_frozen_circle_color(const Color& col);
       void set_source_circle_color(const Color& col);
 
-      void return_circles_to_initial_positions();
+      void set_player_colors(const std::vector<Color>& player_colors);
+      std::vector<Color> get_player_colors() const;
+
+      void set_max_circles(const unsigned int& max_circles);
 
       Color get_default_circle_color() const;
       Color get_frozen_circle_color() const;
       Color get_source_circle_color() const;
 
       void reset_board();
+      void kill_board();
+
       std::tuple<bool, std::vector<circle*>, Color> contains_monochromatic_triangle();
 };
 #endif

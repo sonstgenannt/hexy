@@ -2,7 +2,8 @@
 #include <iostream>
 #include "raymath.h"
 
-board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) {
+board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) 
+{
    this->board_size = board_size;
    this->total_players = total_players;
    this->player_colors = player_colors;
@@ -11,19 +12,24 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2; 
 }
 
-board::board(const Vector2& position, const unsigned int& board_size) : entity(position) {
+board::board(const Vector2& position, const unsigned int& board_size) : entity(position) 
+{
    this->board_size = board_size;
 }
 
-void board::poll_input_events() {
-   for (int i = 0; i < this->max_circles; ++i) {
-      if ( this->circles[i].is_mouse_over() && !this->game_over ) {
+void board::poll_input_events() 
+{
+   for (int i = 0; i < this->max_circles; ++i) 
+   {
+      if ( this->circles[i].is_mouse_over() && !this->game_over ) 
+      {
          this->hover_circle = &circles[i];
          this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
          //////////////////////////////////////////////////////////////
 
-         if ( IsKeyPressed(KEY_F) ) {
+         if ( IsKeyPressed(KEY_F) ) 
+         {
             this->circles[i].set_frozen(!this->circles[i].is_frozen());
 
             if (this->draggable_circle = &this->circles[i])
@@ -32,24 +38,26 @@ void board::poll_input_events() {
 
          //////////////////////////////////////////////////////////////
 
-         if ( IsMouseButtonPressed(1) ) {
+         if ( IsMouseButtonPressed(1) ) 
+         {
             if ( !this->circles[i].is_frozen() ) 
                this->draggable_circle = &this->circles[i];
          }
          else if ( IsMouseButtonReleased(1) && this->draggable_circle != nullptr) 
             draggable_circle = nullptr;
 
-         else if ( IsMouseButtonPressed(0) ) {
-            if ( this->line_source == nullptr ) {
+         else if ( IsMouseButtonPressed(0) ) 
+         {
+            if ( this->line_source == nullptr ) 
+            {
                this->line_source = &this->circles[i];
             }
-            else {
-               if ( this->line_source != &this->circles[i] ) {
+            else 
+            {
+               if ( this->line_source != &this->circles[i] ) 
                   this->line_target = &this->circles[i];
-               }
-               else {
+               else
                   this->line_source = nullptr;
-               }
             }
          }
 
@@ -128,47 +136,57 @@ void board::poll_input_events() {
    */
 }
 
-void board::draw() {
+void board::draw() 
+{
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
 
-   if ( this->only_show_hover_lines) {
-      if ( this->hover_circle != nullptr) {
-         for (int i = 0; i < this->hover_circle->get_outgoing_lines().size(); ++i) {
+   if ( this->only_show_hover_lines) 
+   {
+      if ( this->hover_circle != nullptr) 
+      {
+         for (int i = 0; i < this->hover_circle->get_outgoing_lines().size(); ++i) 
+         {
             this->hover_circle->get_outgoing_lines()[i]->draw();
          }
       }
    }
 
-   else if ( !this->lines.empty() ) {
-      for (int i = 0; i < this->line_counter; ++i) {
-         if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) {
+   else if ( !this->lines.empty() ) 
+   {
+      for (int i = 0; i < this->line_counter; ++i) 
+      {
+         if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) 
+         {
             lines[i].draw();
          }
       }
    }
 
-   if (std::get<0>( this->mono_tri_data) ) {
+   if (std::get<0>( this->mono_tri_data) ) 
+   {
       const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
       const Color tri_color = std::get<2>(this->mono_tri_data);
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
       DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
    }
 
-   for (int i = 0; i < this->circles.size(); ++i) {
+   for (int i = 0; i < this->circles.size(); ++i) 
+   {
       circles[i].draw();
    }
 }
 
-void board::init_circles(const float& poly_radius, const float& circle_radius) {
+void board::init_circles(const float& poly_radius, const float& circle_radius) 
+{
 
    int centre_x = this->get_position().x + (this->board_size / 2); 
    int centre_y = this->get_position().y + (this->board_size / 2);
    double angle = (2.0f * std::numbers::pi) / (double)this->max_circles; 
 
-   for (int i = 0; i < this->max_circles; ++i) {
-
+   for (int i = 0; i < this->max_circles; ++i) 
+   {
       circle c {};
 
       int x = centre_x + (poly_radius * std::cos(i * angle));
@@ -187,20 +205,23 @@ void board::init_circles(const float& poly_radius, const float& circle_radius) {
    }
 }
 
-void board::return_circles_to_initial_positions() {
+void board::return_circles_to_initial_positions() 
+{
    for (int i = 0; i < max_circles; ++i) {
       if (!this->circles[i].is_frozen())
          this->circles[i].set_position(this->circle_initial_positions[i]);
    }
 }
 
-bool board::are_colors_equal(const Color& col_a, const Color& col_b) const {
+bool board::are_colors_equal(const Color& col_a, const Color& col_b) const 
+{
    if (col_a.r == col_b.r && col_a.g == col_b.g && col_a.b == col_b.b && col_a.a == col_b.a)
       return true;
    return false;
 }
 
-std::pair<bool, line*> board::does_line_exist(circle* c_a, circle* c_b) {
+std::pair<bool, line*> board::does_line_exist(circle* c_a, circle* c_b) 
+{
    if ( c_a == nullptr || c_b == nullptr) 
       return std::make_pair(false, nullptr);
 
@@ -212,7 +233,8 @@ std::pair<bool, line*> board::does_line_exist(circle* c_a, circle* c_b) {
    return std::make_pair(false, nullptr);
 }
 
-std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_triangle() {
+std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_triangle() 
+{
    for (size_t i = 0; i < this->circles.size(); ++i) {
 
       for (size_t j = i + 1; j < this->circles.size(); ++j) {
@@ -241,7 +263,60 @@ std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_tria
    return std::make_tuple(false, std::vector<circle*>{}, BLACK);
 }
 
-void board::reset_board() {
+
+unsigned int board::get_size() const 
+{
+   return this->board_size;
+}
+
+void board::set_size(const unsigned int& size)
+{
+   this->board_size = size;
+}
+
+void board::set_default_circle_color(const Color& col) 
+{
+   this->default_circle_color = col;
+}
+void board::set_frozen_circle_color(const Color& col) 
+{
+   this->frozen_circle_color = col;
+}
+void board::set_source_circle_color(const Color& col) 
+{
+   this->source_circle_color = col;
+}
+
+Color board::get_default_circle_color() const 
+{
+   return this->default_circle_color;
+}
+Color board::get_frozen_circle_color() const 
+{
+   return this->frozen_circle_color;
+}
+
+Color board::get_source_circle_color() const 
+{
+   return this->source_circle_color;
+}
+
+void board::set_player_colors(const std::vector<Color>& player_colors) 
+{
+   this->player_colors = player_colors;
+}
+
+std::vector<Color> board::get_player_colors() const 
+{
+   return this->player_colors;
+}
+void board::set_max_circles(const unsigned int& max_circles) 
+{
+   this->max_circles = max_circles;
+}
+
+void board::reset_board() 
+{
    this->player_turn_idx = 0;
    this->lines.clear();
    this->line_source = nullptr;
@@ -255,26 +330,11 @@ void board::reset_board() {
       this->circles[i].kill_outgoing_lines();
 }
 
-unsigned int board::get_size() const {
-   return this->board_size;
-}
-void board::set_default_circle_color(const Color& col) {
-   this->default_circle_color = col;
-}
-void board::set_frozen_circle_color(const Color& col) {
-   this->frozen_circle_color = col;
-}
-void board::set_source_circle_color(const Color& col) {
-   this->source_circle_color = col;
+void board::kill_board() 
+{
+   this->reset_board();
+   this->circles.clear();
+   this->circle_initial_positions.clear();
 }
 
-Color board::get_default_circle_color() const {
-   return this->default_circle_color;
-}
-Color board::get_frozen_circle_color() const {
-   return this->frozen_circle_color;
-}
 
-Color board::get_source_circle_color() const {
-   return this->source_circle_color;
-}
