@@ -25,9 +25,9 @@ bool start_game = false;
 bool board_initalised = false;
 bool change_resolution = false;
 
-Color red = RED;
-Color* p1 = &red;
-Color* p2 = nullptr;
+int active_toggle;
+
+Color col = RED;
 
 board b(Vector2(0,0), 800);
 
@@ -58,7 +58,10 @@ int main(void)
 
       if (!start_game) 
       {
+         GuiToggleGroup( (Rectangle) {window_centre.x + 150, window_centre.y, 100, 100}, "Player 1;Player 2", &active_toggle );
+         GuiColorPicker( (Rectangle) {window_centre.x - 100, window_centre.y, 200, 200}, "", &col);
          GuiLabel((Rectangle){ 4, window_height - 40, 300, 48}, "rokkaku v0.02 by gjoa");
+
          if (!sr_dd_edit) 
          {
             // Play button
