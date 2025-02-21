@@ -63,19 +63,21 @@ void board::poll_input_events()
       else
          this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
 
-      if ( &this->circles[i] != this->line_source ) {
+      if ( &this->circles[i] != this->line_source ) 
+      {
          if ( this->circles[i].is_frozen() ) 
             this->circles[i].set_color(this->frozen_circle_color);
          else
             this->circles[i].set_color(this->default_circle_color);
       }
-      else {
+      else 
+      {
          this->circles[i].set_color( this->player_colors[player_turn_idx] );
       }
 
 
-      if (this->draggable_circle != nullptr) {
-
+      if (this->draggable_circle != nullptr) 
+      {
          Vector2 mp = GetMousePosition();
          float cr = draggable_circle->get_current_radius();
 
@@ -86,11 +88,13 @@ void board::poll_input_events()
       }
    }
 
-   if (IsKeyPressed(KEY_SPACE)) {
+   if (IsKeyPressed(KEY_SPACE)) 
+   {
       this->reset_board();
    }
 
-   if (IsKeyPressed(KEY_R)) {
+   if (IsKeyPressed(KEY_R)) 
+   {
       this->return_circles_to_initial_positions();
    }
 
@@ -121,7 +125,8 @@ void board::draw()
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
 
-
+   /*
+    * This doesn't currently work
    if ( this->only_show_hover_lines) 
    {
       if ( this->hover_circle != nullptr) 
@@ -132,6 +137,7 @@ void board::draw()
          }
       }
    }
+   */
 
    else if ( !this->lines.empty() ) 
    {
@@ -335,5 +341,3 @@ void board::kill_board()
    this->circles.clear();
    this->circle_initial_positions.clear();
 }
-
-
