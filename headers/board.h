@@ -34,7 +34,6 @@ class board : public entity {
       bool only_show_hover_lines = false;
 
       std::vector<circle> circles;
-      std::vector<line> lines;
       std::vector<Color> player_colors;
       std::vector<Vector2> circle_initial_positions;
 
@@ -43,6 +42,7 @@ class board : public entity {
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
 
    public:
+      std::vector<line> lines;
       board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
       board(const Vector2& position, const unsigned int& board_size);
 
@@ -55,7 +55,7 @@ class board : public entity {
       void set_size(const unsigned int& size);
 
       void return_circles_to_initial_positions();
-      void make_move(circle*& circ_a, circle*& circ_b);
+      void make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness);
       bool simulate_move(circle*& circ_a, circle*& circ_b);
 
       void set_default_circle_color(const Color& col);
@@ -75,6 +75,7 @@ class board : public entity {
 
       unsigned int get_player_turn_idx() const;
       unsigned int get_max_circles() const;
+      unsigned int get_line_counter() const;
 
       bool is_move_valid(circle*& circ_a, circle*& circ_b);
       bool is_game_over() const;

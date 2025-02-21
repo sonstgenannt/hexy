@@ -57,7 +57,7 @@ void board::poll_input_events()
             }
 
             if ( is_move_valid(this->line_source, this->line_target ) )
-               make_move(this->line_source, this->line_target);
+               make_move(this->line_source, this->line_target, 5.0f);
          }
       }
       else
@@ -114,9 +114,9 @@ bool board::simulate_move(circle*& circ_a, circle*& circ_b)
    return losing_move;
 }
 
-void board::make_move(circle*& circ_a, circle*& circ_b) 
+void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness) 
 {
-   this->lines.push_back( line(circ_a, circ_b, 5.0f, this->player_colors[this->player_turn_idx]) );
+   this->lines.push_back( line(circ_a, circ_b, line_thickness, this->player_colors[this->player_turn_idx]) );
    this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
    this->line_counter++;
 
@@ -327,6 +327,11 @@ std::vector<Color> board::get_player_colors() const
 void board::set_max_circles(const unsigned int& max_circles) 
 {
    this->max_circles = max_circles;
+}
+
+unsigned int board::get_line_counter() const
+{
+   return this->line_counter;
 }
 
 std::vector<circle>& board::get_circles()

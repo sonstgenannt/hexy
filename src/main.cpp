@@ -154,12 +154,18 @@ int main(void)
             if ( move_candidates.size() > 0 ) 
             {
                int rand_int = rand() % move_candidates.size();
-               b.make_move(move_candidates[rand_int].first, move_candidates[rand_int].second);
+
+               // Ensures that the most recently drawn computer line is thick
+               if (b.get_line_counter() != 0)
+               {
+                  b.lines[b.lines.size() - 2].set_thickness(5.0f);
+               }
+               b.make_move(move_candidates[rand_int].first, move_candidates[rand_int].second, 12.0f);
             }
             else
             {
                int rand_int = rand() % losing_moves.size();
-               b.make_move(losing_moves[rand_int].first, losing_moves[rand_int].second);
+               b.make_move(losing_moves[rand_int].first, losing_moves[rand_int].second, 12.0f);
             }
          }
       }
