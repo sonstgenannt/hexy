@@ -38,7 +38,6 @@ class board : public entity {
       std::vector<Color> player_colors;
       std::vector<Vector2> circle_initial_positions;
 
-      bool is_move_valid(circle*& circ_a, circle*& circ_b);
 
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
@@ -57,6 +56,7 @@ class board : public entity {
 
       void return_circles_to_initial_positions();
       void make_move(circle*& circ_a, circle*& circ_b);
+      bool simulate_move(circle*& circ_a, circle*& circ_b);
 
       void set_default_circle_color(const Color& col);
       void set_frozen_circle_color(const Color& col);
@@ -70,6 +70,14 @@ class board : public entity {
       Color get_default_circle_color() const;
       Color get_frozen_circle_color() const;
       Color get_source_circle_color() const;
+
+      std::vector<circle>& get_circles();
+
+      unsigned int get_player_turn_idx() const;
+      unsigned int get_max_circles() const;
+
+      bool is_move_valid(circle*& circ_a, circle*& circ_b);
+      bool is_game_over() const;
 
       void reset_board();
       void kill_board();

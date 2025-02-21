@@ -106,6 +106,14 @@ void board::poll_input_events()
    */
 }
 
+bool board::simulate_move(circle*& circ_a, circle*& circ_b) 
+{
+   this->lines.push_back( line (circ_a, circ_b, 0.0f, this->player_colors[this->player_turn_idx] ) );
+   bool losing_move = std::get<0>(contains_monochromatic_triangle());
+   this->lines.pop_back();
+   return losing_move;
+}
+
 void board::make_move(circle*& circ_a, circle*& circ_b) 
 {
    this->lines.push_back( line(circ_a, circ_b, 5.0f, this->player_colors[this->player_turn_idx]) );
@@ -120,6 +128,7 @@ void board::make_move(circle*& circ_a, circle*& circ_b)
    if (std::get<0>(this->mono_tri_data))
       this->game_over = true;
 }
+
 void board::draw() 
 {
    // Drawing the background rectangle of the board
@@ -318,6 +327,25 @@ std::vector<Color> board::get_player_colors() const
 void board::set_max_circles(const unsigned int& max_circles) 
 {
    this->max_circles = max_circles;
+}
+
+std::vector<circle>& board::get_circles()
+{
+   return this->circles;
+}
+unsigned int board::get_player_turn_idx() const
+{
+   return this->player_turn_idx;
+}
+
+unsigned int board::get_max_circles() const 
+{
+   return this->max_circles;
+}
+
+bool board::is_game_over() const 
+{
+   return this->game_over;
 }
 
 void board::reset_board() 
