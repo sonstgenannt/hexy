@@ -38,6 +38,8 @@ class board : public entity {
       std::vector<Color> player_colors;
       std::vector<Vector2> circle_initial_positions;
 
+      bool is_move_valid(circle* circ_a, circle* circ_b);
+
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
 

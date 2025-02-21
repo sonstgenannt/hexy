@@ -26,8 +26,6 @@ void board::poll_input_events()
          this->hover_circle = &circles[i];
          this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
-         //////////////////////////////////////////////////////////////
-
          if ( IsKeyPressed(KEY_F) ) 
          {
             this->circles[i].set_frozen(!this->circles[i].is_frozen());
@@ -35,8 +33,6 @@ void board::poll_input_events()
             if (this->draggable_circle = &this->circles[i])
                this->draggable_circle = nullptr;
          }
-
-         //////////////////////////////////////////////////////////////
 
          if ( IsMouseButtonPressed(1) ) 
          {
@@ -59,40 +55,23 @@ void board::poll_input_events()
                else
                   this->line_source = nullptr;
             }
-         }
 
-         //////////////////////////////////////////////////////////////
-
-         // Checking whether source and target circles exist and are distinct
-         if ( ((this->line_source != nullptr) && (this->line_target != nullptr)) && (this->line_source != this->line_target) ) {
-
-            bool valid_line = true;
-
-            // Checking whether the lines [source -> target] and [target -> source] already exist
-            if ( !lines.empty() ) {
-               for (int j = 0; j < this->line_counter; ++j) {
-                  if ( ((this->lines[j].get_source() == this->line_source) && (this->lines[j].get_target() == this->line_target)) || ((this->lines[j].get_source() == this->line_target) && (this->lines[j].get_target() == this->line_source)) ) {
-                     valid_line = false;
-                     break;
-                  }
-               }
-            }
-
-            if ( valid_line ) {
-
+            if ( is_move_valid(this->line_source, this->line_target ) )
+            {
                this->lines.push_back( line(this->line_source, this->line_target, 5.0f, this->player_colors[this->player_turn_idx]) );
                this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
                this->line_counter++;
                this->line_source = nullptr;
                this->line_target = nullptr;
 
-               
                this->mono_tri_data = contains_monochromatic_triangle();
-               
+
                if (std::get<0>(this->mono_tri_data))
                   this->game_over = true;
             }
          }
+
+
       }
       else
          this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
@@ -263,6 +242,25 @@ std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_tria
    return std::make_tuple(false, std::vector<circle*>{}, BLACK);
 }
 
+bool board::is_move_valid(circle* circ_a, circle* circ_b) {
+   // Checking whether source and target circles exist and are distinct
+   if ( ((circ_a != nullptr) && (circ_b != nullptr)) && (circ_a != circ_b) ) 
+   {
+      // Checking whether the lines [source -> target] and [target -> source] already exist
+      if ( !this->lines.empty() ) 
+      {
+         for (int i = 0; i < this->line_counter; ++i) 
+         {
+            if ( ( (this->lines[i].get_source() == circ_a) && (this->lines[i].get_target() == circ_b) ) || ( (this->lines[i].get_source() == circ_b) && (this->lines[i].get_target() == circ_a) ) ) 
+               return false;
+         }
+      }
+   }
+   else
+      return false;
+
+   return true;
+}
 
 unsigned int board::get_size() const 
 {
