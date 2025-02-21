@@ -1,4 +1,5 @@
-# Compiler settings
+VERSION = 0.03
+
 CXX_LINUX = g++
 CXX_WINDOWS = x86_64-w64-mingw32-g++
 
@@ -15,8 +16,8 @@ CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/main.cpp
 
 # Output names
-OUTPUT_LINUX = rokkaku_v_0.02
-OUTPUT_WINDOWS = rokkaku_v_0.02.exe
+OUTPUT_LINUX = rokkaku_v$(VERSION)
+OUTPUT_WINDOWS = rokkaku_v$(VERSION).exe
 
 # Default target
 all: linux windows
