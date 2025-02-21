@@ -9,8 +9,6 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include <cstdlib>
-#include <ctime>
 
 unsigned int window_width = 800; 
 unsigned int window_height = 800;

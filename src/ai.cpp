@@ -1,4 +1,6 @@
 #include "../headers/ai.h"
+#include <cstdlib>
+#include <ctime>
 
 ai::ai() = default;
 
