@@ -13,7 +13,7 @@ CXXFLAGS_LINUX = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
 CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 
 # Source files
-SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/main.cpp
+SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/ai.cpp src/main.cpp
 
 # Output names
 OUTPUT_LINUX = rokkaku_v$(VERSION)
