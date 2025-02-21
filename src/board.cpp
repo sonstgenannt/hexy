@@ -57,21 +57,8 @@ void board::poll_input_events()
             }
 
             if ( is_move_valid(this->line_source, this->line_target ) )
-            {
-               this->lines.push_back( line(this->line_source, this->line_target, 5.0f, this->player_colors[this->player_turn_idx]) );
-               this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
-               this->line_counter++;
-               this->line_source = nullptr;
-               this->line_target = nullptr;
-
-               this->mono_tri_data = contains_monochromatic_triangle();
-
-               if (std::get<0>(this->mono_tri_data))
-                  this->game_over = true;
-            }
+               make_move(this->line_source, this->line_target);
          }
-
-
       }
       else
          this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
@@ -115,6 +102,20 @@ void board::poll_input_events()
    */
 }
 
+void board::make_move(circle*& circ_a, circle*& circ_b) 
+{
+   this->lines.push_back( line(circ_a, circ_b, 5.0f, this->player_colors[this->player_turn_idx]) );
+   this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
+   this->line_counter++;
+
+   circ_a = nullptr;
+   circ_b = nullptr;
+
+   this->mono_tri_data = contains_monochromatic_triangle();
+
+   if (std::get<0>(this->mono_tri_data))
+      this->game_over = true;
+}
 void board::draw() 
 {
    // Drawing the background rectangle of the board
@@ -242,7 +243,7 @@ std::tuple<bool, std::vector<circle*>, Color> board::contains_monochromatic_tria
    return std::make_tuple(false, std::vector<circle*>{}, BLACK);
 }
 
-bool board::is_move_valid(circle* circ_a, circle* circ_b) {
+bool board::is_move_valid(circle*& circ_a, circle*& circ_b) {
    // Checking whether source and target circles exist and are distinct
    if ( ((circ_a != nullptr) && (circ_b != nullptr)) && (circ_a != circ_b) ) 
    {
