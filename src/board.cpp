@@ -139,7 +139,7 @@ void board::draw()
    }
    */
 
-   else if ( !this->lines.empty() ) 
+   if ( !this->lines.empty() ) 
    {
       for (int i = 0; i < this->line_counter; ++i) 
       {
