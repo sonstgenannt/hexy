@@ -17,6 +17,8 @@ class board : public entity {
       unsigned int player_turn_idx = 0;
       unsigned int line_counter = 0;
 
+      int losing_player = -1;
+
       Color default_circle_color = BLACK;
       Color frozen_circle_color = PURPLE;
       Color source_circle_color = PINK;
@@ -76,6 +78,7 @@ class board : public entity {
       unsigned int get_player_turn_idx() const;
       unsigned int get_max_circles() const;
       unsigned int get_line_counter() const;
+      int get_losing_player() const;
 
       bool is_move_valid(circle*& circ_a, circle*& circ_b);
       bool is_game_over() const;

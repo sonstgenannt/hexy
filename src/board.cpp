@@ -117,7 +117,6 @@ bool board::simulate_move(circle*& circ_a, circle*& circ_b)
 void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness) 
 {
    this->lines.push_back( line(circ_a, circ_b, line_thickness, this->player_colors[this->player_turn_idx]) );
-   this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
    this->line_counter++;
 
    circ_a = nullptr;
@@ -126,7 +125,12 @@ void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickn
    this->mono_tri_data = contains_monochromatic_triangle();
 
    if (std::get<0>(this->mono_tri_data))
+   {
       this->game_over = true;
+      this->losing_player = this->player_turn_idx;
+   }
+   else
+      this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
 }
 
 void board::draw() 
@@ -353,6 +357,11 @@ bool board::is_game_over() const
    return this->game_over;
 }
 
+int board::get_losing_player() const 
+{
+   return this->losing_player;
+}
+
 void board::reset_board() 
 {
    this->player_turn_idx = 0;
@@ -362,6 +371,7 @@ void board::reset_board()
    this->draggable_circle = nullptr;
    this->line_counter = 0;
    this->game_over = false;
+   this->losing_player = -1;
    this->mono_tri_data = std::make_tuple(false, std::vector<circle*>{}, BLACK);
 
    for (size_t i = 0; i < this->circles.size(); ++i)
