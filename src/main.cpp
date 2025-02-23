@@ -40,6 +40,12 @@ int main(void)
    int wins = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_WINS));
    int losses = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_LOSSES));
 
+   if (wins == 0)
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_WINS), 0);
+
+   if (losses == 0)
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_LOSSES), 0);
+
    ai robot;
    srand(time(0));
    InitWindow(window_width, window_height, "rokkaku v0.03");

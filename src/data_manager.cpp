@@ -80,7 +80,10 @@ int data_manager::load_storage_value(unsigned int position)
 
    if (file_data != NULL)
    {
-      if (data_size < ((int)(position*4))) TraceLog(LOG_WARNING, "FILEIO: [%s] Failed to find storage position: %i", STORAGE_DATA_FILE, position);
+      if (data_size < ((int)(position*4))) 
+      {
+         TraceLog(LOG_WARNING, "FILEIO: [%s] Failed to find storage position: %i", STORAGE_DATA_FILE, position);
+      }
       else
       {
          int *data_ptr = (int*)file_data;
