@@ -142,27 +142,37 @@ int main(void)
       {
          b.poll_input_events();
 
+         // If SPACE is pressed and the game is not yet over, we mark this game as a loss
+         if (IsKeyPressed(KEY_SPACE))
+         {
+            if (!b.is_game_over() && mode_selector_active_item == 0) 
+            {
+               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_LOSSES), losses + 1);
+               losses++;
+            }
+            b.reset_board();
+         }
+
          if ( mode_selector_active_item == 0 && !b.is_game_over() && b.get_player_turn_idx() == 0 )
          {
             robot.make_move(b);
          }
-      }
 
-      if ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss)
-      {
-         if ( b.get_losing_player() == 0 )
+         if ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss)
          {
-            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_WINS), wins + 1);
-            wins++;
+            if ( b.get_losing_player() == 0 )
+            {
+               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_WINS), wins + 1);
+               wins++;
+            }
+            else
+            {
+               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_LOSSES), losses + 1);
+               losses++;
+            }
+            updated_win_loss = true;
          }
-         else
-         {
-            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_data::STORAGE_POSITION_LOSSES), losses + 1);
-            losses++;
-         }
-         updated_win_loss = true;
       }
-   
 
       if (IsKeyPressed(KEY_M) && start_game)
       {

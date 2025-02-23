@@ -88,11 +88,6 @@ void board::poll_input_events()
       }
    }
 
-   if (IsKeyPressed(KEY_SPACE)) 
-   {
-      this->reset_board();
-   }
-
    if (IsKeyPressed(KEY_R)) 
    {
       this->return_circles_to_initial_positions();
