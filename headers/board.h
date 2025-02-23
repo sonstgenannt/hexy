@@ -1,6 +1,5 @@
 #ifndef BOARD
 #define BOARD
-
 #include "line.h"
 #include <vector>
 #include <cmath>
