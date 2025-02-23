@@ -46,7 +46,7 @@ int main(void)
    SetWindowState(FLAG_WINDOW_RESIZABLE);
    SetWindowMinSize(800, 800);
    GuiLoadStyle("styles/cherry/style_cherry.rgs");
-   Vector2 window_centre = {window_width / 2, window_height / 2};
+   Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
    SetTargetFPS(60);               
 
    Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0);
@@ -73,7 +73,7 @@ int main(void)
       {
          // GuiToggleGroup( (Rectangle) {window_centre.x + 150, window_centre.y, 100, 100}, "Player 1;Player 2", &active_toggle );
          // GuiColorPicker( (Rectangle) {window_centre.x - 100, window_centre.y, 200, 200}, "", &col);
-         GuiLabel((Rectangle){ 4, window_height - 40, 300, 48}, "rokkaku v0.03 by gjoa");
+         GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, "rokkaku v0.03 by gjoa");
 
          if (!sr_dd_edit) 
          {
@@ -111,7 +111,7 @@ int main(void)
             window_height = resolutions[sr_dd_active_item].second;
             SetWindowSize(window_width, window_height);
             b.set_size(window_width);
-            window_centre = {window_width / 2, window_height / 2};
+            window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 
             int monitor_width = GetMonitorWidth(GetCurrentMonitor());
             int monitor_height = GetMonitorHeight(GetCurrentMonitor());
