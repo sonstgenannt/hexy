@@ -73,7 +73,7 @@ bool data_manager::save_storage_value(unsigned int position, int value)
 
 int data_manager::load_storage_value(unsigned int position)
 {
-   int value = 0;
+   int value = -1;
    int data_size = 0;
 
    unsigned char *file_data = LoadFileData(STORAGE_DATA_FILE, &data_size);

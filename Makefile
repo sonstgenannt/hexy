@@ -1,4 +1,4 @@
-VERSION = 0.03
+VERSION = 0.04
 
 CXX_LINUX = g++
 CXX_WINDOWS = x86_64-w64-mingw32-g++
@@ -16,8 +16,8 @@ CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 SOURCES = src/entity.cpp src/line.cpp src/circle.cpp src/board.cpp src/ai.cpp src/data_manager.cpp src/main.cpp
 
 # Output names
-OUTPUT_LINUX = rokkaku_v$(VERSION)
-OUTPUT_WINDOWS = rokkaku_v$(VERSION).exe
+OUTPUT_LINUX = takaku_v$(VERSION)
+OUTPUT_WINDOWS = takaku_v$(VERSION).exe
 
 # Default target
 all: linux windows

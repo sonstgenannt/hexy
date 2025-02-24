@@ -7,9 +7,14 @@
 class data_manager 
 { 
    public:
-      enum class storage_data : unsigned int {
-         STORAGE_POSITION_WINS = 0,
-         STORAGE_POSITION_LOSSES = 1
+      enum class storage_position : unsigned int {
+         WINS_SIX = 0,
+         LOSSES_SIX = 1,
+         RES_X = 2,
+         RES_Y = 3,
+         SELECTED_RES = 4,
+         REFRESH_RATE = 5,
+         SELECTED_RR = 6
       };
 
       data_manager() = delete;
