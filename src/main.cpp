@@ -162,7 +162,6 @@ int main(void)
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, "takaku v0.04 by gjoa");
 
          Vector2 size = MeasureTextEx(rockwell, "BOARD SIZE", 24, 2.0f);
-         std::cout << size.x << " " << size.y << std::endl;
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 300, 250, 48}, "REFRESH RATE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 100, 250, 48}, "BOARD SIZE");
@@ -221,7 +220,6 @@ int main(void)
 
          }
 
-
          if (*val_ptr == 6 && mode_selector_active_item == 0 && !mode_selector_edit)
          {
             // Win/loss
@@ -265,7 +263,8 @@ int main(void)
          // If SPACE is pressed and the game is not yet over, we mark this game as a loss
          if (IsKeyPressed(KEY_SPACE))
          {
-            if (!b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6) 
+            // If the game isn't over, the opponent is a computer, we're playing on a 6-vertex board, and at least two moves have been made
+            if (!b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6 && b.get_line_counter() > 1) 
             {
                data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
                losses++;
@@ -298,6 +297,11 @@ int main(void)
 
       if (IsKeyPressed(KEY_M) && start_game)
       {
+         if ( !b.is_game_over() && b.get_line_counter() > 1 && mode_selector_active_item == 0 && *val_ptr == 6)
+         {
+            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
+            losses++;
+         }
          start_game = false;
          board_initalised = false;
          updated_win_loss = false;
