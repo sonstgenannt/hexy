@@ -128,6 +128,7 @@ int main(void)
 
    ai robot;
    srand(time(0));
+   SetConfigFlags(FLAG_MSAA_4X_HINT);
    InitWindow(window_width, window_height, "takaku v0.04");
    SetWindowState(FLAG_WINDOW_RESIZABLE);
    SetWindowState(FLAG_VSYNC_HINT);
