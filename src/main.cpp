@@ -36,6 +36,8 @@ bool board_initalised = false;
 
 bool change_resolution = false;
 
+bool player_idx = 0; // Controls whether the player makes the first move or not in vs AI mode
+
 int sr_dd_active_item = -1;
 int active_toggle;
 
@@ -184,6 +186,13 @@ int main(void)
 
       if (start_game && !board_initalised) 
       {
+         // If opponent is computer
+         if ( mode_selector_active_item == 0 )
+         {
+            b.set_ai_enabled(true);
+            player_idx = rand() % 2; // Randomly choose whether the player moves first or second
+         }
+
          b.set_color(CYBER_BLUE);
          b.set_player_colors(player_colors);
          b.set_default_circle_color(CYBER_BASE);
@@ -208,9 +217,10 @@ int main(void)
             }
             b.reset_board();
             updated_win_loss = false;
+            player_idx = rand() % 2;
          }
 
-         if ( mode_selector_active_item == 0 && !b.is_game_over() && b.get_player_turn_idx() == 0 )
+         if ( mode_selector_active_item == 0 && !b.is_game_over() && b.get_player_turn_idx() == !player_idx )
          {
             robot.make_move(b);
          }
@@ -218,7 +228,7 @@ int main(void)
          // Horrible if statement
          if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
          {
-            if ( b.get_losing_player() == 0 )
+            if ( b.get_losing_player() == !player_idx )
             {
                data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins + 1);
                wins++;

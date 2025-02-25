@@ -356,6 +356,14 @@ int board::get_losing_player() const
 {
    return this->losing_player;
 }
+void board::set_ai_enabled(const bool& b)
+{
+   this->ai_enabled = b;
+}
+bool board::get_ai_enabled() const
+{
+   return this->ai_enabled;
+}
 
 void board::reset_board() 
 {
