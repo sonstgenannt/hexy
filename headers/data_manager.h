@@ -13,8 +13,6 @@ class data_manager
          RES_X = 2,
          RES_Y = 3,
          SELECTED_RES = 4,
-         REFRESH_RATE = 5,
-         SELECTED_RR = 6
       };
 
       data_manager() = delete;
