@@ -130,10 +130,11 @@ int main(void)
    srand(time(0));
    InitWindow(window_width, window_height, "takaku v0.04");
    SetWindowState(FLAG_WINDOW_RESIZABLE);
+   SetWindowState(FLAG_VSYNC_HINT);
    SetWindowMinSize(800, 800);
    GuiLoadStyle("styles/cyber/style_cyber.rgs");
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
-   SetTargetFPS(rr);               
+   //SetTargetFPS(rr);
 
    Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0);
 
@@ -184,7 +185,7 @@ int main(void)
             if ( refresh_rates[rr_dd_active_item] <= GetMonitorRefreshRate(GetCurrentMonitor()) )
             {
                rr = refresh_rates[rr_dd_active_item];
-               SetTargetFPS(rr);
+               //SetTargetFPS(rr);
                save_rr_config();
             }
             else
