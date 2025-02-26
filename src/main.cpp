@@ -36,7 +36,7 @@ bool board_initalised = false;
 
 bool change_resolution = false;
 
-bool player_idx = 0; // Controls whether the player makes the first move or not in vs AI mode
+bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
 int sr_dd_active_item = -1;
 int active_toggle;
@@ -163,7 +163,7 @@ int main(void)
          {
             // Win/loss
             std::string win_loss = "WIN/LOSS: " + std::to_string(wins) + " - " + std::to_string(losses);
-            GuiLabel((Rectangle){window_centre.x - 100, window_centre.y + 100, 200, 48}, win_loss.c_str());
+            GuiLabel((Rectangle){window_centre.x - 100, window_centre.y + 100, 400, 48}, win_loss.c_str());
          }
 
          if ( change_resolution) 
@@ -195,9 +195,7 @@ int main(void)
 
          b.set_color(CYBER_BLUE);
          b.set_player_colors(player_colors);
-         b.set_default_circle_color(CYBER_BASE);
-         b.set_frozen_circle_color(CYBER_LIGHT);
-         b.set_max_circles(*val_ptr);
+         b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(*val_ptr);
          b.init_circles(300.0f, 30.0f);
          board_initalised = true;
       }
@@ -258,7 +256,24 @@ int main(void)
       BeginDrawing();
 
       if (board_initalised)
+      {
          b.draw();
+
+         // Who is who bottom-left corner UI
+         DrawRectangle(25, window_height - 75, 50, 50, RED);
+         DrawRectangle(25, window_height - 135, 50, 50, BLUE);
+
+         if (player_idx == 0)
+         {
+            DrawTextEx(rockwell, "you", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
+            DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+         }
+         else if (player_idx == 1)
+         {
+            DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
+            DrawTextEx(rockwell, "you", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+         }
+      }
 
       EndDrawing();
    }

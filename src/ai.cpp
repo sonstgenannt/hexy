@@ -1,6 +1,7 @@
 #include "../headers/ai.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 ai::ai() = default;
 
@@ -35,7 +36,7 @@ void ai::make_move(board& b)
       int rand_int = rand() % move_candidates.size();
 
       // Ensures that the most recently drawn computer line is thick
-      if (b.get_line_counter() != 0)
+      if (b.get_line_counter() >= 2)
       {
          b.lines[b.lines.size() - 2].set_thickness(5.0f);
       }
