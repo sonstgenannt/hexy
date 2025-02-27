@@ -45,13 +45,6 @@ int active_toggle;
 
 Color col = RED;
 
-void save_screen_resolution_config()
-{
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), sr_dd_active_item);
-}
-
 void load_screen_resolution_config() 
 {
    window_width = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X));
@@ -173,7 +166,7 @@ int main(void)
             window_width = resolutions[sr_dd_active_item].first;
             window_height = resolutions[sr_dd_active_item].second;
             SetWindowSize(window_width, window_height);
-            save_screen_resolution_config();
+            data_manager::save_sr_config(window_width, window_height, sr_dd_active_item);
             b.set_size(window_width);
             window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 

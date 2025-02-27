@@ -18,6 +18,7 @@ class data_manager
       data_manager() = delete;
       static bool save_storage_value(unsigned int position, int value);
       static int load_storage_value(unsigned int position);
+      static void save_sr_config(unsigned int window_width, unsigned int window_height, unsigned int selected_item);
 };
 
 #endif
