@@ -198,13 +198,13 @@ int main(void)
          {
             if ( b.get_losing_player() == !player_idx )
             {
-               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins + 1);
                wins++;
+               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins);
             }
             else
             {
-               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
                losses++;
+               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
             }
             updated_win_loss = true;
          }
@@ -214,8 +214,8 @@ int main(void)
       {
          if ( !b.is_game_over() && b.get_line_counter() > 1 && mode_selector_active_item == 0 && *val_ptr == 6)
          {
-            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
             losses++;
+            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
          }
          start_game = false;
          board_initalised = false;
