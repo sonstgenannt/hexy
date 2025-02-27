@@ -102,5 +102,29 @@ void data_manager::save_sr_config(unsigned int window_width, unsigned int window
    data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
    data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
    data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), selected_item);
+}
 
+void data_manager::load_sr_config(unsigned int& window_width, unsigned int& window_height, int& selected_item)
+{
+   window_width = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X));
+   window_height = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y));
+   selected_item = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES));
+
+   if (window_width == -1)
+   {
+      window_width = 800;
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
+   }
+
+   if (window_height == -1)
+   {
+      window_height = 800;
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
+   }
+
+   if (selected_item == -1)
+   {
+      selected_item = 0;
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), selected_item);
+   }
 }

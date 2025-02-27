@@ -14,11 +14,9 @@
 #include <chrono>
 #include <thread>
 
-const unsigned int DEFAULT_WINDOW_WIDTH = 800;
-const unsigned int DEFAULT_WINDOW_HEIGHT = 800;
-
-unsigned int window_width = DEFAULT_WINDOW_WIDTH;
-unsigned int window_height = DEFAULT_WINDOW_HEIGHT;
+unsigned int window_width = 800;
+unsigned int window_height = 800;
+int sr_dd_active_item = -1;
 
 const Color CYBER_BLUE = (Color) {0, 34, 43, 1};
 const Color CYBER_BASE = (Color) {2, 70, 88, 255};
@@ -35,47 +33,17 @@ int* val_ptr = &temp_val;
 
 bool start_game = false;
 bool board_initalised = false;
-
 bool change_resolution = false;
-
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
-int sr_dd_active_item = -1;
-int active_toggle;
-
 Color col = RED;
-
-void load_screen_resolution_config() 
-{
-   window_width = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X));
-   window_height = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y));
-   sr_dd_active_item = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES));
-
-   if (window_width == -1)
-   {
-      window_width = DEFAULT_WINDOW_WIDTH;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
-   }
-
-   if (window_height == -1)
-   {
-      window_height = DEFAULT_WINDOW_HEIGHT;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
-   }
-
-   if (sr_dd_active_item == -1)
-   {
-      sr_dd_active_item = 0;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), sr_dd_active_item);
-   }
-}
 
 int main(void)
 {
    int wins = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX));
    int losses = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX));
 
-   load_screen_resolution_config();
+   data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
    if (wins == -1)
    {
