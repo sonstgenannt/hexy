@@ -48,7 +48,7 @@ int main(void)
    if (wins == -1)
    {
       wins = 0;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), 0);
+      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), 0);
    }
 
    if (losses == -1)
