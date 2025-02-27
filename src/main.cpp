@@ -11,6 +11,8 @@
 #include <vector>
 #include <array>
 #include <string>
+#include <chrono>
+#include <thread>
 
 const unsigned int DEFAULT_WINDOW_WIDTH = 800;
 const unsigned int DEFAULT_WINDOW_HEIGHT = 800;
@@ -192,6 +194,11 @@ int main(void)
             b.set_ai_enabled(true);
             player_idx = rand() % 2; // Randomly choose whether the player moves first or second
          }
+         else
+         {
+            player_idx = -1;
+            b.set_ai_enabled(false);
+         }
 
          b.set_color(CYBER_BLUE);
          b.set_player_colors(player_colors);
@@ -202,6 +209,12 @@ int main(void)
 
       if (board_initalised) 
       {
+         if ( b.get_ai_enabled() && !b.is_game_over() && b.get_player_turn_idx() == !player_idx )
+         {
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
+            robot.make_move(b);
+         }
+
          b.poll_input_events();
 
          // If SPACE is pressed and the game is not yet over, we mark this game as a loss
@@ -218,10 +231,6 @@ int main(void)
             player_idx = rand() % 2;
          }
 
-         if ( mode_selector_active_item == 0 && !b.is_game_over() && b.get_player_turn_idx() == !player_idx )
-         {
-            robot.make_move(b);
-         }
 
          // Horrible if statement
          if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
@@ -259,19 +268,22 @@ int main(void)
       {
          b.draw();
 
-         // Who is who bottom-left corner UI
-         DrawRectangle(25, window_height - 75, 50, 50, RED);
-         DrawRectangle(25, window_height - 135, 50, 50, BLUE);
+         if ( b.get_ai_enabled() )
+         {
+            // Who is who bottom-left corner UI
+            DrawRectangle(25, window_height - 75, 50, 50, RED);
+            DrawRectangle(25, window_height - 135, 50, 50, BLUE);
 
-         if (player_idx == 0)
-         {
-            DrawTextEx(rockwell, "you", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
-            DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
-         }
-         else if (player_idx == 1)
-         {
-            DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
-            DrawTextEx(rockwell, "you", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+            if (player_idx == 0)
+            {
+               DrawTextEx(rockwell, "you", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+            }
+            else if (player_idx == 1)
+            {
+               DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "you", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+            }
          }
       }
 
