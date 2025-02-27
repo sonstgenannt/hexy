@@ -23,7 +23,7 @@ const Color CYBER_BASE = (Color) {2, 70, 88, 255};
 const Color CYBER_LIGHT = (Color) {130, 205, 224, 255};
 
 std::vector<Color> player_colors = { RED, BLUE };
-std::vector<std::pair<int, int>> resolutions = 
+const std::vector<std::pair<int, int>> resolutions = 
 {
    {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
 };
