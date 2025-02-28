@@ -43,6 +43,9 @@ int main(void)
    int wins = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX));
    int losses = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX));
 
+   bool show_warning_box = false;
+   int warning_output = false;
+
    data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
    if (wins == -1)
@@ -210,9 +213,56 @@ int main(void)
          }
       }
 
-      if (IsKeyPressed(KEY_M) && start_game)
+      if ( IsKeyPressed(KEY_M) && start_game )
       {
-         if ( !b.is_game_over() && b.get_line_counter() > 1 && mode_selector_active_item == 0 && *val_ptr == 6)
+         // If co-op
+         if ( mode_selector_active_item == 1 )
+         {
+            start_game = false;
+            board_initalised = false;
+            updated_win_loss = false;
+            show_warning_box = false;
+            b.kill_board();
+         }
+         else if ( player_idx == 0 && b.get_line_counter() < 1 )
+         {
+            start_game = false;
+            board_initalised = false;
+            updated_win_loss = false;
+            show_warning_box = false;
+            b.kill_board();
+         }
+         else if ( player_idx == 1 && b.get_line_counter() < 2 )
+         {
+            start_game = false;
+            board_initalised = false;
+            updated_win_loss = false;
+            show_warning_box = false;
+            b.kill_board();
+         }
+      
+         else if ( b.is_game_over() )
+         {
+            start_game = false;
+            board_initalised = false;
+            updated_win_loss = false;
+            show_warning_box = false;
+            b.kill_board();
+         }
+         else
+            show_warning_box = true;
+      }
+
+      if ( show_warning_box )
+      warning_output = GuiMessageBox( (Rectangle) {(window_width / 2) - 300, (window_height / 2) - 150, 600, 300}, 
+            "Warning", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
+            "Return to main menu;Continue playing");
+      else
+         warning_output = -1;
+
+      if ( show_warning_box && warning_output == 1 )
+      {
+         if ( !b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6)
          {
             losses++;
             data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
@@ -220,12 +270,15 @@ int main(void)
          start_game = false;
          board_initalised = false;
          updated_win_loss = false;
+         show_warning_box = false;
          b.kill_board();
       }
+      else if ( warning_output == 2 )
+         show_warning_box = false;
 
       BeginDrawing();
 
-      if (board_initalised)
+      if (board_initalised && !show_warning_box)
       {
          b.draw();
 
