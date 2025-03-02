@@ -16,7 +16,6 @@
 
 unsigned int window_width = 800;
 unsigned int window_height = 800;
-int sr_dd_active_item = -1;
 
 const Color CYBER_BLUE = (Color) {0, 34, 43, 1};
 const Color CYBER_BASE = (Color) {2, 70, 88, 255};
@@ -36,16 +35,16 @@ bool board_initalised = false;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
-Color col = RED;
-
 int main(void)
 {
    bool show_warning_box = false;
    int warning_output = false;
-   bool sr_dd_edit = false;
    bool updated_win_loss = false;
 
    int mode_selector_active_item = 0;
+   int sr_dd_active_item = -1;
+   bool sr_dd_edit = false;
+
    bool mode_selector_edit = false;
 
    // We load the win/loss data from the storage.data file and store this information
