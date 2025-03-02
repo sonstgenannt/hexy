@@ -40,14 +40,21 @@ Color col = RED;
 
 int main(void)
 {
+   bool show_warning_box = false;
+   int warning_output = false;
+   bool sr_dd_edit = false;
+   bool updated_win_loss = false;
+
+   int mode_selector_active_item = 0;
+   bool mode_selector_edit = false;
+
+   // We load the win/loss data from the storage.data file and store this information
+   // If this file doesn't exist, these get initialised to -1
    int wins = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX));
    int losses = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX));
 
-   bool show_warning_box = false;
-   int warning_output = false;
-
-   data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
-
+   // If wins or losses are -1, this means that the storage.data file did not exist
+   // Hence, we set wins and losses to 0 and save these values to the storage.data file
    if (wins == -1)
    {
       wins = 0;
@@ -60,33 +67,41 @@ int main(void)
       data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), 0);
    }
 
-   board b(Vector2(0,0), window_width);
+   // Here we load screen resolution information from the storage.data file into variables
+   // the 'sr_dd' in sr_dd_active_item stands for 'screen resolution drop down'
+   // This variable controls which resolution the user has selected in the drop down menu UI 
+   data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
+
+   // Initialising board and ai objects for later use
+   board b(Vector2(0,0), window_width);
    ai robot;
+
    srand(time(0));
-   SetConfigFlags(FLAG_MSAA_4X_HINT);
-   InitWindow(window_width, window_height, "takaku v0.04");
-   SetWindowState(FLAG_WINDOW_RESIZABLE);
-   SetWindowState(FLAG_VSYNC_HINT);
-   SetWindowMinSize(800, 800);
-   GuiLoadStyle("styles/cyber/style_cyber.rgs");
+
+   SetConfigFlags(FLAG_MSAA_4X_HINT); // Attempt to enable anti-aliasing 
+   InitWindow(window_width, window_height, "takaku v0.04"); // Create the window
+   SetWindowState(FLAG_WINDOW_RESIZABLE); // Set the window to be resizeable 
+   SetWindowMinSize(800, 800); // Specify window minimum size
+   SetWindowState(FLAG_VSYNC_HINT); // Enable VSync
+
+   // Calculate and store the centre of the window
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 
-   Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0);
+   GuiLoadStyle("styles/cyber/style_cyber.rgs"); // Load style that is used for raygui 
+
+   // Loading font 
+   Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0); 
 
    if (rockwell.texture.id == 0)
       std::cout << "APPLICATON ERROR: Failed to load font." << std::endl;
    else
       GuiSetFont(rockwell);
 
+   // Setting font style properties
    GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
    GuiSetStyle(DEFAULT, TEXT_SPACING, 2);
 
-   bool sr_dd_edit = false;
-   bool updated_win_loss = false;
-
-   int mode_selector_active_item = 0;
-   bool mode_selector_edit = false;
 
    while (!WindowShouldClose())    
    {
