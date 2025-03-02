@@ -206,7 +206,7 @@ int main(void)
          }
 
 
-         // Horrible if statement
+         // Horrible if statement -- essentially handles whether wins/losses should be written to file and updated
          if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
          {
             if ( b.get_losing_player() == !player_idx )
@@ -223,44 +223,41 @@ int main(void)
          }
       }
 
+      // This if statement handles whether the warning box pop-up should be shown to the player or not 
+      // when pressing M
       if ( IsKeyPressed(KEY_M) && start_game )
       {
-         // If co-op
+         // If the opponent is a human
          if ( mode_selector_active_item == 1 )
          {
-            start_game = false;
-            board_initalised = false;
-            updated_win_loss = false;
             show_warning_box = false;
-            b.kill_board();
          }
+         // If the opponent is a robot, the player moves first, and they haven't moved yet
          else if ( player_idx == 0 && b.get_line_counter() < 1 )
          {
-            start_game = false;
-            board_initalised = false;
-            updated_win_loss = false;
             show_warning_box = false;
-            b.kill_board();
          }
+         // If the opponent is a robot, the player moves second, and they haven't moved yet
          else if ( player_idx == 1 && b.get_line_counter() < 2 )
          {
-            start_game = false;
-            board_initalised = false;
-            updated_win_loss = false;
             show_warning_box = false;
-            b.kill_board();
          }
-      
+         // If the game is over
          else if ( b.is_game_over() )
          {
-            start_game = false;
-            board_initalised = false;
-            updated_win_loss = false;
             show_warning_box = false;
-            b.kill_board();
          }
          else
             show_warning_box = true;
+
+         if ( !show_warning_box )
+         {
+            start_game = false;
+            board_initalised = false;
+            updated_win_loss = false;
+            show_warning_box = false;
+            b.kill_board();
+         }
       }
 
       if ( show_warning_box )
