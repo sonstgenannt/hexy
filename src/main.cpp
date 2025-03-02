@@ -192,14 +192,16 @@ int main(void)
          b.poll_input_events();
 
          // If SPACE is pressed and the game is not yet over, we mark this game as a loss
-         if (IsKeyPressed(KEY_SPACE))
+         if ( IsKeyPressed(KEY_SPACE) && b.is_game_over() )
          {
+            /*
             // If the game isn't over, the opponent is a computer, we're playing on a 6-vertex board, and at least two moves have been made
             if (!b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6 && b.get_line_counter() > 1) 
             {
                data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
                losses++;
             }
+            */
             b.reset_board();
             updated_win_loss = false;
             player_idx = rand() % 2;
@@ -262,7 +264,7 @@ int main(void)
 
       if ( show_warning_box )
       warning_output = GuiMessageBox( (Rectangle) {(window_width / 2) - 300, (window_height / 2) - 150, 600, 300}, 
-            "Warning", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
+            "", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
             "Return to main menu;Continue playing");
       else
          warning_output = -1;
