@@ -11,8 +11,6 @@
 #include <vector>
 #include <array>
 #include <string>
-#include <chrono>
-#include <thread>
 
 unsigned int window_width = 800;
 unsigned int window_height = 800;
@@ -75,8 +73,6 @@ int main(void)
    // Initialising board and ai objects for later use
    board b(Vector2(0,0), window_width);
    ai robot;
-
-   srand(time(0));
 
    SetConfigFlags(FLAG_MSAA_4X_HINT); // Attempt to enable anti-aliasing 
    InitWindow(window_width, window_height, "takaku v0.04"); // Create the window
@@ -189,7 +185,6 @@ int main(void)
       {
          if ( b.get_ai_enabled() && !b.is_game_over() && b.get_player_turn_idx() == !player_idx )
          {
-            //std::this_thread::sleep_for(std::chrono::seconds(1));
             robot.make_move(b);
          }
 
