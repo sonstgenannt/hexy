@@ -9,7 +9,6 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
-#include <array>
 #include <string>
 
 unsigned int window_width = 800;
