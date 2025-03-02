@@ -32,6 +32,8 @@ bool board_initalised = false;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
+const char* VERSION_STR = "takaku v0.05";
+
 int main(void)
 {
    bool show_warning_box = false;
@@ -74,7 +76,7 @@ int main(void)
    ai robot;
 
    SetConfigFlags(FLAG_MSAA_4X_HINT); // Attempt to enable anti-aliasing 
-   InitWindow(window_width, window_height, "takaku v0.04"); // Create the window
+   InitWindow(window_width, window_height, VERSION_STR); // Create the window
    SetWindowState(FLAG_WINDOW_RESIZABLE); // Set the window to be resizeable 
    SetWindowMinSize(800, 800); // Specify window minimum size
    SetWindowState(FLAG_VSYNC_HINT); // Enable VSync
@@ -104,7 +106,7 @@ int main(void)
       if (!start_game) 
       {
          // Text labels
-         GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, "takaku v0.04 by gjoa");
+         GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
 
          Vector2 size = MeasureTextEx(rockwell, "BOARD SIZE", 24, 2.0f);
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
