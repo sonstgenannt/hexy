@@ -13,7 +13,7 @@ class board : public entity {
       unsigned int total_players = 2;
       unsigned int max_circles = 0;
       unsigned int max_lines = 0;
-      unsigned int player_turn_idx = 0;
+      unsigned int turn_idx = 0;
       unsigned int line_counter = 0;
 
       int losing_player = -1;
@@ -78,7 +78,7 @@ class board : public entity {
 
       std::vector<circle>& get_circles();
 
-      unsigned int get_player_turn_idx() const;
+      unsigned int get_turn_idx() const;
       unsigned int get_max_circles() const;
       unsigned int get_line_counter() const;
       int get_losing_player() const;

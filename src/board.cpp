@@ -72,7 +72,7 @@ void board::poll_input_events()
       }
       else 
       {
-         this->circles[i].set_color( this->player_colors[player_turn_idx] );
+         this->circles[i].set_color( this->player_colors[turn_idx] );
       }
 
 
@@ -103,7 +103,7 @@ void board::poll_input_events()
 
 bool board::simulate_move(circle*& circ_a, circle*& circ_b) 
 {
-   this->lines.push_back( line (circ_a, circ_b, 0.0f, this->player_colors[this->player_turn_idx] ) );
+   this->lines.push_back( line (circ_a, circ_b, 0.0f, this->player_colors[this->turn_idx] ) );
    bool losing_move = std::get<0>(contains_monochromatic_triangle());
    this->lines.pop_back();
    return losing_move;
@@ -111,7 +111,7 @@ bool board::simulate_move(circle*& circ_a, circle*& circ_b)
 
 void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness) 
 {
-   this->lines.push_back( line(circ_a, circ_b, line_thickness, this->player_colors[this->player_turn_idx]) );
+   this->lines.push_back( line(circ_a, circ_b, line_thickness, this->player_colors[this->turn_idx]) );
    this->line_counter++;
 
    circ_a = nullptr;
@@ -122,10 +122,10 @@ void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickn
    if (std::get<0>(this->mono_tri_data))
    {
       this->game_over = true;
-      this->losing_player = this->player_turn_idx;
+      this->losing_player = this->turn_idx;
    }
    else
-      this->player_turn_idx = ( 1 + this->player_turn_idx ) % this->total_players;
+      this->turn_idx = ( 1 + this->turn_idx ) % this->total_players;
 }
 
 void board::draw() 
@@ -337,9 +337,9 @@ std::vector<circle>& board::get_circles()
 {
    return this->circles;
 }
-unsigned int board::get_player_turn_idx() const
+unsigned int board::get_turn_idx() const
 {
-   return this->player_turn_idx;
+   return this->turn_idx;
 }
 
 unsigned int board::get_max_circles() const 
@@ -375,7 +375,7 @@ void board::set_game_started(const bool& b)
 
 void board::reset_board() 
 {
-   this->player_turn_idx = 0;
+   this->turn_idx = 0;
    this->lines.clear();
    this->line_source = nullptr;
    this->line_target = nullptr;

@@ -179,7 +179,7 @@ int main(void)
 
       if (board_initalised) 
       {
-         if ( b.get_ai_enabled() && !b.is_game_over() && b.get_player_turn_idx() == !player_idx )
+         if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
          {
             robot.make_move(b);
          }
