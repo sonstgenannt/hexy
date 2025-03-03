@@ -364,6 +364,14 @@ bool board::get_ai_enabled() const
 {
    return this->ai_enabled;
 }
+bool board::get_game_started() const 
+{
+   return this->game_started;
+}
+void board::set_game_started(const bool& b)
+{
+   this->game_started = b;
+}
 
 void board::reset_board() 
 {
@@ -383,6 +391,7 @@ void board::reset_board()
 
 void board::kill_board() 
 {
+   this->game_started = false;
    this->reset_board();
    this->circles.clear();
    this->circle_initial_positions.clear();

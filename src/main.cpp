@@ -27,7 +27,6 @@ const std::vector<std::pair<int, int>> resolutions =
 int temp_val = 6;
 int* val_ptr = &temp_val;
 
-bool start_game = false;
 bool board_initalised = false;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
@@ -67,7 +66,6 @@ int main(void)
    // This variable controls which resolution the user has selected in the drop down menu UI 
    data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
-
    // Initialising board and ai objects for later use
    board b(Vector2(0,0), window_width);
    ai robot;
@@ -100,7 +98,7 @@ int main(void)
    {
       ClearBackground(CYBER_BLUE);
 
-      if (!start_game) 
+      if (!b.get_game_started()) 
       {
          // Text labels
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
@@ -113,7 +111,8 @@ int main(void)
          change_resolution = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y - 200, 100, 48}, "Apply");
 
          // Play button
-         start_game = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y, 100, 48}, "Play");
+         bool game_status = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y, 100, 48}, "Play");
+         b.set_game_started(game_status);
 
          // Resolution selector
          if ( GuiDropdownBox((Rectangle){ window_centre.x - 100, window_centre.y - 200, 200, 48 }, "800x800;900x900;1000x1000;1100x1100;1200x1200", &sr_dd_active_item, sr_dd_edit) ) 
@@ -157,7 +156,7 @@ int main(void)
          }
       }
 
-      if (start_game && !board_initalised) 
+      if (b.get_game_started() && !board_initalised) 
       {
          // If opponent is computer
          if ( mode_selector_active_item == 0 )
@@ -223,7 +222,7 @@ int main(void)
 
       // This if statement handles whether the warning box pop-up should be shown to the player or not 
       // when pressing M
-      if ( IsKeyPressed(KEY_M) && start_game )
+      if ( IsKeyPressed(KEY_M) && b.get_game_started() )
       {
          // If the opponent is a human
          if ( mode_selector_active_item == 1 )
@@ -250,7 +249,6 @@ int main(void)
 
          if ( !show_warning_box )
          {
-            start_game = false;
             board_initalised = false;
             updated_win_loss = false;
             show_warning_box = false;
@@ -272,7 +270,6 @@ int main(void)
             losses++;
             data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
          }
-         start_game = false;
          board_initalised = false;
          updated_win_loss = false;
          show_warning_box = false;
