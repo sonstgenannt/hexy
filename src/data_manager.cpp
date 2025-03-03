@@ -1,4 +1,5 @@
 #include "../headers/data_manager.h"
+#include <iostream>
 
 // Adapted from https://www.raylib.com/examples/core/loader.html?name=core_storage_values
 bool data_manager::save_storage_value(unsigned int position, int value)
@@ -6,8 +7,8 @@ bool data_manager::save_storage_value(unsigned int position, int value)
    bool success = false;
    int data_size = 0;
    unsigned int new_data_size = 0;
-   unsigned char *file_data = LoadFileData(STORAGE_DATA_FILE, &data_size);
-   unsigned char *new_file_data = NULL;
+   unsigned char* file_data = LoadFileData(STORAGE_DATA_FILE, &data_size);
+   unsigned char* new_file_data = NULL;
 
    if (file_data != NULL)
    {
@@ -57,8 +58,8 @@ bool data_manager::save_storage_value(unsigned int position, int value)
    {
       TraceLog(LOG_INFO, "FILEIO: [%s] File created successfully", STORAGE_DATA_FILE);
 
-      data_size = (position + 1)*sizeof(int);
-      file_data = (unsigned char *)RL_MALLOC(data_size);
+      data_size = (position + 1) * sizeof(int);
+      file_data = (unsigned char*) RL_MALLOC(data_size);
       int* data_ptr = (int*)file_data;
       data_ptr[position] = value;
 
@@ -76,17 +77,17 @@ int data_manager::load_storage_value(unsigned int position)
    int value = -1;
    int data_size = 0;
 
-   unsigned char *file_data = LoadFileData(STORAGE_DATA_FILE, &data_size);
+   unsigned char* file_data = LoadFileData(STORAGE_DATA_FILE, &data_size);
 
    if (file_data != NULL)
    {
-      if (data_size < ((int)(position*4))) 
+      if (data_size <= ((int)(position*4))) 
       {
          TraceLog(LOG_WARNING, "FILEIO: [%s] Failed to find storage position: %i", STORAGE_DATA_FILE, position);
       }
       else
       {
-         int *data_ptr = (int*)file_data;
+         int* data_ptr = (int*)file_data;
          value = data_ptr[position];
       }
 
@@ -99,32 +100,32 @@ int data_manager::load_storage_value(unsigned int position)
 
 void data_manager::save_sr_config(unsigned int window_width, unsigned int window_height, unsigned int selected_item) 
 {
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
-   data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), selected_item);
+   data_manager::save_storage_value(data_manager::storage_position::RES_X, window_width);
+   data_manager::save_storage_value(data_manager::storage_position::RES_Y, window_height);
+   data_manager::save_storage_value(data_manager::storage_position::SELECTED_RES, selected_item);
 }
 
 void data_manager::load_sr_config(unsigned int& window_width, unsigned int& window_height, int& selected_item)
 {
-   window_width = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X));
-   window_height = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y));
-   selected_item = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES));
+   window_width = data_manager::load_storage_value(data_manager::storage_position::RES_X);
+   window_height = data_manager::load_storage_value(data_manager::storage_position::RES_Y);
+   selected_item = data_manager::load_storage_value(data_manager::storage_position::SELECTED_RES);
 
-   if (window_width == -1)
+   if (window_width == ~0U)
    {
       window_width = 800;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_X), window_width);
+      data_manager::save_storage_value(data_manager::storage_position::RES_X, window_width);
    }
 
-   if (window_height == -1)
+   if (window_height == ~0U)
    {
       window_height = 800;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::RES_Y), window_height);
+      data_manager::save_storage_value(data_manager::storage_position::RES_Y, window_height);
    }
 
    if (selected_item == -1)
    {
       selected_item = 0;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::SELECTED_RES), selected_item);
+      data_manager::save_storage_value(data_manager::storage_position::SELECTED_RES, selected_item);
    }
 }

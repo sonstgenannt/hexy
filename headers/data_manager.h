@@ -7,7 +7,7 @@
 class data_manager 
 { 
    public:
-      enum class storage_position : unsigned int {
+      enum storage_position : unsigned int {
          WINS_SIX = 0,
          LOSSES_SIX = 1,
          RES_X = 2,

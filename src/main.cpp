@@ -11,8 +11,8 @@
 #include <vector>
 #include <string>
 
-unsigned int window_width = 800;
-unsigned int window_height = 800;
+unsigned int window_width = ~0U;
+unsigned int window_height = ~0U;
 
 const Color CYBER_BLUE = (Color) {0, 34, 43, 1};
 const Color CYBER_BASE = (Color) {2, 70, 88, 255};
