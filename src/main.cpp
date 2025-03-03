@@ -32,7 +32,7 @@ bool board_initalised = false;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
-const char* VERSION_STR = "takaku v0.05";
+const char* VERSION_STR = "takaku v0.05a";
 
 int main(void)
 {
