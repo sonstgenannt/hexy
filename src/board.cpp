@@ -197,6 +197,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
 
       this->circles.push_back(c);
    }
+   this->initialised = true;
 }
 
 void board::return_circles_to_initial_positions() 
@@ -373,6 +374,11 @@ void board::set_game_started(const bool& b)
    this->game_started = b;
 }
 
+bool board::get_initialised() const
+{
+   return this->initialised;
+}
+
 void board::reset_board() 
 {
    this->turn_idx = 0;
@@ -394,5 +400,6 @@ void board::kill_board()
    this->game_started = false;
    this->reset_board();
    this->circles.clear();
+   this->initialised = false;
    this->circle_initial_positions.clear();
 }

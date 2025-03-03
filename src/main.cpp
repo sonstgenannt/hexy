@@ -27,7 +27,6 @@ const std::vector<std::pair<int, int>> resolutions =
 int temp_val = 6;
 int* val_ptr = &temp_val;
 
-bool board_initalised = false;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
@@ -156,7 +155,7 @@ int main(void)
          }
       }
 
-      if (b.get_game_started() && !board_initalised) 
+      if (b.get_game_started() && !b.get_initialised()) 
       {
          // If opponent is computer
          if ( mode_selector_active_item == 0 )
@@ -174,10 +173,9 @@ int main(void)
          b.set_player_colors(player_colors);
          b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(*val_ptr);
          b.init_circles(300.0f, 30.0f);
-         board_initalised = true;
       }
 
-      if (board_initalised) 
+      if (b.get_initialised()) 
       {
          if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
          {
@@ -249,7 +247,6 @@ int main(void)
 
          if ( !show_warning_box )
          {
-            board_initalised = false;
             updated_win_loss = false;
             show_warning_box = false;
             b.kill_board();
@@ -270,7 +267,6 @@ int main(void)
             losses++;
             data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
          }
-         board_initalised = false;
          updated_win_loss = false;
          show_warning_box = false;
          b.kill_board();
@@ -280,7 +276,7 @@ int main(void)
 
       BeginDrawing();
 
-      if (board_initalised && !show_warning_box)
+      if (b.get_initialised() && !show_warning_box)
       {
          b.draw();
 

@@ -13,7 +13,7 @@ class board : public entity {
       unsigned int total_players = 2;
       unsigned int max_circles = 0;
       unsigned int max_lines = 0;
-      unsigned int turn_idx = 0;
+      unsigned int turn_idx = 0; // Keeps track of which player is making the current move
       unsigned int line_counter = 0;
 
       int losing_player = -1;
@@ -35,6 +35,7 @@ class board : public entity {
       bool game_over = false;
       bool only_show_hover_lines = false;
       bool ai_enabled = false;
+      bool initialised = false;
 
       std::vector<circle> circles;
       std::vector<Color> player_colors;
@@ -89,6 +90,8 @@ class board : public entity {
 
       bool get_game_started() const;
       void set_game_started(const bool& b);
+
+      bool get_initialised() const;
 
       void reset_board();
       void kill_board();
