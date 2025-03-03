@@ -46,23 +46,20 @@ int main(void)
 
    bool mode_selector_edit = false;
 
-   // We load the win/loss data from the storage.data file and store this information
-   // If this file doesn't exist, these get initialised to -1
-   int wins = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX));
-   int losses = data_manager::load_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX));
+   int wins = data_manager::load_storage_value(data_manager::storage_position::WINS_SIX);
 
-   // If wins or losses are -1, this means that the storage.data file did not exist
-   // Hence, we set wins and losses to 0 and save these values to the storage.data file
    if (wins == -1)
    {
       wins = 0;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), 0);
+      data_manager::save_storage_value(data_manager::storage_position::WINS_SIX, 0);
    }
+
+   int losses = data_manager::load_storage_value(data_manager::storage_position::LOSSES_SIX);
 
    if (losses == -1)
    {
       losses = 0;
-      data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), 0);
+      data_manager::save_storage_value(data_manager::storage_position::LOSSES_SIX, 0);
    }
 
    // Here we load screen resolution information from the storage.data file into variables
