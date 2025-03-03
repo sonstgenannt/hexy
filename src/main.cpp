@@ -105,7 +105,6 @@ int main(void)
          // Text labels
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
 
-         Vector2 size = MeasureTextEx(rockwell, "BOARD SIZE", 24, 2.0f);
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 100, 250, 48}, "BOARD SIZE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y, 250, 48}, "OPPONENT");
