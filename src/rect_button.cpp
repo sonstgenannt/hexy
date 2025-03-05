@@ -9,8 +9,8 @@ rect_button::rect_button(const Rectangle& bounds, const Vector2& position, const
    this->icon_texture = icon_texture;
 }
 
-
 void rect_button::draw() const
 {
-   DrawTexture(this->icon_texture, 0, 0, this->texture_color);
+   DrawRectangleRec(this->bounds, this->background_color);
+   DrawTexture(this->icon_texture, position.x, position.y, this->texture_color);
 }
