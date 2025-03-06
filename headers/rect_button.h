@@ -14,6 +14,9 @@ class rect_button
       Color texture_color;
       Texture2D icon_texture;
 
+      float scale = 1.0f;
+      float rotation = 0.0f;
+
       bool mouse_over = false;
       bool activated = false;
 
@@ -23,6 +26,7 @@ class rect_button
       void update();
 
       void set_hover_background_color(const Color& color);
+      void set_scale(const float& f);
       bool get_activated() const;
 };
 

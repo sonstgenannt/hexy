@@ -35,7 +35,6 @@ const char* VERSION_STR = "takaku v0.05a";
 
 int main(void)
 {
-
    bool show_warning_box = false;
    int warning_output = false;
    bool updated_win_loss = false;
@@ -77,13 +76,15 @@ int main(void)
    SetWindowMinSize(800, 800); // Specify window minimum size
    SetWindowState(FLAG_VSYNC_HINT); // Enable VSync
 
-   Image house = LoadImage("house.png");
+   Image house = LoadImage("icons/home.png");
    if ( IsImageValid (house) ) 
       std::cout << "Loaded image successfully." << std::endl;
    Texture2D house_texture = LoadTextureFromImage(house);
    UnloadImage(house);
-   rect_button rb ( Rectangle{ 0, 0, 200, 200}, Vector2 {0, 0}, RED, RED, house_texture);
+
+   rect_button rb ( Rectangle{ 0, 0, 128, 128}, Vector2 {0, 0}, CYBER_BASE, CYBER_LIGHT, house_texture);
    rb.set_hover_background_color(GREEN);
+   rb.set_scale(0.5f);
 
    // Calculate and store the centre of the window
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
@@ -101,7 +102,6 @@ int main(void)
    // Setting font style properties
    GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
    GuiSetStyle(DEFAULT, TEXT_SPACING, 2);
-
 
    while (!WindowShouldClose())    
    {
@@ -311,12 +311,9 @@ int main(void)
             }
          }
       }
-
       EndDrawing();
    }
-
    UnloadFont(rockwell);
    CloseWindow();
-
    return 0;
 }

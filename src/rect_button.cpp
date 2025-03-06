@@ -12,7 +12,7 @@ rect_button::rect_button(const Rectangle& bounds, const Vector2& position, const
 void rect_button::draw() const
 {
    DrawRectangleRec(this->bounds, this->current_color);
-   DrawTexture(this->icon_texture, position.x, position.y, this->texture_color);
+   DrawTextureEx(this->icon_texture, position, this->rotation, this->scale, this->texture_color);
 }
 
 void rect_button::set_hover_background_color(const Color& color)
@@ -39,4 +39,11 @@ void rect_button::update()
 bool rect_button::get_activated() const
 {
    return this->activated;
+}
+
+void rect_button::set_scale(const float& f)
+{
+   this->scale = f;
+   const Rectangle new_bounds(this->bounds.x, this->bounds.y, this->bounds.width * scale, this->bounds.height * scale);
+   this->bounds = new_bounds;
 }
