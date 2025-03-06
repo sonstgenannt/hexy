@@ -1,10 +1,11 @@
-#include "raylib.h" 
 #define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_ICONS
 #include "../include/raygui.h"
 
 #include "../headers/board.h"
 #include "../headers/ai.h"
 #include "../headers/data_manager.h"
+#include "../headers/rect_button.h"
 #include <numbers>
 #include <cmath>
 #include <iostream>
@@ -18,7 +19,7 @@ const Color CYBER_BLUE = (Color) {0, 34, 43, 1};
 const Color CYBER_BASE = (Color) {2, 70, 88, 255};
 const Color CYBER_LIGHT = (Color) {130, 205, 224, 255};
 
-std::vector<Color> player_colors = { RED, BLUE };
+std::vector<Color> player_colors = { RED, GREEN };
 const std::vector<std::pair<int, int>> resolutions = 
 {
    {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
@@ -34,6 +35,7 @@ const char* VERSION_STR = "takaku v0.05a";
 
 int main(void)
 {
+
    bool show_warning_box = false;
    int warning_output = false;
    bool updated_win_loss = false;
@@ -75,6 +77,14 @@ int main(void)
    SetWindowMinSize(800, 800); // Specify window minimum size
    SetWindowState(FLAG_VSYNC_HINT); // Enable VSync
 
+   Image house = LoadImage("house.png");
+   if ( IsImageValid (house) ) 
+      std::cout << "Loaded image successfully." << std::endl;
+   Texture2D house_texture = LoadTextureFromImage(house);
+   UnloadImage(house);
+   rect_button rb ( Rectangle{ 0, 0, 200, 200}, Vector2 {0, 0}, RED, RED, house_texture);
+   rb.set_hover_background_color(GREEN);
+
    // Calculate and store the centre of the window
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 
@@ -97,6 +107,7 @@ int main(void)
    {
       ClearBackground(CYBER_BLUE);
 
+      rb.update();
       if (!b.get_game_started()) 
       {
          // Text labels
@@ -175,8 +186,10 @@ int main(void)
          b.init_circles(300.0f, 30.0f);
       }
 
+      // Game has begun
       if (b.get_initialised()) 
       {
+
          if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
          {
             robot.make_move(b);
@@ -217,10 +230,9 @@ int main(void)
             updated_win_loss = true;
          }
       }
-
       // This if statement handles whether the warning box pop-up should be shown to the player or not 
-      // when pressing M
-      if ( IsKeyPressed(KEY_M) && b.get_game_started() )
+      // when pressing M or the home button
+      if ( (IsKeyPressed(KEY_M) || rb.get_activated() ) && b.get_game_started() )
       {
          // If the opponent is a human
          if ( mode_selector_active_item == 1 )
@@ -279,6 +291,7 @@ int main(void)
       if (b.get_initialised() && !show_warning_box)
       {
          b.draw();
+         rb.draw();
 
          if ( b.get_ai_enabled() )
          {
