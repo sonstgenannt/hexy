@@ -32,7 +32,7 @@ void board::update()
             {
                this->circles[i].set_frozen(!this->circles[i].is_frozen());
 
-               if (this->draggable_circle = &this->circles[i])
+               if (this->draggable_circle == &this->circles[i])
                   this->draggable_circle = nullptr;
             }
 
