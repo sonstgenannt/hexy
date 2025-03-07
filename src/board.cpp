@@ -19,72 +19,75 @@ board::board(const Vector2& position, const unsigned int& board_size) : entity(p
 
 void board::poll_input_events() 
 {
-   for (int i = 0; i < this->max_circles; ++i) 
+   if (this->initialised)
    {
-      if ( this->circles[i].is_mouse_over() && !this->game_over ) 
+      for (int i = 0; i < this->max_circles; ++i) 
       {
-         this->hover_circle = &circles[i];
-         this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
-
-         if ( IsKeyPressed(KEY_F) ) 
+         if ( this->circles[i].is_mouse_over() && !this->game_over ) 
          {
-            this->circles[i].set_frozen(!this->circles[i].is_frozen());
+            this->hover_circle = &circles[i];
+            this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
-            if (this->draggable_circle = &this->circles[i])
+            if ( IsKeyPressed(KEY_F) ) 
+            {
+               this->circles[i].set_frozen(!this->circles[i].is_frozen());
+
+               if (this->draggable_circle = &this->circles[i])
+                  this->draggable_circle = nullptr;
+            }
+
+            if ( IsMouseButtonPressed(1) ) 
+            {
+               if ( !this->circles[i].is_frozen() ) 
+                  this->draggable_circle = &this->circles[i];
+            }
+            else if ( IsMouseButtonReleased(1) && this->draggable_circle != nullptr) 
+               draggable_circle = nullptr;
+
+            else if ( IsMouseButtonPressed(0) ) 
+            {
+               if ( this->line_source == nullptr ) 
+               {
+                  this->line_source = &this->circles[i];
+               }
+               else 
+               {
+                  if ( this->line_source != &this->circles[i] ) 
+                     this->line_target = &this->circles[i];
+                  else
+                     this->line_source = nullptr;
+               }
+
+               if ( is_move_valid(this->line_source, this->line_target ) )
+                  make_move(this->line_source, this->line_target, 5.0f);
+            }
+         }
+         else
+            this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
+
+         if ( &this->circles[i] != this->line_source ) 
+         {
+            if ( this->circles[i].is_frozen() ) 
+               this->circles[i].set_color(this->frozen_circle_color);
+            else
+               this->circles[i].set_color(this->default_circle_color);
+         }
+         else 
+         {
+            this->circles[i].set_color( this->player_colors[turn_idx] );
+         }
+
+
+         if (this->draggable_circle != nullptr) 
+         {
+            Vector2 mp = GetMousePosition();
+            float cr = draggable_circle->get_current_radius();
+
+            if ( ( mp.x > this->get_position().x ) && ( mp.x < this->get_position().x + this->board_size ) && ( mp.y > this->get_position().y ) && ( mp.y < this->get_position().y + this->board_size ) )
+               this->draggable_circle->set_position(GetMousePosition());
+            else
                this->draggable_circle = nullptr;
          }
-
-         if ( IsMouseButtonPressed(1) ) 
-         {
-            if ( !this->circles[i].is_frozen() ) 
-               this->draggable_circle = &this->circles[i];
-         }
-         else if ( IsMouseButtonReleased(1) && this->draggable_circle != nullptr) 
-            draggable_circle = nullptr;
-
-         else if ( IsMouseButtonPressed(0) ) 
-         {
-            if ( this->line_source == nullptr ) 
-            {
-               this->line_source = &this->circles[i];
-            }
-            else 
-            {
-               if ( this->line_source != &this->circles[i] ) 
-                  this->line_target = &this->circles[i];
-               else
-                  this->line_source = nullptr;
-            }
-
-            if ( is_move_valid(this->line_source, this->line_target ) )
-               make_move(this->line_source, this->line_target, 5.0f);
-         }
-      }
-      else
-         this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
-
-      if ( &this->circles[i] != this->line_source ) 
-      {
-         if ( this->circles[i].is_frozen() ) 
-            this->circles[i].set_color(this->frozen_circle_color);
-         else
-            this->circles[i].set_color(this->default_circle_color);
-      }
-      else 
-      {
-         this->circles[i].set_color( this->player_colors[turn_idx] );
-      }
-
-
-      if (this->draggable_circle != nullptr) 
-      {
-         Vector2 mp = GetMousePosition();
-         float cr = draggable_circle->get_current_radius();
-
-         if ( ( mp.x > this->get_position().x ) && ( mp.x < this->get_position().x + this->board_size ) && ( mp.y > this->get_position().y ) && ( mp.y < this->get_position().y + this->board_size ) )
-            this->draggable_circle->set_position(GetMousePosition());
-         else
-            this->draggable_circle = nullptr;
       }
    }
 

@@ -45,6 +45,10 @@ int main(void)
 
    bool mode_selector_edit = false;
 
+   //////////////////////////////////////////////////////////////////////////////
+   //// DATA LOADING (WIN/LOSS; RESOLUTION OPTIONS)
+   //////////////////////////////////////////////////////////////////////////////
+
    int wins = data_manager::load_storage_value(data_manager::storage_position::WINS_SIX);
 
    if (wins == -1)
@@ -61,20 +65,29 @@ int main(void)
       data_manager::save_storage_value(data_manager::storage_position::LOSSES_SIX, 0);
    }
 
-   // Here we load screen resolution information from the storage.data file into variables
-   // the 'sr_dd' in sr_dd_active_item stands for 'screen resolution drop down'
-   // This variable controls which resolution the user has selected in the drop down menu UI 
    data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
-   // Initialising board and ai objects for later use
+   //////////////////////////////////////////////////////////////////////////////
+   //// GAME OBJECT INITIALISATION
+   //////////////////////////////////////////////////////////////////////////////
+
    board b(Vector2(0,0), window_width);
    ai robot;
 
-   SetConfigFlags(FLAG_MSAA_4X_HINT); // Attempt to enable anti-aliasing 
-   InitWindow(window_width, window_height, VERSION_STR); // Create the window
-   SetWindowState(FLAG_WINDOW_RESIZABLE); // Set the window to be resizeable 
-   SetWindowMinSize(800, 800); // Specify window minimum size
-   SetWindowState(FLAG_VSYNC_HINT); // Enable VSync
+   //////////////////////////////////////////////////////////////////////////////
+   //// WINDOW INITIALISATION
+   //////////////////////////////////////////////////////////////////////////////
+   
+   SetConfigFlags(FLAG_MSAA_4X_HINT); 
+   InitWindow(window_width, window_height, VERSION_STR); 
+   SetWindowState(FLAG_WINDOW_RESIZABLE); 
+   SetWindowMinSize(800, 800); 
+   SetWindowState(FLAG_VSYNC_HINT); /
+   Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
+
+   //////////////////////////////////////////////////////////////////////////////
+   //// RECT BUTTON INITIALISATION
+   //////////////////////////////////////////////////////////////////////////////
 
    Image house = LoadImage("icons/home.png");
    if ( IsImageValid (house) ) 
@@ -86,12 +99,11 @@ int main(void)
    rb.set_hover_background_color(GREEN);
    rb.set_scale(0.5f);
 
-   // Calculate and store the centre of the window
-   Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
+   //////////////////////////////////////////////////////////////////////////////
+   //// FONT AND RAYGUI STYLE INITIALISATION
+   //////////////////////////////////////////////////////////////////////////////
 
    GuiLoadStyle("styles/cyber/style_cyber.rgs"); // Load style that is used for raygui 
-
-   // Loading font 
    Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0); 
 
    if (rockwell.texture.id == 0)
@@ -99,20 +111,27 @@ int main(void)
    else
       GuiSetFont(rockwell);
 
-   // Setting font style properties
    GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
    GuiSetStyle(DEFAULT, TEXT_SPACING, 2);
+
+   //////////////////////////////////////////////////////////////////////////////
+   //// MAIN LOOP BEGINS
+   //////////////////////////////////////////////////////////////////////////////
 
    while (!WindowShouldClose())    
    {
       ClearBackground(CYBER_BLUE);
-
       rb.update();
+      b.poll_input_events();
+
+      //////////////////////////////////////////////////////////////////////////////
+      //// HANDLING MAIN MENU UI
+      //////////////////////////////////////////////////////////////////////////////
+
       if (!b.get_game_started()) 
       {
          // Text labels
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
-
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 100, 250, 48}, "BOARD SIZE");
          GuiLabel((Rectangle){window_centre.x - 300, window_centre.y, 250, 48}, "OPPONENT");
@@ -148,7 +167,7 @@ int main(void)
             GuiLabel((Rectangle){window_centre.x - 100, window_centre.y + 100, 400, 48}, win_loss.c_str());
          }
 
-         if ( change_resolution) 
+         if (change_resolution) 
          {
             window_width = resolutions[sr_dd_active_item].first;
             window_height = resolutions[sr_dd_active_item].second;
@@ -166,48 +185,74 @@ int main(void)
          }
       }
 
-      if (b.get_game_started() && !b.get_initialised()) 
-      {
-         // If opponent is computer
-         if ( mode_selector_active_item == 0 )
-         {
-            b.set_ai_enabled(true);
-            player_idx = rand() % 2; // Randomly choose whether the player moves first or second
-         }
-         else
-         {
-            player_idx = -1;
-            b.set_ai_enabled(false);
-         }
+      //////////////////////////////////////////////////////////////////////////////
+      //// HANDLING GAME STARTED BEHAVIOUR
+      //////////////////////////////////////////////////////////////////////////////
 
-         b.set_color(CYBER_BLUE);
-         b.set_player_colors(player_colors);
-         b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(*val_ptr);
-         b.init_circles(300.0f, 30.0f);
+      if (b.get_game_started()) 
+      {
+         if (!b.get_initialised())
+         {
+            // If opponent is computer
+            if ( mode_selector_active_item == 0 )
+            {
+               b.set_ai_enabled(true);
+               player_idx = rand() % 2; // Randomly choose whether the player moves first or second
+            }
+            else
+            {
+               player_idx = -1;
+               b.set_ai_enabled(false);
+            }
+
+            b.set_color(CYBER_BLUE);
+            b.set_player_colors(player_colors);
+            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(*val_ptr);
+            b.init_circles(300.0f, 30.0f);
+         }
+         else 
+         {
+            if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
+               robot.make_move(b);
+
+
+            // If SPACE is pressed and the game is not yet over, we mark this game as a loss
+            if ( IsKeyPressed(KEY_SPACE) && b.is_game_over() )
+            {
+               b.reset_board();
+               updated_win_loss = false;
+               player_idx = rand() % 2;
+            }
+
+            // Horrible if statement -- essentially handles whether wins/losses should be written to file and updated
+            if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
+            {
+               if ( b.get_losing_player() == !player_idx )
+               {
+                  wins++;
+                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins);
+               }
+               else
+               {
+                  losses++;
+                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
+               }
+               updated_win_loss = true;
+            }
+         }
       }
 
       // Game has begun
       if (b.get_initialised()) 
       {
-
          if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
          {
             robot.make_move(b);
          }
 
-         b.poll_input_events();
-
          // If SPACE is pressed and the game is not yet over, we mark this game as a loss
          if ( IsKeyPressed(KEY_SPACE) && b.is_game_over() )
          {
-            /*
-            // If the game isn't over, the opponent is a computer, we're playing on a 6-vertex board, and at least two moves have been made
-            if (!b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6 && b.get_line_counter() > 1) 
-            {
-               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses + 1);
-               losses++;
-            }
-            */
             b.reset_board();
             updated_win_loss = false;
             player_idx = rand() % 2;
@@ -313,6 +358,11 @@ int main(void)
       }
       EndDrawing();
    }
+
+   //////////////////////////////////////////////////////////////////////////////
+   //// Main loop has ended
+   //////////////////////////////////////////////////////////////////////////////
+   
    UnloadFont(rockwell);
    CloseWindow();
    return 0;
