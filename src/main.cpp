@@ -132,9 +132,9 @@ int main(void)
       {
          // Text labels
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
-         GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
-         GuiLabel((Rectangle){window_centre.x - 300, window_centre.y - 100, 250, 48}, "BOARD SIZE");
-         GuiLabel((Rectangle){window_centre.x - 300, window_centre.y, 250, 48}, "OPPONENT");
+         GuiLabel((Rectangle){static_cast<float>(window_centre.x) - 300.0f, window_centre.y - 200, 250, 48}, "WINDOW SIZE");
+         GuiLabel((Rectangle){static_cast<float>(window_centre.x) - 300.0f, window_centre.y - 100, 250, 48}, "BOARD SIZE");
+         GuiLabel((Rectangle){static_cast<float>(window_centre.x) - 300.0f, window_centre.y, 250, 48}, "OPPONENT");
 
          // Have we been instructed to change the screen resolution
          change_resolution = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y - 200, 100, 48}, "Apply");
@@ -311,7 +311,7 @@ int main(void)
       }
 
       if ( show_warning_box )
-      warning_output = GuiMessageBox( (Rectangle) {(window_width / 2) - 300, (window_height / 2) - 150, 600, 300}, 
+      warning_output = GuiMessageBox( (Rectangle) {(static_cast<float>(window_width) / 2.0f) - 300.0f, (static_cast<float>(window_height) / 2.0f) - 150, 600, 300}, 
             "", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
             "Return to main menu;Continue playing");
       else
@@ -346,13 +346,13 @@ int main(void)
 
             if (player_idx == 0)
             {
-               DrawTextEx(rockwell, "you", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
-               DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "you", (Vector2){30, static_cast<float>(window_height) - 60.0f}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "ai", (Vector2){30, static_cast<float>(window_height) - 115.0f}, 24, 2.0f, RAYWHITE);
             }
             else if (player_idx == 1)
             {
-               DrawTextEx(rockwell, "ai", (Vector2){30, window_height - 60}, 24, 2.0f, RAYWHITE);
-               DrawTextEx(rockwell, "you", (Vector2){30, window_height - 115}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "ai", (Vector2){30, static_cast<float>(window_height) - 60.0f}, 24, 2.0f, RAYWHITE);
+               DrawTextEx(rockwell, "you", (Vector2){30, static_cast<float>(window_height) - 115.0f}, 24, 2.0f, RAYWHITE);
             }
          }
       }
