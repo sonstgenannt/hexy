@@ -17,7 +17,7 @@ board::board(const Vector2& position, const unsigned int& board_size) : entity(p
    this->board_size = board_size;
 }
 
-void board::poll_input_events() 
+void board::update() 
 {
    if (this->initialised)
    {

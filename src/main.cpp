@@ -82,7 +82,7 @@ int main(void)
    InitWindow(window_width, window_height, VERSION_STR); 
    SetWindowState(FLAG_WINDOW_RESIZABLE); 
    SetWindowMinSize(800, 800); 
-   SetWindowState(FLAG_VSYNC_HINT); /
+   SetWindowState(FLAG_VSYNC_HINT); 
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 
    //////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ int main(void)
    {
       ClearBackground(CYBER_BLUE);
       rb.update();
-      b.poll_input_events();
+      b.update();
 
       //////////////////////////////////////////////////////////////////////////////
       //// HANDLING MAIN MENU UI
