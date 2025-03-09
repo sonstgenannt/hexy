@@ -242,8 +242,9 @@ int main(void)
          }
       }
 
-      // This if statement handles whether the warning box pop-up should be shown to the player or not 
-      // when pressing M or the home button
+      //////////////////////////////////////////////////////////////////////////////
+      //// HANDLING RETURN TO MAIN MENU BEHAVIOUR
+      //////////////////////////////////////////////////////////////////////////////
       
       if ( (IsKeyPressed(KEY_M) || rb.get_activated() ) && b.get_game_started() )
       {
@@ -299,6 +300,10 @@ int main(void)
       else if ( warning_output == 2 )
          show_warning_box = false;
 
+      //////////////////////////////////////////////////////////////////////////////
+      //// DRAWING BEGINS
+      //////////////////////////////////////////////////////////////////////////////
+
       BeginDrawing();
 
       if (b.get_initialised() && !show_warning_box)
@@ -328,7 +333,7 @@ int main(void)
    }
 
    //////////////////////////////////////////////////////////////////////////////
-   //// Main loop has ended
+   //// MAIN LOOP ENDS; PERFORM CLEANUP
    //////////////////////////////////////////////////////////////////////////////
    
    UnloadFont(rockwell);
