@@ -242,41 +242,9 @@ int main(void)
          }
       }
 
-      // Game has begun
-      if (b.get_initialised()) 
-      {
-         if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
-         {
-            robot.make_move(b);
-         }
-
-         // If SPACE is pressed and the game is not yet over, we mark this game as a loss
-         if ( IsKeyPressed(KEY_SPACE) && b.is_game_over() )
-         {
-            b.reset_board();
-            updated_win_loss = false;
-            player_idx = rand() % 2;
-         }
-
-
-         // Horrible if statement -- essentially handles whether wins/losses should be written to file and updated
-         if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
-         {
-            if ( b.get_losing_player() == !player_idx )
-            {
-               wins++;
-               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins);
-            }
-            else
-            {
-               losses++;
-               data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
-            }
-            updated_win_loss = true;
-         }
-      }
       // This if statement handles whether the warning box pop-up should be shown to the player or not 
       // when pressing M or the home button
+      
       if ( (IsKeyPressed(KEY_M) || rb.get_activated() ) && b.get_game_started() )
       {
          // If the opponent is a human
