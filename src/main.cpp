@@ -48,19 +48,17 @@ int main(void)
    //// DATA LOADING (WIN/LOSS; RESOLUTION OPTIONS)
    //////////////////////////////////////////////////////////////////////////////
 
-   int wins = data_manager::load_storage_value(data_manager::storage_position::WINS_SIX);
+   std::pair<int, int> win_loss_data = data_manager::load_win_loss_data(selected_board_size);
 
-   if (wins == -1)
+   if (win_loss_data.first == -1)
    {
-      wins = 0;
+      win_loss_data.first = 0;
       data_manager::save_storage_value(data_manager::storage_position::WINS_SIX, 0);
    }
 
-   int losses = data_manager::load_storage_value(data_manager::storage_position::LOSSES_SIX);
-
-   if (losses == -1)
+   if (win_loss_data.second == -1)
    {
-      losses = 0;
+      win_loss_data.second = 0;
       data_manager::save_storage_value(data_manager::storage_position::LOSSES_SIX, 0);
    }
 
@@ -162,7 +160,7 @@ int main(void)
          if (selected_board_size == 6U && mode_selector_active_item == 0 && !mode_selector_edit)
          {
             // Win/loss
-            std::string win_loss = "WIN/LOSS: " + std::to_string(wins) + " - " + std::to_string(losses);
+            std::string win_loss = "WIN/LOSS: " + std::to_string(win_loss_data.first) + " - " + std::to_string(win_loss_data.second);
             GuiLabel((Rectangle){window_centre.x - 100, window_centre.y + 100, 400, 48}, win_loss.c_str());
          }
 
@@ -228,13 +226,13 @@ int main(void)
             {
                if ( b.get_losing_player() == !player_idx )
                {
-                  wins++;
-                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), wins);
+                  win_loss_data.first++;
+                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), win_loss_data.first);
                }
                else
                {
-                  losses++;
-                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
+                  win_loss_data.second++;
+                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), win_loss_data.second);
                }
                updated_win_loss = true;
             }
@@ -289,8 +287,8 @@ int main(void)
       {
          if ( !b.is_game_over() && mode_selector_active_item == 0 && selected_board_size == 6U)
          {
-            losses++;
-            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
+            win_loss_data.second++;
+            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), win_loss_data.second);
          }
          updated_win_loss = false;
          show_warning_box = false;

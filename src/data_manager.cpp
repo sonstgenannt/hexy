@@ -129,3 +129,11 @@ void data_manager::load_sr_config(unsigned int& window_width, unsigned int& wind
       data_manager::save_storage_value(data_manager::storage_position::SELECTED_RES, selected_item);
    }
 }
+
+std::pair<int, int> data_manager::load_win_loss_data(const unsigned int& board_size) 
+{
+   std::pair<int, int> win_loss_data(-1, -1);
+   win_loss_data.first = data_manager::load_storage_value( 2 * (board_size - 6U) );
+   win_loss_data.second = data_manager::load_storage_value( (2 * (board_size - 6U)) + 1 );
+   return win_loss_data;
+}

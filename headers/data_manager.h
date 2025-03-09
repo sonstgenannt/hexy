@@ -3,6 +3,7 @@
 #define STORAGE_DATA_FILE "storage.data"
 #include <stdlib.h>
 #include "raylib.h"
+#include <utility>
 
 class data_manager 
 { 
@@ -33,6 +34,9 @@ class data_manager
 
       static void save_sr_config(unsigned int window_width, unsigned int window_height, unsigned int selected_item);
       static void load_sr_config(unsigned int& window_width, unsigned int& window_height, int& selected_item);
+
+      static std::pair<int, int> load_win_loss_data(const unsigned int& board_size);
+
 };
 
 #endif
