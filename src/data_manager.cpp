@@ -29,8 +29,7 @@ bool data_manager::save_storage_value(unsigned int position, int value)
             // RL_REALLOC failed
             TraceLog(
                   LOG_WARNING, 
-                  "FILEIO: [%s] Failed to realloc data (%u), position in bytes (%u) bigger than actual file size", 
-                  STORAGE_DATA_FILE, data_size, 
+                  "FILEIO: [%s] Failed to realloc data (%u), position in bytes (%u) bigger than actual file size", STORAGE_DATA_FILE, data_size, 
                   position*sizeof(int));
 
             // We store the old size of the file
@@ -135,5 +134,18 @@ std::pair<int, int> data_manager::load_win_loss_data(const unsigned int& board_s
    std::pair<int, int> win_loss_data(-1, -1);
    win_loss_data.first = data_manager::load_storage_value( 2 * (board_size - 6U) );
    win_loss_data.second = data_manager::load_storage_value( (2 * (board_size - 6U)) + 1 );
+
+   if ( win_loss_data.first == -1 )
+   {
+      win_loss_data.first = 0;
+      data_manager::save_storage_value( (2 * (board_size - 6U) ), 0 );
+   }
+
+   if ( win_loss_data.second == -1 )
+   {
+      win_loss_data.second = 0;
+      data_manager::save_storage_value( (2 * (board_size - 6U) ) + 1, 0 );
+   }
+
    return win_loss_data;
 }

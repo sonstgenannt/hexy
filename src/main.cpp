@@ -50,18 +50,6 @@ int main(void)
 
    std::pair<int, int> win_loss_data = data_manager::load_win_loss_data(selected_board_size);
 
-   if (win_loss_data.first == -1)
-   {
-      win_loss_data.first = 0;
-      data_manager::save_storage_value(data_manager::storage_position::WINS_SIX, 0);
-   }
-
-   if (win_loss_data.second == -1)
-   {
-      win_loss_data.second = 0;
-      data_manager::save_storage_value(data_manager::storage_position::LOSSES_SIX, 0);
-   }
-
    data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
    //////////////////////////////////////////////////////////////////////////////
