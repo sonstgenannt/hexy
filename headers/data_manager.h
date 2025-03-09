@@ -10,9 +10,21 @@ class data_manager
       enum storage_position : unsigned int {
          WINS_SIX = 0,
          LOSSES_SIX = 1,
-         RES_X = 2,
-         RES_Y = 3,
-         SELECTED_RES = 4,
+         WINS_SEVEN = 2,
+         LOSSES_SEVEN = 3,
+         WINS_EIGHT = 4,
+         LOSSES_EIGHT = 5,
+         WINS_NINE = 6,
+         LOSSES_NINE = 7,
+         WINS_TEN = 8,
+         LOSSES_TEN = 9,
+         WINS_ELEVEN = 10,
+         LOSSES_ELEVEN = 11,
+         WINS_TWELVE = 12,
+         LOSSES_TWELVE = 13,
+         RES_X = 14,
+         RES_Y = 15,
+         SELECTED_RES = 16,
       };
 
       data_manager() = delete;
