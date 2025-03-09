@@ -25,8 +25,7 @@ const std::vector<std::pair<int, int>> resolutions =
    {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
 };
 
-int temp_val = 6;
-int* val_ptr = &temp_val;
+unsigned int selected_board_size = 6U;
 
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
@@ -156,11 +155,11 @@ int main(void)
                mode_selector_edit = !mode_selector_edit;
 
             // Board size selector
-            GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", val_ptr, 6, 12, false);
+            GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", (int*)&selected_board_size, 6, 12, false);
 
          }
 
-         if (*val_ptr == 6 && mode_selector_active_item == 0 && !mode_selector_edit)
+         if (selected_board_size == 6U && mode_selector_active_item == 0 && !mode_selector_edit)
          {
             // Win/loss
             std::string win_loss = "WIN/LOSS: " + std::to_string(wins) + " - " + std::to_string(losses);
@@ -207,7 +206,7 @@ int main(void)
 
             b.set_color(CYBER_BLUE);
             b.set_player_colors(player_colors);
-            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(*val_ptr);
+            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(selected_board_size);
             b.init_circles(300.0f, 30.0f);
          }
          else 
@@ -225,7 +224,7 @@ int main(void)
             }
 
             // Horrible if statement -- essentially handles whether wins/losses should be written to file and updated
-            if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && *val_ptr == 6)
+            if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && selected_board_size == 6U)
             {
                if ( b.get_losing_player() == !player_idx )
                {
@@ -288,7 +287,7 @@ int main(void)
 
       if ( show_warning_box && warning_output == 1 )
       {
-         if ( !b.is_game_over() && mode_selector_active_item == 0 && *val_ptr == 6)
+         if ( !b.is_game_over() && mode_selector_active_item == 0 && selected_board_size == 6U)
          {
             losses++;
             data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), losses);
