@@ -217,17 +217,17 @@ int main(void)
             }
 
             // Horrible if statement -- essentially handles whether wins/losses should be written to file and updated
-            if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss && selected_board_size == 6U)
+            if  ( mode_selector_active_item == 0 && b.get_losing_player() != -1 && !updated_win_loss )
             {
                if ( b.get_losing_player() == !player_idx )
                {
                   win_loss_data.first++;
-                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::WINS_SIX), win_loss_data.first);
+                  data_manager::save_storage_value(2U * (selected_board_size - 6U), win_loss_data.first);
                }
                else
                {
                   win_loss_data.second++;
-                  data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), win_loss_data.second);
+                  data_manager::save_storage_value( (2U * ( selected_board_size - 6U )) + 1U, win_loss_data.second);
                }
                updated_win_loss = true;
             }
@@ -280,10 +280,10 @@ int main(void)
 
       if ( show_warning_box && warning_output == 1 )
       {
-         if ( !b.is_game_over() && mode_selector_active_item == 0 && selected_board_size == 6U)
+         if ( !b.is_game_over() && mode_selector_active_item == 0 )
          {
             win_loss_data.second++;
-            data_manager::save_storage_value(static_cast<unsigned int>(data_manager::storage_position::LOSSES_SIX), win_loss_data.second);
+            data_manager::save_storage_value( (2U * ( selected_board_size - 6U )) + 1U, win_loss_data.second);
          }
          updated_win_loss = false;
          show_warning_box = false;
