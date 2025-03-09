@@ -81,8 +81,8 @@ int main(void)
    Texture2D house_texture = LoadTextureFromImage(house);
    UnloadImage(house);
 
-   rect_button rb ( Rectangle{ 0, 0, 128, 128}, Vector2 {0, 0}, CYBER_BASE, CYBER_LIGHT, house_texture);
-   rb.set_hover_background_color(GREEN);
+   rect_button rb ( Rectangle{ 0, 0, 128, 128}, Vector2 {0, 0}, CYBER_BLUE, CYBER_LIGHT, house_texture);
+   rb.set_hover_background_color(CYBER_BASE);
    rb.set_scale(0.5f);
 
    //////////////////////////////////////////////////////////////////////////////
