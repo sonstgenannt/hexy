@@ -189,7 +189,7 @@ int main(void)
       //// HANDLING GAME STARTED BEHAVIOUR
       //////////////////////////////////////////////////////////////////////////////
 
-      if (b.get_game_started()) 
+      else
       {
          if (!b.get_initialised())
          {
