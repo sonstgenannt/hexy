@@ -63,13 +63,18 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
    //// WINDOW INITIALISATION
    //////////////////////////////////////////////////////////////////////////////
+   ///
+   Image w_i = LoadImage("icons/window_icon.png");
    
    SetConfigFlags(FLAG_MSAA_4X_HINT); 
    InitWindow(window_width, window_height, VERSION_STR); 
    SetWindowState(FLAG_WINDOW_RESIZABLE); 
    SetWindowMinSize(800, 800); 
+   SetWindowIcon(w_i);
    SetWindowState(FLAG_VSYNC_HINT); 
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
+
+   UnloadImage(w_i);
 
    //////////////////////////////////////////////////////////////////////////////
    //// RECT BUTTON INITIALISATION
