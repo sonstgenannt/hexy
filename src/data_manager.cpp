@@ -1,5 +1,6 @@
 #include "../headers/data_manager.h"
 #include <iostream>
+#include <cstring>
 
 // Adapted from https://www.raylib.com/examples/core/loader.html?name=core_storage_values
 bool data_manager::save_storage_value(unsigned int position, int value)
@@ -21,6 +22,7 @@ bool data_manager::save_storage_value(unsigned int position, int value)
          if (new_file_data != NULL)
          {
             // RL_REALLOC succeded
+            memset(new_file_data, -1, new_data_size);
             int* data_ptr = (int*)new_file_data;
             data_ptr[position] = value;
          }

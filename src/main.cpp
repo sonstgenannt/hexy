@@ -26,6 +26,7 @@ const std::vector<std::pair<int, int>> resolutions =
 };
 
 unsigned int selected_board_size = 6U;
+unsigned int old_selected_board_size = selected_board_size;
 
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
@@ -143,9 +144,15 @@ int main(void)
             // Board size selector
             GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", (int*)&selected_board_size, 6, 12, false);
 
+            // If the user has selected a different board size
+            if ( selected_board_size != old_selected_board_size )
+            {
+               old_selected_board_size = selected_board_size;
+               win_loss_data = data_manager::load_win_loss_data( selected_board_size );
+            }
          }
 
-         if (selected_board_size == 6U && mode_selector_active_item == 0 && !mode_selector_edit)
+         if ( mode_selector_active_item == 0 && !mode_selector_edit )
          {
             // Win/loss
             std::string win_loss = "WIN/LOSS: " + std::to_string(win_loss_data.first) + " - " + std::to_string(win_loss_data.second);
