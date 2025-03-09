@@ -1,0 +1,23 @@
+MAINICON ICON "../icons/window_icon.ico"
+1 VERSIONINFO
+FILEVERSION 0,0,6
+PRODUCTVERSION 0,0,6
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4" // Language and codepage: US English, Unicode
+        BEGIN
+            VALUE "FileDescription", "Takaku by gjoa\0"
+            VALUE "FileVersion", "0.06\0"
+            VALUE "LegalCopyright", "Copyright 2025 James Russell Calvert\0"
+            VALUE "ProductName", "Takaku\0"
+            VALUE "ProductVersion", "0.06\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1252 // US English, ANSI codepage
+    END
+END
+
