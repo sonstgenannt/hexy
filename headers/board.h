@@ -39,7 +39,6 @@ class board : public entity {
 
       std::vector<circle> circles;
       std::vector<Color> player_colors;
-      std::vector<Vector2> circle_initial_positions;
 
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
@@ -57,6 +56,9 @@ class board : public entity {
       unsigned int get_size() const;
       void set_size(const unsigned int& size);
 
+      std::vector<Vector2> circle_initial_positions;
+
+      void place_circles(const std::vector<Vector2> positions);
       void return_circles_to_initial_positions();
       void make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness);
       bool simulate_move(circle*& circ_a, circle*& circ_b);

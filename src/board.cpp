@@ -203,12 +203,19 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
    this->initialised = true;
 }
 
+void board::place_circles(const std::vector<Vector2> positions)
+{
+	if ( this->circles.size() == positions.size() ) {
+		for ( int i = 0; i < max_circles; i++ ) {
+			if (!this->circles[i].is_frozen())
+				this->circles[i].set_position(positions[i]);
+		}
+	}
+}
+
 void board::return_circles_to_initial_positions() 
 {
-   for (int i = 0; i < max_circles; ++i) {
-      if (!this->circles[i].is_frozen())
-         this->circles[i].set_position(this->circle_initial_positions[i]);
-   }
+	this->place_circles(this->circle_initial_positions);
 }
 
 bool board::are_colors_equal(const Color& col_a, const Color& col_b) const 
