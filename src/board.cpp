@@ -203,7 +203,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
    this->initialised = true;
 }
 
-void board::place_circles(const std::vector<Vector2> positions)
+void board::move_circles_to(const std::vector<Vector2>& positions)
 {
 	if ( this->circles.size() == positions.size() ) {
 		for ( int i = 0; i < max_circles; i++ ) {
@@ -215,7 +215,7 @@ void board::place_circles(const std::vector<Vector2> positions)
 
 void board::return_circles_to_initial_positions() 
 {
-	this->place_circles(this->circle_initial_positions);
+	this->move_circles_to(this->circle_initial_positions);
 }
 
 bool board::are_colors_equal(const Color& col_a, const Color& col_b) const 

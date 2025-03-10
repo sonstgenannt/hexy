@@ -58,7 +58,7 @@ class board : public entity {
 
       std::vector<Vector2> circle_initial_positions;
 
-      void place_circles(const std::vector<Vector2> positions);
+      void move_circles_to(const std::vector<Vector2>& positions);
       void return_circles_to_initial_positions();
       void make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness);
       bool simulate_move(circle*& circ_a, circle*& circ_b);
