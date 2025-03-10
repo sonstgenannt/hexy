@@ -8,10 +8,15 @@ class rect_button
    private:
       Rectangle bounds;
       Vector2 position;
-      Color background_color = WHITE;
-      Color hover_background_color = WHITE;
-      Color current_color = WHITE;
+
+      Color background_color;
+      Color hover_background_color;
+      Color current_background_color;
+
       Color texture_color;
+      Color hover_texture_color;
+      Color current_texture_color;
+
       Texture2D icon_texture;
 
       float scale = 1.0f;
@@ -26,6 +31,7 @@ class rect_button
       void update();
 
       void set_hover_background_color(const Color& color);
+      void set_hover_texture_color(const Color& color);
       void set_scale(const float& f);
       bool get_activated() const;
 };
