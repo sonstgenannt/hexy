@@ -1,7 +1,7 @@
 #include "../headers/rect_button.h"
 #include <iostream>
 
-rect_button::rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture, const Vector2& icon_size)
+rect_button::rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, const Texture2D& icon_texture, const Vector2& icon_size)
 {
    this->size = size;
    this->position = position;
