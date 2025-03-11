@@ -31,7 +31,7 @@ class rect_button
       int segments = 10;
 
    public:
-      rect_button(const Vector2& size, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
+      rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
       void draw() const;
       void update();
 
