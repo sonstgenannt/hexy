@@ -8,6 +8,8 @@ class rect_button
    private:
       Vector2 size;
       Vector2 position;
+      Vector2 icon_size;
+
       Rectangle bounds;
 
       Color background_color;
@@ -22,6 +24,7 @@ class rect_button
 
       float scale = 1.0f;
       float rotation = 0.0f;
+      float rect_scale_multiplier = 1.0f;
 
       bool mouse_over = false;
       bool activated = false;
@@ -31,7 +34,7 @@ class rect_button
       int segments = 10;
 
    public:
-      rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
+      rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture, const Vector2& icon_size);
       void draw() const;
       void update();
 
@@ -44,6 +47,9 @@ class rect_button
 
       bool get_rounded() const;
       void set_rounded(const bool& b);
+
+      float get_rect_scale_multiplier() const;
+      void set_rect_scale_multiplier(const float& f);
 };
 
 #endif

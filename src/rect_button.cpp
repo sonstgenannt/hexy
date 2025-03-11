@@ -1,9 +1,11 @@
 #include "../headers/rect_button.h"
+#include <iostream>
 
-rect_button::rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture)
+rect_button::rect_button(const Vector2& position, const Vector2& size, const Color& background_color, const Color& texture_color, Texture2D& icon_texture, const Vector2& icon_size)
 {
    this->size = size;
    this->position = position;
+   this->icon_size = icon_size;
 
    this->bounds = Rectangle(position.x, position.y, size.x, size.y);
    this->background_color = background_color;
@@ -21,7 +23,8 @@ void rect_button::draw() const
    else
       DrawRectangleRounded(this->bounds, this->roundness, this->segments, this->current_background_color);
 
-   DrawTextureEx(this->icon_texture, position, this->rotation, this->scale, this->current_texture_color);
+   const Vector2 icon_position = Vector2(position.x + ( (bounds.width - icon_size.x) / 2.0f ), position.y + ( (bounds.height - icon_size.y) / 2.0f) );
+   DrawTextureEx(this->icon_texture, icon_position, this->rotation, this->scale, this->current_texture_color);
 }
 
 void rect_button::set_hover_background_color(const Color& color)
@@ -67,11 +70,24 @@ bool rect_button::get_rounded() const
 void rect_button::set_scale(const float& f)
 {
    this->scale = f;
-   const Rectangle new_bounds(this->bounds.x, this->bounds.y, this->bounds.width * scale, this->bounds.height * scale);
+   const Rectangle new_bounds(this->bounds.x, this->bounds.y, this->bounds.width * scale * this->rect_scale_multiplier, this->bounds.height * scale * rect_scale_multiplier);
    this->bounds = new_bounds;
+
+   this->icon_size.x *= f;
+   this->icon_size.y *= f;
 }
 
 void rect_button::set_rounded(const bool& b)
 {
    this->rounded = b;
+}
+
+float rect_button::get_rect_scale_multiplier() const
+{
+   return this->rect_scale_multiplier;
+}
+
+void rect_button::set_rect_scale_multiplier(const float& f)
+{
+   this->rect_scale_multiplier = f;
 }
