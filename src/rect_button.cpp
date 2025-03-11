@@ -14,7 +14,11 @@ rect_button::rect_button(const Rectangle& bounds, const Vector2& position, const
 
 void rect_button::draw() const
 {
-   DrawRectangleRec(this->bounds, this->current_background_color);
+   if (!rounded)
+      DrawRectangleRec(this->bounds, this->current_background_color);
+   else
+      DrawRectangleRounded(this->bounds, this->roundness, this->segments, this->current_background_color);
+
    DrawTextureEx(this->icon_texture, position, this->rotation, this->scale, this->current_texture_color);
 }
 
@@ -53,10 +57,19 @@ bool rect_button::get_activated() const
 {
    return this->activated;
 }
+bool rect_button::get_rounded() const
+{
+   return this->rounded;
+}
 
 void rect_button::set_scale(const float& f)
 {
    this->scale = f;
    const Rectangle new_bounds(this->bounds.x, this->bounds.y, this->bounds.width * scale, this->bounds.height * scale);
    this->bounds = new_bounds;
+}
+
+void rect_button::set_rounded(const bool& b)
+{
+   this->rounded = b;
 }

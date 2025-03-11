@@ -25,6 +25,10 @@ class rect_button
       bool mouse_over = false;
       bool activated = false;
 
+      bool rounded = false;
+      float roundness = 0.2f;
+      int segments = 10;
+
    public:
       rect_button(const Rectangle& bounds, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
       void draw() const;
@@ -32,8 +36,13 @@ class rect_button
 
       void set_hover_background_color(const Color& color);
       void set_hover_texture_color(const Color& color);
+
       void set_scale(const float& f);
+
       bool get_activated() const;
+
+      bool get_rounded() const;
+      void set_rounded(const bool& b);
 };
 
 #endif
