@@ -80,13 +80,13 @@ int main(void)
    //// RECT BUTTON INITIALISATION
    //////////////////////////////////////////////////////////////////////////////
 
-   Image house = LoadImage("icons/home.png");
-   if ( IsImageValid (house) ) 
+   Image door = LoadImage("icons/door.png");
+   if ( IsImageValid (door) ) 
       std::cout << "Loaded image successfully." << std::endl;
-   Texture2D house_texture = LoadTextureFromImage(house);
-   UnloadImage(house);
+   const Texture2D t = LoadTextureFromImage(door);
+   UnloadImage(door);
 
-   rect_button rb ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, house_texture, Vector2(128,128));
+   rect_button rb ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, t, Vector2(128,128));
    rb.set_hover_background_color(CYBER_BASE);
    rb.set_rounded(false);
    rb.set_rect_scale_multiplier(1.5f);
