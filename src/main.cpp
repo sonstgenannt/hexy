@@ -88,8 +88,8 @@ int main(void)
 
    rect_button rb ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, house_texture, Vector2(128,128));
    rb.set_hover_background_color(CYBER_BASE);
-   rb.set_rounded(true);
-   rb.set_rect_scale_multiplier(1.75f);
+   rb.set_rounded(false);
+   rb.set_rect_scale_multiplier(1.5f);
    rb.set_scale(0.5f);
 
    //////////////////////////////////////////////////////////////////////////////

@@ -18,10 +18,23 @@ rect_button::rect_button(const Vector2& position, const Vector2& size, const Col
 
 void rect_button::draw() const
 {
+   Color shadow = Color(this->current_background_color.r, this->current_background_color.g, this->current_background_color.b, 128);
+
+
    if (!rounded)
+   {
+      if (this->enable_shadow)
+         DrawRectangleRec(Rectangle(this->bounds.x + 5.0f, this->bounds.y + 5.0f, this->bounds.width, this->bounds.height), shadow);
+
       DrawRectangleRec(this->bounds, this->current_background_color);
+   }
    else
+   {
+      if (this->enable_shadow)
+         DrawRectangleRounded(Rectangle(this->bounds.x + 5.0f, this->bounds.y + 5.0f, this->bounds.width, this->bounds.height) , this->roundness, this->segments, shadow);
+
       DrawRectangleRounded(this->bounds, this->roundness, this->segments, this->current_background_color);
+   }
 
    const Vector2 icon_position = Vector2(position.x + ( (bounds.width - icon_size.x) / 2.0f ), position.y + ( (bounds.height - icon_size.y) / 2.0f) );
    DrawTextureEx(this->icon_texture, icon_position, this->rotation, this->scale, this->current_texture_color);
@@ -90,4 +103,14 @@ float rect_button::get_rect_scale_multiplier() const
 void rect_button::set_rect_scale_multiplier(const float& f)
 {
    this->rect_scale_multiplier = f;
+}
+
+bool rect_button::get_enable_shadow() const
+{
+   return this->enable_shadow;
+}
+
+void rect_button::set_enable_shadow(const bool& b)
+{
+   this->enable_shadow = b;
 }

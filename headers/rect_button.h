@@ -28,6 +28,7 @@ class rect_button
 
       bool mouse_over = false;
       bool activated = false;
+      bool enable_shadow = true;
 
       bool rounded = false;
       float roundness = 0.2f;
@@ -50,6 +51,9 @@ class rect_button
 
       float get_rect_scale_multiplier() const;
       void set_rect_scale_multiplier(const float& f);
+
+      bool get_enable_shadow() const;
+      void set_enable_shadow(const bool& b);
 };
 
 #endif
