@@ -1,9 +1,11 @@
 #include "../headers/rect_button.h"
 
-rect_button::rect_button(const Rectangle& bounds, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture)
+rect_button::rect_button(const Vector2& size, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture)
 {
-   this->bounds = bounds;
+   this->size = size;
    this->position = position;
+
+   this->bounds = Rectangle(position.x, position.y, size.x, size.y);
    this->background_color = background_color;
    this->texture_color = texture_color;
    this->icon_texture = icon_texture;

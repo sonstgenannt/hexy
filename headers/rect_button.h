@@ -6,8 +6,9 @@
 class rect_button 
 {
    private:
-      Rectangle bounds;
+      Vector2 size;
       Vector2 position;
+      Rectangle bounds;
 
       Color background_color;
       Color hover_background_color;
@@ -30,7 +31,7 @@ class rect_button
       int segments = 10;
 
    public:
-      rect_button(const Rectangle& bounds, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
+      rect_button(const Vector2& size, const Vector2& position, const Color& background_color, const Color& texture_color, Texture2D& icon_texture);
       void draw() const;
       void update();
 
