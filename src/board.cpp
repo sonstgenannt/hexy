@@ -164,7 +164,8 @@ void board::draw()
    if (std::get<0>( this->mono_tri_data) ) 
    {
       const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
-      const Color tri_color = std::get<2>(this->mono_tri_data);
+      Color tri_color = std::get<2>(this->mono_tri_data);
+      tri_color.a = 200;
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
       DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
    }
