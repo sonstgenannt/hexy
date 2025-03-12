@@ -70,5 +70,19 @@ bool circle::is_frozen() const
 
 void circle::draw() 
 {
+   if (this->enable_shadow)
+   {
+      Color c = Color( get_color().r, get_color().g, get_color().b, this->shadow_alpha );
+      DrawCircle( get_position().x + this->shadow_offset.x, get_position().y + this->shadow_offset.y, this->current_radius, c );
+   }
    DrawCircle(get_position().x, get_position().y, this->current_radius, get_color());
+}
+
+void circle::set_enable_shadow(const bool& b)
+{
+   this->enable_shadow = b;
+}
+bool circle::get_enable_shadow() const
+{
+   return this->enable_shadow;
 }

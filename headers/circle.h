@@ -6,12 +6,19 @@
 
 class line;
 
-class circle : public entity {
+class circle : public entity 
+{
    private:
       float initial_radius;
       float current_radius;
       float mouse_over_growth_mult;
-      bool frozen;
+
+      char shadow_alpha = 100;
+      Vector2 shadow_offset = Vector2(5.0f, 5.0f);
+
+      bool frozen = false;
+      bool enable_shadow = true;
+
       std::vector<line*> outgoing_lines;
 
    public:
@@ -35,6 +42,9 @@ class circle : public entity {
 
       bool is_frozen() const;
       void set_frozen(bool b);
+
+      void set_enable_shadow(const bool& b);
+      bool get_enable_shadow() const;
 
       void draw();
 };
