@@ -6,6 +6,7 @@ circle::circle(Vector2 position, float radius) : entity(position)
    this->initial_radius = radius;
    this->current_radius = radius;
    this->target_position = position;
+   this->target_radius = radius;
 }
 
 circle::circle() {}
@@ -96,4 +97,3 @@ void circle::set_target_position(const Vector2 v)
 void circle::update() 
 {
    set_position(Vector2Lerp(get_position(), this->target_position, 0.02f));
-}

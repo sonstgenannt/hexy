@@ -17,6 +17,7 @@ class circle : public entity
       Vector2 shadow_offset = Vector2(5.0f, 5.0f);
 
       Vector2 target_position;
+      float target_radius;
 
       bool frozen = false;
       bool enable_shadow = true;
