@@ -182,7 +182,6 @@ void board::draw()
 
 void board::init_circles(const float& poly_radius, const float& circle_radius) 
 {
-
    int centre_x = this->get_position().x + (this->board_size / 2); 
    int centre_y = this->get_position().y + (this->board_size / 2);
    double angle = (2.0f * 3.14159265358979323846) / (double)this->max_circles; 
