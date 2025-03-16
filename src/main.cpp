@@ -86,11 +86,11 @@ int main(void)
    const Texture2D t = LoadTextureFromImage(door);
    UnloadImage(door);
 
-   rect_button rb ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, t, Vector2(128,128));
-   rb.set_hover_background_color(CYBER_BASE);
-   rb.set_rounded(false);
-   rb.set_rect_scale_multiplier(1.5f);
-   rb.set_scale(0.5f);
+   rect_button home_button ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, t, Vector2(128,128));
+   home_button.set_hover_background_color(CYBER_BASE);
+   home_button.set_rounded(false);
+   home_button.set_rect_scale_multiplier(1.5f);
+   home_button.set_scale(0.5f);
 
    //////////////////////////////////////////////////////////////////////////////
    //// FONT AND RAYGUI STYLE INITIALISATION
@@ -114,7 +114,7 @@ int main(void)
    while (!WindowShouldClose())    
    {
       ClearBackground(CYBER_BLUE);
-      rb.update();
+      home_button.update();
       b.update();
 
       //////////////////////////////////////////////////////////////////////////////
@@ -245,7 +245,7 @@ int main(void)
       //// HANDLING RETURN TO MAIN MENU BEHAVIOUR
       //////////////////////////////////////////////////////////////////////////////
       
-      if ( (IsKeyPressed(KEY_M) || rb.get_activated() ) && b.get_game_started() )
+      if ( (IsKeyPressed(KEY_M) || home_button.get_activated() ) && b.get_game_started() )
       {
          // If the opponent is a human
          if ( mode_selector_active_item == 1 )
@@ -308,7 +308,7 @@ int main(void)
       if (b.get_initialised() && !show_warning_box)
       {
          b.draw();
-         rb.draw();
+         home_button.draw();
 
          if ( b.get_ai_enabled() )
          {
