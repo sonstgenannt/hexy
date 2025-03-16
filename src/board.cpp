@@ -393,6 +393,12 @@ bool board::get_initialised() const
    return this->initialised;
 }
 
+void board::thaw_circles()
+{
+   for ( auto c : this->circles )
+      c.set_frozen(false);
+}
+
 void board::reset_board() 
 {
    this->turn_idx = 0;

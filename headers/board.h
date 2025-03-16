@@ -67,6 +67,8 @@ class board : public entity {
       void set_frozen_circle_color(const Color& col);
       void set_source_circle_color(const Color& col);
 
+      void thaw_circles();
+
       void set_player_colors(const std::vector<Color>& player_colors);
       std::vector<Color> get_player_colors() const;
 
