@@ -93,7 +93,7 @@ void circle::set_target_position(const Vector2 v)
    this->target_position = v;
 }
 
-void circle::lerp() 
+void circle::update() 
 {
    set_position(Vector2Lerp(get_position(), this->target_position, 0.02f));
 }

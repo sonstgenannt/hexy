@@ -51,7 +51,7 @@ class circle : public entity
       bool get_enable_shadow() const;
 
       void draw();
-      void lerp();
+      void update();
 };
 
 #endif
