@@ -82,7 +82,6 @@ void board::update()
          if (this->draggable_circle != nullptr) 
          {
             Vector2 mp = GetMousePosition();
-            float cr = draggable_circle->get_current_radius();
 
             if ( ( mp.x > this->get_position().x ) && ( mp.x < this->get_position().x + this->board_size ) && ( mp.y > this->get_position().y ) && ( mp.y < this->get_position().y + this->board_size ) )
             {

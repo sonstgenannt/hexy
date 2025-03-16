@@ -24,15 +24,15 @@ class circle : public entity
 
       std::vector<line*> outgoing_lines;
 
+      void set_current_radius(float radius);
+      float get_current_radius() const;
+
    public:
       circle(Vector2 position, float radius);
       circle();
 
       void set_initial_radius(float radius);
       float get_initial_radius() const;
-
-      void set_current_radius(float radius);
-      float get_current_radius() const;
 
       void set_target_position(const Vector2 v);
       void set_target_radius(const float& f);
