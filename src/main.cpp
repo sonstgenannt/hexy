@@ -220,6 +220,9 @@ int main(void)
          }
          else 
          {
+            if ( arrows_button.get_activated() )
+               b.return_circles_to_initial_positions();
+
             if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
                robot.make_move(b);
 
