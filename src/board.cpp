@@ -1,4 +1,5 @@
 #include "../headers/board.h"
+#include "../headers/timer.h"
 #include <iostream>
 #include "raymath.h"
 

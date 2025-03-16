@@ -16,12 +16,12 @@ void timer::stop()
    this->running = false;
 }
 
-double time_elapsed()
+double timer::time_elapsed()
 {
-   if (running) 
+   if (this->running) 
    {
       auto end_time = std::chrono::high_resolution_clock::now();
-      return std::chrono::duration<double>(end_time - start_time).count();
+      return std::chrono::duration<double>(end_time - this->start_time).count();
    }
    return 0.0d;
 }
