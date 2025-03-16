@@ -81,15 +81,23 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
 
    Image door = LoadImage("icons/door.png");
-   if ( IsImageValid (door) ) 
-      std::cout << "Loaded image successfully." << std::endl;
+   Image arrows = LoadImage("icons/inward_arrows.png");
+   if ( IsImageValid (door) && IsImageValid(arrows)) 
+      std::cout << "Loaded images successfully." << std::endl;
    const Texture2D t = LoadTextureFromImage(door);
+   const Texture2D tt = LoadTextureFromImage(arrows);
    UnloadImage(door);
+   UnloadImage(arrows);
 
    rect_button home_button ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, t, Vector2(128,128));
+   rect_button arrows_button ( Vector2(128, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, tt, Vector2(128,128));
    home_button.set_hover_background_color(CYBER_BASE);
+   arrows_button.set_hover_background_color(CYBER_BASE);
+   arrows_button.set_rounded(false);
    home_button.set_rounded(false);
+   arrows_button.set_rect_scale_multiplier(1.5f);
    home_button.set_rect_scale_multiplier(1.5f);
+   arrows_button.set_scale(0.5f);
    home_button.set_scale(0.5f);
 
    //////////////////////////////////////////////////////////////////////////////
@@ -115,6 +123,7 @@ int main(void)
    {
       ClearBackground(CYBER_BLUE);
       home_button.update();
+      arrows_button.update();
       b.update();
 
       //////////////////////////////////////////////////////////////////////////////
@@ -309,6 +318,7 @@ int main(void)
       {
          b.draw();
          home_button.draw();
+         arrows_button.draw();
 
          if ( b.get_ai_enabled() )
          {
