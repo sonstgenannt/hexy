@@ -10,6 +10,9 @@ class line {
       Color color;
       float thickness;
 
+      Vector2 end;
+      float end_delta;
+
    public:
       line(circle* source, circle* target);
       line(circle* source, circle* target, const Color& color);
@@ -27,6 +30,7 @@ class line {
       void set_thickness(const float& thickness);
       float get_thickness() const;
 
+      void update();
       void draw() const;
 
       ~line() = default;

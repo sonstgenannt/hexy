@@ -1,4 +1,5 @@
 #include "../headers/line.h"
+#include "raymath.h"
 
 line::line(circle* source, circle* target) 
 {
@@ -66,7 +67,13 @@ float line::get_thickness() const
    return this->thickness;
 }
 
+void line::update()
+{
+   this->end = Vector2Lerp(this->source->get_position(), this->target->get_position(), end_delta);
+   if ( this->end_delta < 1.0f)
+      this->end_delta += 0.02f;
+}
 void line::draw() const 
 {
-   DrawLineEx(this->source->get_position(), this->target->get_position(), this->thickness, this->color);
+   DrawLineEx(this->source->get_position(), this->end, this->thickness, this->color);
 }
