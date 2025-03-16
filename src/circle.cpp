@@ -1,9 +1,11 @@
 #include "../headers/circle.h"
+#include "raymath.h"
 
 circle::circle(Vector2 position, float radius) : entity(position) 
 {
    this->initial_radius = radius;
    this->current_radius = radius;
+   this->target_position = position;
 }
 
 circle::circle() {}
@@ -85,4 +87,13 @@ void circle::set_enable_shadow(const bool& b)
 bool circle::get_enable_shadow() const
 {
    return this->enable_shadow;
+}
+void circle::set_target_position(const Vector2 v)
+{
+   this->target_position = v;
+}
+
+void circle::lerp() 
+{
+   set_position(Vector2Lerp(get_position(), this->target_position, 0.02f));
 }

@@ -16,6 +16,8 @@ class circle : public entity
       char shadow_alpha = 100;
       Vector2 shadow_offset = Vector2(5.0f, 5.0f);
 
+      Vector2 target_position;
+
       bool frozen = false;
       bool enable_shadow = true;
 
@@ -30,6 +32,8 @@ class circle : public entity
 
       void set_current_radius(float radius);
       float get_current_radius() const;
+
+      void set_target_position(const Vector2 v);
 
       void add_outgoing_line(line* outgoing_lines);
       std::vector<line*> get_outgoing_lines() const;
@@ -47,6 +51,7 @@ class circle : public entity
       bool get_enable_shadow() const;
 
       void draw();
+      void lerp();
 };
 
 #endif

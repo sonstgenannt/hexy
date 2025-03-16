@@ -23,6 +23,7 @@ void board::update()
    {
       for (int i = 0; i < this->max_circles; ++i) 
       {
+         circles[i].lerp();
          if ( this->circles[i].is_mouse_over() && !this->game_over ) 
          {
             this->hover_circle = &circles[i];
@@ -84,7 +85,10 @@ void board::update()
             float cr = draggable_circle->get_current_radius();
 
             if ( ( mp.x > this->get_position().x ) && ( mp.x < this->get_position().x + this->board_size ) && ( mp.y > this->get_position().y ) && ( mp.y < this->get_position().y + this->board_size ) )
+            {
                this->draggable_circle->set_position(GetMousePosition());
+               this->draggable_circle->set_target_position(GetMousePosition());
+            }
             else
                this->draggable_circle = nullptr;
          }
@@ -192,7 +196,8 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
 
       // We are safe to cast x and y to floats since we do not expect them to be larger than 2^24.
       this->circle_initial_positions.push_back(Vector2{ static_cast<float>(x), static_cast<float>(y) });
-      c.set_position(Vector2{ static_cast<float>(x), static_cast<float>(y)});
+      c.set_target_position(Vector2{ static_cast<float>(x), static_cast<float>(y)});
+      c.set_position(Vector2{ static_cast<float>(centre_x), static_cast<float>(centre_y)});
       c.set_current_radius(circle_radius);
       c.set_initial_radius(circle_radius);
       c.set_mouse_over_growth_mult(this->circle_growth_mult);
@@ -209,7 +214,7 @@ void board::move_circles_to(const std::vector<Vector2>& positions)
 	if ( this->circles.size() == positions.size() ) {
 		for ( int i = 0; i < max_circles; i++ ) {
 			if (!this->circles[i].is_frozen())
-				this->circles[i].set_position(positions[i]);
+				this->circles[i].set_target_position(positions[i]);
 		}
 	}
 }
