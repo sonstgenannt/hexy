@@ -16,7 +16,7 @@ void timer::stop()
    this->running = false;
 }
 
-double timer::time_elapsed()
+double timer::time_elapsed() const
 {
    if (this->running) 
    {

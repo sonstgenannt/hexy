@@ -13,6 +13,6 @@ class timer
 
       void start();
       void stop();
-      double time_elapsed();
+      double time_elapsed() const;
 };
 #endif

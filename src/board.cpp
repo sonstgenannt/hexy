@@ -1,5 +1,4 @@
 #include "../headers/board.h"
-#include "../headers/timer.h"
 #include <iostream>
 #include "raymath.h"
 
@@ -133,6 +132,8 @@ void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickn
    }
    else
       this->turn_idx = ( 1 + this->turn_idx ) % this->total_players;
+
+   this->_timer.start();
 }
 
 void board::draw() 
@@ -205,6 +206,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
 
       this->circles.push_back(c);
    }
+   this->_timer.start();
    this->initialised = true;
 }
 
@@ -399,6 +401,10 @@ void board::thaw_circles()
    for ( auto c : this->circles )
       c.set_frozen(false);
 }
+double board::get_time_since_last_move() const
+{
+   return this->_timer.time_elapsed();
+}
 
 void board::reset_board() 
 {
@@ -411,6 +417,7 @@ void board::reset_board()
    this->game_over = false;
    this->losing_player = -1;
    this->mono_tri_data = std::make_tuple(false, std::vector<circle*>{}, BLACK);
+   this->_timer.start();
 
    for (size_t i = 0; i < this->circles.size(); ++i)
       this->circles[i].kill_outgoing_lines();

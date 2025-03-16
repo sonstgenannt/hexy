@@ -1,6 +1,7 @@
 #ifndef BOARD
 #define BOARD
 #include "line.h"
+#include "../headers/timer.h"
 #include <vector>
 #include <cmath>
 #include <utility>
@@ -17,6 +18,7 @@ class board : public entity {
       unsigned int line_counter = 0;
 
       int losing_player = -1;
+      timer _timer {false};
 
       Color default_circle_color = BLACK;
       Color frozen_circle_color = PURPLE;
@@ -80,6 +82,8 @@ class board : public entity {
       Color get_default_circle_color() const;
       Color get_frozen_circle_color() const;
       Color get_source_circle_color() const;
+
+      double get_time_since_last_move() const;
 
       std::vector<circle>& get_circles();
 
