@@ -198,7 +198,6 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
       this->circle_initial_positions.push_back(Vector2{ static_cast<float>(x), static_cast<float>(y) });
       c.set_target_position(Vector2{ static_cast<float>(x), static_cast<float>(y)});
       c.set_position(Vector2{ static_cast<float>(centre_x), static_cast<float>(centre_y)});
-      c.set_current_radius(circle_radius);
       c.set_initial_radius(circle_radius);
       c.set_mouse_over_growth_mult(this->circle_growth_mult);
       c.set_color(this->default_circle_color);
