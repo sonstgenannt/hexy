@@ -35,6 +35,7 @@ class circle : public entity
       float get_current_radius() const;
 
       void set_target_position(const Vector2 v);
+      void set_target_radius(const float& f);
 
       void add_outgoing_line(line* outgoing_lines);
       std::vector<line*> get_outgoing_lines() const;

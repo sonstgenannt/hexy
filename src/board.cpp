@@ -27,7 +27,7 @@ void board::update()
          if ( this->circles[i].is_mouse_over() && !this->game_over ) 
          {
             this->hover_circle = &circles[i];
-            this->circles[i].set_current_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
+            this->circles[i].set_target_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
 
             if ( IsKeyPressed(KEY_F) ) 
             {
@@ -64,7 +64,7 @@ void board::update()
             }
          }
          else
-            this->circles[i].set_current_radius(this->circles[i].get_initial_radius());
+            this->circles[i].set_target_radius(this->circles[i].get_initial_radius());
 
          if ( &this->circles[i] != this->line_source ) 
          {

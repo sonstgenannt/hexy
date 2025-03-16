@@ -93,7 +93,13 @@ void circle::set_target_position(const Vector2 v)
 {
    this->target_position = v;
 }
+void circle::set_target_radius(const float& f)
+{
+   this->target_radius = f;
+}
 
 void circle::update() 
 {
    set_position(Vector2Lerp(get_position(), this->target_position, 0.02f));
+   set_current_radius(Lerp(get_current_radius(), this->target_radius, 0.1f));
+}
