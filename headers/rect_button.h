@@ -1,7 +1,7 @@
 #ifndef RECT_BUTTON
 #define RECT_BUTTON
 
-#include "raylib.h"
+#include "../include/raylib.h"
 
 class rect_button 
 {

@@ -1,7 +1,7 @@
 #ifndef ENTITY
 #define ENTITY
 
-#include "raylib.h"
+#include "../include/raylib.h"
 
 class entity {
    private:
