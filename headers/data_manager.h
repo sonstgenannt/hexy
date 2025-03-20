@@ -2,7 +2,7 @@
 #define DATA_MANAGER
 #define STORAGE_DATA_FILE "storage.data"
 #include <stdlib.h>
-#include "raylib.h"
+#include "../include/raylib.h"
 #include <utility>
 
 class data_manager 
