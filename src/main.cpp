@@ -227,7 +227,7 @@ int main(void)
             {
                float loading_f = b.get_time_since_last_move();
                float think_time = 1.0f;
-               GuiProgressBar(Rectangle((static_cast<float>(window_width) / 2.0f) - 150, static_cast<float>(window_height) - 75.0f, 300, 50), "ai is thinking...", "", &loading_f, 0.0d, think_tim);
+               GuiProgressBar(Rectangle((static_cast<float>(window_width) / 2.0f) - 150, static_cast<float>(window_height) - 75.0f, 300, 50), "ai is thinking...", "", &loading_f, 0.0d, think_time);
                if (b.get_time_since_last_move() > think_time)
                   robot.make_move(b);
             }
