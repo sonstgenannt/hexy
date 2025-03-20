@@ -226,8 +226,9 @@ int main(void)
             if ( b.get_ai_enabled() && !b.is_game_over() && b.get_turn_idx() == !player_idx )
             {
                float loading_f = b.get_time_since_last_move();
-               GuiProgressBar(Rectangle((static_cast<float>(window_width) / 2.0f) - 150, static_cast<float>(window_height) - 75.0f, 300, 50), "ai is thinking...", "", &loading_f, 0.0d, 2.0d);
-               if (b.get_time_since_last_move() > 2.0d)
+               float think_time = 1.0f;
+               GuiProgressBar(Rectangle((static_cast<float>(window_width) / 2.0f) - 150, static_cast<float>(window_height) - 75.0f, 300, 50), "ai is thinking...", "", &loading_f, 0.0d, think_tim);
+               if (b.get_time_since_last_move() > think_time)
                   robot.make_move(b);
             }
 
