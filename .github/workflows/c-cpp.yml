@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Run on Linux (Ubuntu)
 
 on:
   push:
@@ -8,10 +8,27 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Check out the repository
     - uses: actions/checkout@v4
-    - name: make
+
+    # Step 2: Install raylib dependencies
+    - name: Install raylib dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+
+    # Step 3: Install raylib
+    - name: Install raylib
+      run: |
+        git clone https://github.com/raysan5/raylib.git
+        cd raylib/src
+        make PLATFORM=PLATFORM_DESKTOP
+        sudo make install
+
+    # Step 4: Build the project using Makefile
+    - name: Build the project
       run: make linux
+
