@@ -1,5 +1,5 @@
 #include "../headers/line.h"
-#include "raymath.h"
+#include "../include/raymath.h"
 
 line::line(circle* source, circle* target) 
 {

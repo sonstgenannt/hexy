@@ -1,6 +1,6 @@
 #include "../headers/board.h"
 #include <iostream>
-#include "raymath.h"
+#include "../include/raymath.h"
 
 board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors ) : entity(position) 
 {

@@ -1,5 +1,5 @@
 #include "../headers/circle.h"
-#include "raymath.h"
+#include "../include/raymath.h"
 
 circle::circle(Vector2 position, float radius) : entity(position) 
 {
