@@ -17,7 +17,9 @@ jobs:
       id: cache-raylib
       uses: actions/cache@v3
       with:
-        path: /usr/local/lib/libraylib.so
+        path: |
+          /usr/local/lib/libraylib*
+          /usr/local/include/raylib.h
         key: ${{ runner.os }}-raylib-${{ hashFiles('**/raylib/src/**') }}
 
     - name: Install raylib dependencies
@@ -33,6 +35,11 @@ jobs:
         cd raylib/src
         make PLATFORM=PLATFORM_DESKTOP
         sudo make install
+
+    - name: Verify raylib installation
+      run: |
+        ls -l /usr/local/lib/libraylib*
+        ls -l /usr/local/include/raylib.h
 
     - name: Build the project
       run: make linux
