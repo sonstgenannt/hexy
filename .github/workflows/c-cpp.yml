@@ -17,10 +17,15 @@ jobs:
       id: cache-raylib
       uses: actions/cache@v3
       with:
-        path: |
-          /usr/local/lib/libraylib*
-          /usr/local/include/raylib.h
+        path: ${{ github.workspace }}/raylib-cache
         key: ${{ runner.os }}-raylib-${{ hashFiles('**/raylib/src/**') }}
+
+    - name: Copy raylib files if cache hit
+      if: steps.cache-raylib.outputs.cache-hit == 'true'
+      run: |
+        sudo mkdir -p /usr/local/lib /usr/local/include
+        sudo cp ${{ github.workspace }}/raylib-cache/lib/* /usr/local/lib/
+        sudo cp ${{ github.workspace }}/raylib-cache/include/* /usr/local/include/
 
     - name: Install raylib dependencies
       if: steps.cache-raylib.outputs.cache-hit != 'true'
@@ -34,6 +39,7 @@ jobs:
         git clone https://github.com/raysan5/raylib.git
         cd raylib/src
         make PLATFORM=PLATFORM_DESKTOP
+        make install RAYLIB_INSTALL_PATH="${{ github.workspace }}/raylib-cache"
         sudo make install
 
     - name: Verify raylib installation
