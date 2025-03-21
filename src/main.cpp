@@ -1,7 +1,5 @@
 #define RAYGUI_IMPLEMENTATION
-#define RAYGUI_SUPPORT_ICONS
 #include "../include/raygui.h"
-
 #include "../headers/board.h"
 #include "../headers/ai.h"
 #include "../headers/data_manager.h"
