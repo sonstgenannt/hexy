@@ -1,4 +1,4 @@
-VERSION = 0.06
+VERSION = 0.07
 
 CXX_LINUX = g++
 CXX_WINDOWS = x86_64-w64-mingw32-g++

@@ -29,7 +29,7 @@ unsigned int old_selected_board_size = selected_board_size;
 bool change_resolution = false;
 bool player_idx = -1; // Controls whether the player makes the first move or not in vs AI mode
 
-const char* VERSION_STR = "takaku v0.06";
+const char* VERSION_STR = "takaku v0.07";
 
 int main(void)
 {
