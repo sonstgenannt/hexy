@@ -38,6 +38,7 @@ class board : public entity {
       bool only_show_hover_lines = false;
       bool ai_enabled = false;
       bool initialised = false;
+      bool player_idx;
 
       std::vector<circle> circles;
       std::vector<Color> player_colors;
@@ -103,6 +104,9 @@ class board : public entity {
 
       void reset_board();
       void kill_board();
+
+      void set_player_idx(const bool& b);
+      bool get_player_idx() const;
 
       std::tuple<bool, std::vector<circle*>, Color> contains_monochromatic_triangle();
 };

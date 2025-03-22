@@ -24,7 +24,7 @@ void board::update()
       for (int i = 0; i < this->max_circles; ++i) 
       {
          circles[i].update();
-         if ( this->circles[i].is_mouse_over() && !this->game_over ) 
+         if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx) ) 
          {
             this->hover_circle = &circles[i];
             this->circles[i].set_target_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
@@ -404,6 +404,14 @@ void board::thaw_circles()
 double board::get_time_since_last_move() const
 {
    return this->_timer.time_elapsed();
+}
+void board::set_player_idx(const bool& b)
+{
+   this->player_idx = b;
+}
+bool board::get_player_idx() const
+{
+   return this->player_idx;
 }
 
 void board::reset_board() 
