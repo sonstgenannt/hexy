@@ -291,6 +291,18 @@ int main(void)
          }
       }
 
+      // Handle displaying game over text
+      if ( b.is_game_over() )
+      {
+         std::string text = "";
+         if ( b.get_player_idx() != b.get_losing_player() ) 
+            text = "Victory!";
+         else
+            text = "Defeat!";
+         text += " Press SPACE to play again.";
+         GuiTextBox( Rectangle((window_width / 2) - 200, window_height - 100, 400, 48), text.data(), 24, 0 );
+      }
+
       if ( show_warning_box )
       warning_output = GuiMessageBox( (Rectangle) {(static_cast<float>(window_width) / 2.0f) - 300.0f, (static_cast<float>(window_height) / 2.0f) - 150, 600, 300}, 
             "", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
