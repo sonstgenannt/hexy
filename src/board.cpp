@@ -24,7 +24,7 @@ void board::update()
       for (int i = 0; i < this->max_circles; ++i) 
       {
          circles[i].update();
-         if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx) ) 
+         if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx || !this->ai_enabled) ) 
          {
             this->hover_circle = &circles[i];
             this->circles[i].set_target_radius(this->circles[i].get_mouse_over_growth_mult() * this->circles[i].get_initial_radius());
