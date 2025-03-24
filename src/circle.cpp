@@ -98,8 +98,8 @@ void circle::set_target_radius(const float& f)
    this->target_radius = f;
 }
 
-void circle::update() 
+void circle::update(const float& delta) 
 {
-   set_position(Vector2Lerp(get_position(), this->target_position, 0.02f));
-   set_current_radius(Lerp(get_current_radius(), this->target_radius, 0.1f));
+   set_position(Vector2Lerp(get_position(), this->target_position, 5.0f * delta));
+   set_current_radius(Lerp(get_current_radius(), this->target_radius, 10.0f * delta));
 }

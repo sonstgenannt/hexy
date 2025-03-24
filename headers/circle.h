@@ -53,7 +53,7 @@ class circle : public entity
       bool get_enable_shadow() const;
 
       void draw();
-      void update();
+      void update(const float& delta);
 };
 
 #endif

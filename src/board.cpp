@@ -23,7 +23,7 @@ void board::update()
    {
       for (int i = 0; i < this->max_circles; ++i) 
       {
-         circles[i].update();
+         circles[i].update(GetFrameTime());
          if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx || !this->ai_enabled) ) 
          {
             this->hover_circle = &circles[i];
