@@ -155,6 +155,11 @@ void board::draw()
    }
    */
 
+   for (int i = 0; i < this->circles.size(); ++i) 
+   {
+      circles[i].draw_shadow();
+   }
+
    if ( !this->lines.empty() ) 
    {
       for (int i = 0; i < this->line_counter; ++i) 
@@ -175,6 +180,7 @@ void board::draw()
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
       DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
    }
+
 
    for (int i = 0; i < this->circles.size(); ++i) 
    {
