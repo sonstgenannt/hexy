@@ -67,11 +67,13 @@ float line::get_thickness() const
    return this->thickness;
 }
 
-void line::update()
+void line::update(const float& delta)
 {
    this->end = Vector2Lerp(this->source->get_position(), this->target->get_position(), end_delta);
    if ( this->end_delta < 1.0f)
-      this->end_delta += 0.02f;
+      this->end_delta += (5.0f * delta);
+
+   this->end_delta = Clamp(this->end_delta, 0.0f, 1.0f);
 }
 void line::draw() const 
 {

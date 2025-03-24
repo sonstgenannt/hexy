@@ -161,7 +161,7 @@ void board::draw()
       {
          if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) 
          {
-            lines[i].update();
+            lines[i].update(GetFrameTime());
             lines[i].draw();
          }
       }

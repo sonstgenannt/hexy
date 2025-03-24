@@ -30,7 +30,7 @@ class line {
       void set_thickness(const float& thickness);
       float get_thickness() const;
 
-      void update();
+      void update(const float& delta);
       void draw() const;
 
       ~line() = default;
