@@ -10,6 +10,7 @@ WINDOWS_LIB = /usr/x86_64-w64-mingw32/lib
 # Compiler flags
 CXXFLAGS_COMMON = -std=c++20 -Os -flto
 CXXFLAGS_LINUX = -fsanitize=address $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
+CXXFLAGS_LINUX_NO_SANITIZE = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
 CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 
 # Source files
@@ -26,6 +27,10 @@ all: linux windows
 linux: $(SOURCES)
 	$(CXX_LINUX) $(CXXFLAGS_LINUX) -o $(OUTPUT_LINUX) $(SOURCES) -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
+# Linux build without sanitizer
+linuxns: $(SOURCES)
+	$(CXX_LINUX) $(CXXFLAGS_LINUX_NO_SANITIZE) -o $(OUTPUT_LINUX) $(SOURCES) -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+
 # Windows build
 windows: $(SOURCES)
 	$(CXX_WINDOWS) $(CXXFLAGS_WINDOWS) -o $(OUTPUT_WINDOWS) $(SOURCES) windows_resources/resources.o -L$(WINDOWS_LIB) -lraylib -lopengl32 -lgdi32 -lwinmm -mwindows -lkernel32 -luser32 -lshell32 -lws2_32 -s
@@ -36,6 +41,7 @@ run: $(OUTPUT_LINUX)
 
 # Clean up
 clean:
-	rm -f $(OUTPUT_LINUX) $(OUTPUT_WINDOWS)
+	rm -f $(OUTPUT_LINUX) $(OUTPUT_WINDOWS) $(OUTPUT_LINUX)_no_sanitize
 
-.PHONY: all linux windows run clean
+.PHONY: all linux windows linux-no-sanitize run clean
+
