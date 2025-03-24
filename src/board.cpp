@@ -10,11 +10,32 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->max_circles = max_circles;
 
    this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2; 
+
+   /*
+   const bool success = this->init_triangle_shader();
+   if ( success )
+      std::cout << "triangle_shader loaded successfully" << std::endl;
+   else
+      std::cout << "SHADER ERROR: triangle_shader was not loaded successfully" << std::endl;
+      */
 }
 
 board::board(const Vector2& position, const unsigned int& board_size) : entity(position) 
 {
    this->board_size = board_size;
+
+   /*
+   const bool success = this->init_triangle_shader();
+   if ( success )
+      std::cout << "triangle_shader loaded successfully" << std::endl;
+   else
+      std::cout << "SHADER ERROR: triangle_shader was not loaded successfully" << std::endl;
+      */
+}
+
+board::~board()
+{
+   UnloadShader(this->triangle_shader);
 }
 
 void board::update(const float& delta) 
@@ -177,8 +198,13 @@ void board::draw()
       const std::vector<circle*> tri_verts = std::get<1>(this->mono_tri_data);
       Color tri_color = std::get<2>(this->mono_tri_data);
       tri_color.a = 200;
+
+      //BeginShaderMode(this->triangle_shader);
+
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
       DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
+
+      //EndShaderMode();
    }
 
 
@@ -407,17 +433,32 @@ void board::thaw_circles()
    for ( auto c : this->circles )
       c.set_frozen(false);
 }
+
 double board::get_time_since_last_move() const
 {
    return this->_timer.time_elapsed();
 }
+
 void board::set_player_idx(const bool& b)
 {
    this->player_idx = b;
 }
+
 bool board::get_player_idx() const
 {
    return this->player_idx;
+}
+
+bool board::init_triangle_shader() 
+{
+   this->triangle_shader = LoadShader("shaders/reveal_triangle.vert", "shaders/reveal_triangle.frag");
+   std::cout << this->triangle_shader.id << std::endl;
+   if ( IsShaderValid(this->triangle_shader) )
+   {
+      //this->time_uniform_loc = GetShaderLocation(this->triangle_shader, "time");
+      return true;
+   }
+   return false;
 }
 
 void board::reset_board() 

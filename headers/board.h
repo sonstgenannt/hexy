@@ -18,6 +18,8 @@ class board : public entity {
       unsigned int line_counter = 0;
 
       int losing_player = -1;
+      int time_uniform_loc;
+
       timer _timer {false};
 
       Color default_circle_color = BLACK;
@@ -40,16 +42,21 @@ class board : public entity {
       bool initialised = false;
       bool player_idx;
 
+      Shader triangle_shader;
+
       std::vector<circle> circles;
       std::vector<Color> player_colors;
 
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
 
+      bool init_triangle_shader();
+
    public:
       std::vector<line> lines;
       board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
       board(const Vector2& position, const unsigned int& board_size);
+      ~board();
 
       void update(const float& delta);
       void draw();
