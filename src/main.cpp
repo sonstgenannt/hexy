@@ -121,7 +121,7 @@ int main(void)
       ClearBackground(CYBER_BLUE);
       home_button.update();
       arrows_button.update();
-      b.update();
+      b.update(GetFrameTime());
 
       //////////////////////////////////////////////////////////////////////////////
       //// HANDLING MAIN MENU UI

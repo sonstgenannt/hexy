@@ -51,7 +51,7 @@ class board : public entity {
       board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
       board(const Vector2& position, const unsigned int& board_size);
 
-      void update();
+      void update(const float& delta);
       void draw();
 
       void init_circles(const float& poly_radius, const float& circle_radius);

@@ -17,13 +17,13 @@ board::board(const Vector2& position, const unsigned int& board_size) : entity(p
    this->board_size = board_size;
 }
 
-void board::update() 
+void board::update(const float& delta) 
 {
    if (this->initialised)
    {
       for (int i = 0; i < this->max_circles; ++i) 
       {
-         circles[i].update(GetFrameTime());
+         circles[i].update(delta);
          if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx || !this->ai_enabled) ) 
          {
             this->hover_circle = &circles[i];
