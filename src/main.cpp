@@ -28,7 +28,7 @@ unsigned int old_selected_board_size = selected_board_size;
 
 bool change_resolution = false;
 
-const char* VERSION_STR = "takaku v0.07";
+const char* VERSION_STR = "takaku v0.08";
 
 int main(void)
 {
