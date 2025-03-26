@@ -42,7 +42,6 @@ void board::update(const float& delta)
    if (this->initialised)
    {
       const float time_elapsed = static_cast<float>(this->_timer.time_elapsed());
-      std::cout << time_elapsed << std::endl;
       SetShaderValue(this->triangle_shader, this->time_uniform_loc, &time_elapsed, SHADER_UNIFORM_FLOAT);
 
       for (int i = 0; i < this->max_circles; ++i) 
