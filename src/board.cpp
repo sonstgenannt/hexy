@@ -1,3 +1,5 @@
+#define GLSL_VERSION 330
+
 #include "../headers/board.h"
 #include <iostream>
 #include "../include/raymath.h"
@@ -11,26 +13,23 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
 
    this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2; 
 
-   /*
    const bool success = this->init_triangle_shader();
    if ( success )
       std::cout << "triangle_shader loaded successfully" << std::endl;
    else
       std::cout << "SHADER ERROR: triangle_shader was not loaded successfully" << std::endl;
-      */
 }
 
 board::board(const Vector2& position, const unsigned int& board_size) : entity(position) 
 {
    this->board_size = board_size;
 
-   /*
    const bool success = this->init_triangle_shader();
    if ( success )
       std::cout << "triangle_shader loaded successfully" << std::endl;
+
    else
       std::cout << "SHADER ERROR: triangle_shader was not loaded successfully" << std::endl;
-      */
 }
 
 board::~board()
@@ -42,6 +41,10 @@ void board::update(const float& delta)
 {
    if (this->initialised)
    {
+      const float time_elapsed = static_cast<float>(this->_timer.time_elapsed());
+      std::cout << time_elapsed << std::endl;
+      SetShaderValue(this->triangle_shader, this->time_uniform_loc, &time_elapsed, SHADER_UNIFORM_FLOAT);
+
       for (int i = 0; i < this->max_circles; ++i) 
       {
          circles[i].update(delta);
@@ -199,12 +202,12 @@ void board::draw()
       Color tri_color = std::get<2>(this->mono_tri_data);
       tri_color.a = 200;
 
-      //BeginShaderMode(this->triangle_shader);
+      BeginShaderMode(this->triangle_shader);
 
       DrawTriangle(tri_verts[0]->get_position(), tri_verts[1]->get_position(), tri_verts[2]->get_position(), tri_color);
       DrawTriangle(tri_verts[1]->get_position(), tri_verts[0]->get_position(), tri_verts[2]->get_position(), tri_color);
 
-      //EndShaderMode();
+      EndShaderMode();
    }
 
 
@@ -451,11 +454,10 @@ bool board::get_player_idx() const
 
 bool board::init_triangle_shader() 
 {
-   this->triangle_shader = LoadShader("shaders/reveal_triangle.vert", "shaders/reveal_triangle.frag");
-   std::cout << this->triangle_shader.id << std::endl;
+   this->triangle_shader = LoadShader(0, TextFormat("shaders/rt.fs", GLSL_VERSION));
    if ( IsShaderValid(this->triangle_shader) )
    {
-      //this->time_uniform_loc = GetShaderLocation(this->triangle_shader, "time");
+      this->time_uniform_loc = GetShaderLocation(this->triangle_shader, "time");
       return true;
    }
    return false;

@@ -54,7 +54,6 @@ int main(void)
    //// GAME OBJECT INITIALISATION
    //////////////////////////////////////////////////////////////////////////////
 
-   board b(Vector2(0,0), window_width);
    ai robot;
 
    //////////////////////////////////////////////////////////////////////////////
@@ -65,6 +64,7 @@ int main(void)
    
    SetConfigFlags(FLAG_MSAA_4X_HINT); 
    InitWindow(window_width, window_height, VERSION_STR); 
+   board b(Vector2(0,0), window_width);
    SetWindowState(FLAG_WINDOW_RESIZABLE); 
    SetWindowMinSize(800, 800); 
    SetWindowIcon(w_i);
