@@ -59,19 +59,21 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
    //// WINDOW INITIALISATION
    //////////////////////////////////////////////////////////////////////////////
-   ///
+
    Image w_i = LoadImage("icons/window_icon.png");
    
    SetConfigFlags(FLAG_MSAA_4X_HINT); 
    InitWindow(window_width, window_height, VERSION_STR); 
-   board b(Vector2(0,0), window_width);
    SetWindowState(FLAG_WINDOW_RESIZABLE); 
    SetWindowMinSize(800, 800); 
    SetWindowIcon(w_i);
    SetWindowState(FLAG_VSYNC_HINT); 
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
 
+
    UnloadImage(w_i);
+
+   board b(Vector2(0,0), window_width);
 
    //////////////////////////////////////////////////////////////////////////////
    //// RECT BUTTON INITIALISATION
@@ -102,7 +104,7 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
 
    GuiLoadStyle("styles/cyber/style_cyber.rgs"); // Load style that is used for raygui 
-   Font rockwell = LoadFontEx("fonts/rockwell.ttf", 24, NULL, 0); 
+   Font rockwell = LoadFontEx("fonts/rockwell.ttf", 48, NULL, 0); 
 
    if (rockwell.texture.id == 0)
       std::cout << "APPLICATON ERROR: Failed to load font." << std::endl;
@@ -335,6 +337,8 @@ int main(void)
          b.draw();
          home_button.draw();
          arrows_button.draw();
+
+         DrawTextEx(rockwell, std::to_string(b.get_line_counter()).c_str(), (Vector2){static_cast<float>(window_width) - 60.0f, static_cast<float>(window_height) - 60.0f}, 48, 2.0f, RAYWHITE);
 
          if ( b.get_ai_enabled() )
          {
