@@ -189,6 +189,11 @@ void board::draw()
       {
          if ( (this->lines[i].get_source() != nullptr) && (this->lines[i].get_target() != nullptr) ) 
          {
+            if ( i == lines.size() - 1 )
+               lines[i].set_thickness(12.0f);
+            else
+               lines[i].set_thickness(5.0f);
+
             lines[i].update(GetFrameTime());
             lines[i].draw();
          }
