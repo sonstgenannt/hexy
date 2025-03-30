@@ -83,7 +83,7 @@ void board::update(const float& delta)
                }
 
                if ( is_move_valid(this->line_source, this->line_target ) )
-                  make_move(this->line_source, this->line_target, 5.0f);
+                  make_move(this->line_source, this->line_target);
             }
          }
          else
@@ -138,9 +138,9 @@ bool board::simulate_move(circle*& circ_a, circle*& circ_b)
    return losing_move;
 }
 
-void board::make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness) 
+void board::make_move(circle*& circ_a, circle*& circ_b) 
 {
-   this->lines.push_back( line(circ_a, circ_b, line_thickness, this->player_colors[this->turn_idx]) );
+   this->lines.push_back( line(circ_a, circ_b, this->player_colors[this->turn_idx]) );
    this->line_counter++;
 
    circ_a = nullptr;

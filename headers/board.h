@@ -70,7 +70,7 @@ class board : public entity {
 
       void move_circles_to(const std::vector<Vector2>& positions);
       void return_circles_to_initial_positions();
-      void make_move(circle*& circ_a, circle*& circ_b, const float& line_thickness);
+      void make_move(circle*& circ_a, circle*& circ_b);
       bool simulate_move(circle*& circ_a, circle*& circ_b);
 
       void set_default_circle_color(const Color& col);

@@ -34,12 +34,12 @@ void ai::make_move(board& b)
    if ( move_candidates.size() > 0 ) 
    {
       int rand_int = rand() % move_candidates.size();
-      b.make_move(move_candidates[rand_int].first, move_candidates[rand_int].second, 5.0f);
+      b.make_move(move_candidates[rand_int].first, move_candidates[rand_int].second);
    }
    else
    {
       int rand_int = rand() % losing_moves.size();
-      b.make_move(losing_moves[rand_int].first, losing_moves[rand_int].second, 5.0f);
+      b.make_move(losing_moves[rand_int].first, losing_moves[rand_int].second);
    }
 }
 
