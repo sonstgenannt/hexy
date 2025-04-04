@@ -5,24 +5,20 @@
 
 class line {
    private:
-      circle* source;
-      circle* target;
+      const circle* source;
+      const circle* target;
       Color color;
       float thickness;
-
       Vector2 end;
       float end_delta;
 
    public:
-      line(circle* source, circle* target);
-      line(circle* source, circle* target, const Color& color);
-      line(circle* source, circle* target, const float& thickness, const Color& color);
+      line(const circle* source, const circle* target);
+      line(const circle* source, const circle* target, const Color& color);
+      line(const circle* source, const circle* target, const float& thickness, const Color& color);
 
-      circle* get_source() const;
-      void set_source(circle* source);
-
-      circle* get_target() const;
-      void set_target(circle* target);
+      const circle* get_source() const;
+      const circle* get_target() const;
 
       Color get_color() const;
       void set_color(const Color& color);
@@ -32,6 +28,8 @@ class line {
 
       void update(const float& delta);
       void draw() const;
+
+      bool operator==(const line& l) const;
 
       ~line() = default;
 };

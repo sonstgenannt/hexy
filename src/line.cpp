@@ -1,52 +1,32 @@
 #include "../headers/line.h"
 #include "../include/raymath.h"
 
-line::line(circle* source, circle* target) 
+line::line(const circle* source, const circle* target) : source(source), target(target)
 {
-   this->source = source;
-   this->target = target;
-   source->add_outgoing_line(this);
-   target->add_outgoing_line(this);
    this->thickness = 1.0f;
    this->color = BLACK;
 }
 
-line::line(circle* source, circle* target, const Color& color) 
+line::line(const circle* source, const circle* target, const Color& color) : source(source), target(target)
 {
-   this->source = source;
-   this->target = target;
-   source->add_outgoing_line(this);
-   target->add_outgoing_line(this);
    this->thickness = 1.0f;
    this->color = color;
 }
 
-line::line(circle* source, circle* target, const float& thickness, const Color& color) 
+line::line(const circle* source, const circle* target, const float& thickness, const Color& color) : source(source), target(target)
 {
-   this->source = source;
-   this->target = target;
-   source->add_outgoing_line(this);
-   target->add_outgoing_line(this);
    this->thickness = thickness;
    this->color = color;
 }
 
-circle* line::get_source() const 
+const circle* line::get_source() const 
 {
    return this->source;
 }
-void line::set_source(circle* source) 
-{
-   this->source = source;
-}
 
-circle* line::get_target() const 
+const circle* line::get_target() const 
 { 
    return this->target;
-}
-void line::set_target(circle* target) 
-{
-   this->target = target;
 }
 
 Color line::get_color() const 
@@ -78,4 +58,14 @@ void line::update(const float& delta)
 void line::draw() const 
 {
    DrawLineEx(this->source->get_position(), this->end, this->thickness, this->color);
+}
+
+bool line::operator==(const line& l) const
+{
+   if ( (this->source == l.get_source() && this->target == l.get_target()) ||
+        (this->source == l.get_target() && this->target == l.get_source()) )
+   {
+      return true;
+   }
+   return false;
 }
