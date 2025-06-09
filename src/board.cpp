@@ -11,6 +11,7 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
    this->p_colors_v_ = colors_v;
    this->max_circles = max_circles;
 
+   // This is the total number of edges in a complete graph on <max_circles> vertices -- i.e. ( n * (n-1) ) / 2
    this->max_lines = ( max_circles * ( max_circles - 1 ) ) / 2; 
 
    const bool success = this->init_triangle_shader();
