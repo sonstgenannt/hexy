@@ -11,7 +11,7 @@ class board : public entity {
    private:
       unsigned int board_size;
 
-      unsigned int total_players = 2;
+      unsigned int num_players_ = 2; 
       unsigned int max_circles = 0;
       unsigned int max_lines = 0;
       unsigned int turn_idx = 0; // Keeps track of which player is making the current move
@@ -54,7 +54,7 @@ class board : public entity {
 
    public:
       std::vector<line> lines;
-      board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& colors_v); 
+      board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& num_players, const std::vector<Color>& colors_v); 
       board(const Vector2& position, const unsigned int& board_size);
       ~board();
 

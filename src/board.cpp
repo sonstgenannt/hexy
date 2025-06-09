@@ -4,10 +4,10 @@
 #include <iostream>
 #include "../include/raymath.h"
 
-board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& colors_v ) : entity(position) 
+board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& num_players, const std::vector<Color>& colors_v ) : entity(position) 
 {
    this->board_size = board_size;
-   this->total_players = total_players;
+   this->num_players_ = num_players;
    this->p_colors_v_ = colors_v;
    this->max_circles = max_circles;
 
@@ -154,7 +154,7 @@ void board::make_move(circle*& circ_a, circle*& circ_b)
       this->losing_player = this->turn_idx;
    }
    else
-      this->turn_idx = ( 1 + this->turn_idx ) % this->total_players;
+      this->turn_idx = ( 1 + this->turn_idx ) % this->num_players_;
 
    this->_timer.start();
 }
