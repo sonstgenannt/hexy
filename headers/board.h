@@ -37,7 +37,6 @@ class board : public entity {
 
       bool game_started = false;
       bool game_over = false;
-      bool only_show_hover_lines = false;
       bool ai_enabled = false;
       bool initialised = false;
       bool player_idx;

@@ -121,13 +121,6 @@ void board::update(const float& delta)
    {
       this->return_circles_to_initial_positions();
    }
-
-   /*
-    * This doesn't currently work...
-   if (IsKeyPressed(KEY_L)) {
-      this->only_show_hover_lines = !this->only_show_hover_lines;
-   }
-   */
 }
 
 bool board::simulate_move(circle*& circ_a, circle*& circ_b) 
@@ -163,20 +156,6 @@ void board::draw()
 {
    // Drawing the background rectangle of the board
    DrawRectangleV(this->get_position(), Vector2(this->board_size, this->board_size), this->get_color());
-
-   /*
-    * This doesn't currently work
-   if ( this->only_show_hover_lines) 
-   {
-      if ( this->hover_circle != nullptr) 
-      {
-         for (int i = 0; i < this->hover_circle->get_outgoing_lines().size(); ++i) 
-         {
-            this->hover_circle->get_outgoing_lines()[i]->draw();
-         }
-      }
-   }
-   */
 
    for (int i = 0; i < this->circles.size(); ++i) 
    {
