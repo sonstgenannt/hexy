@@ -313,128 +313,6 @@ bool board::is_move_valid(circle*& circ_a, circle*& circ_b) {
    return true;
 }
 
-unsigned int board::get_size() const 
-{
-   return this->board_size;
-}
-
-void board::set_size(const unsigned int& size)
-{
-   this->board_size = size;
-}
-
-void board::set_default_circle_color(const Color& col) 
-{
-   this->default_circle_color = col;
-}
-void board::set_frozen_circle_color(const Color& col) 
-{
-   this->frozen_circle_color = col;
-}
-void board::set_source_circle_color(const Color& col) 
-{
-   this->source_circle_color = col;
-}
-
-Color board::get_default_circle_color() const 
-{
-   return this->default_circle_color;
-}
-Color board::get_frozen_circle_color() const 
-{
-   return this->frozen_circle_color;
-}
-
-Color board::get_source_circle_color() const 
-{
-   return this->source_circle_color;
-}
-
-void board::set_player_colors(const std::vector<Color>& colors_v) 
-{
-   this->p_colors_v_ = colors_v;
-}
-
-std::vector<Color> board::get_player_colors() const 
-{
-   return this->p_colors_v_;
-}
-void board::set_max_circles(const unsigned int& max_circles) 
-{
-   this->max_circles = max_circles;
-}
-
-unsigned int board::get_line_counter() const
-{
-   return this->line_counter;
-}
-
-std::vector<circle>& board::get_circles()
-{
-   return this->circles;
-}
-unsigned int board::get_turn_idx() const
-{
-   return this->turn_idx;
-}
-
-unsigned int board::get_max_circles() const 
-{
-   return this->max_circles;
-}
-
-bool board::is_game_over() const 
-{
-   return this->game_over;
-}
-
-int board::get_losing_player() const 
-{
-   return this->losing_player;
-}
-void board::set_ai_enabled(const bool& b)
-{
-   this->ai_enabled = b;
-}
-bool board::get_ai_enabled() const
-{
-   return this->ai_enabled;
-}
-bool board::get_game_started() const 
-{
-   return this->game_started;
-}
-void board::set_game_started(const bool& b)
-{
-   this->game_started = b;
-}
-
-bool board::get_initialised() const
-{
-   return this->initialised;
-}
-
-void board::thaw_circles()
-{
-   for ( auto c : this->circles )
-      c.set_frozen(false);
-}
-
-double board::get_time_since_last_move() const
-{
-   return this->_timer.time_elapsed();
-}
-
-void board::set_player_idx(const bool& b)
-{
-   this->player_idx = b;
-}
-
-bool board::get_player_idx() const
-{
-   return this->player_idx;
-}
-
 bool board::init_triangle_shader() 
 {
    this->triangle_shader = LoadShader(0, TextFormat("shaders/rt.fs", GLSL_VERSION));
@@ -471,3 +349,61 @@ void board::kill_board()
    this->initialised = false;
    this->circle_initial_positions.clear();
 }
+
+void board::thaw_circles() 
+{
+   for ( auto c : this->circles )
+      c.set_frozen(false);
+}
+
+// Getters and setters
+
+unsigned int board::get_size() const { return this->board_size; }
+
+void board::set_size(const unsigned int& size) { this->board_size = size; }
+
+void board::set_default_circle_color(const Color& col) { this->default_circle_color = col; }
+
+void board::set_frozen_circle_color(const Color& col) { this->frozen_circle_color = col; }
+
+void board::set_source_circle_color(const Color& col) { this->source_circle_color = col; }
+
+Color board::get_default_circle_color() const { return this->default_circle_color; }
+
+Color board::get_frozen_circle_color() const { return this->frozen_circle_color; }
+
+Color board::get_source_circle_color() const { return this->source_circle_color; }
+
+void board::set_player_colors(const std::vector<Color>& colors_v) { this->p_colors_v_ = colors_v; }
+
+std::vector<Color> board::get_player_colors() const { return this->p_colors_v_; }
+
+void board::set_max_circles(const unsigned int& max_circles) { this->max_circles = max_circles; }
+
+unsigned int board::get_line_counter() const { return this->line_counter; }
+
+std::vector<circle>& board::get_circles() { return this->circles; }
+
+unsigned int board::get_turn_idx() const { return this->turn_idx; }
+
+unsigned int board::get_max_circles() const { return this->max_circles; }
+
+bool board::is_game_over() const { return this->game_over; }
+
+int board::get_losing_player() const { return this->losing_player; }
+
+void board::set_ai_enabled(const bool& b) { this->ai_enabled = b; }
+
+bool board::get_ai_enabled() const { return this->ai_enabled; }
+
+bool board::get_game_started() const { return this->game_started; }
+
+void board::set_game_started(const bool& b) { this->game_started = b; }
+
+bool board::get_initialised() const { return this->initialised; }
+
+double board::get_time_since_last_move() const { return this->_timer.time_elapsed(); }
+
+void board::set_player_idx(const bool& b) { this->player_idx = b; }
+
+bool board::get_player_idx() const { return this->player_idx; }
