@@ -45,7 +45,7 @@ class board : public entity {
       Shader triangle_shader;
 
       std::vector<circle> circles;
-      std::vector<Color> player_colors;
+      std::vector<Color> p_colors_v; // Vector storing the player colours; used for circle highlighting and line colouring
 
       std::pair<bool, line*> does_line_exist(circle* circ_a, circle* circ_b);
       bool are_colors_equal(const Color& col_a, const Color& col_b) const;
@@ -54,7 +54,7 @@ class board : public entity {
 
    public:
       std::vector<line> lines;
-      board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& player_colors); 
+      board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& total_players, const std::vector<Color>& colors_v); 
       board(const Vector2& position, const unsigned int& board_size);
       ~board();
 
@@ -79,7 +79,7 @@ class board : public entity {
 
       void thaw_circles();
 
-      void set_player_colors(const std::vector<Color>& player_colors);
+      void set_player_colors(const std::vector<Color>& colors_v);
       std::vector<Color> get_player_colors() const;
 
       void set_max_circles(const unsigned int& max_circles);
