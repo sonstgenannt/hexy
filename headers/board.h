@@ -104,7 +104,7 @@ class board : public entity {
       bool get_initialised() const;
 
       void reset_board();
-      void kill_board();
+      void hard_reset_board();
 
       void set_player_idx(const bool& b);
       bool get_player_idx() const;

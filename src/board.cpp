@@ -338,7 +338,7 @@ void board::reset_board()
       this->circles[i].kill_outgoing_lines();
 }
 
-void board::kill_board() 
+void board::hard_reset_board() 
 {
    this->game_started = false;
    this->reset_board();

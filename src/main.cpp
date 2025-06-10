@@ -289,7 +289,7 @@ int main(void)
          {
             updated_win_loss = false;
             show_warning_box = false;
-            b.kill_board();
+            b.hard_reset_board();
          }
       }
 
@@ -321,7 +321,7 @@ int main(void)
          }
          updated_win_loss = false;
          show_warning_box = false;
-         b.kill_board();
+         b.hard_reset_board();
       }
       else if ( warning_output == 2 )
          show_warning_box = false;
