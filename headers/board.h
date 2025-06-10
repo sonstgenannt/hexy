@@ -13,7 +13,6 @@ class board : public entity {
 
       unsigned int num_players_ = 2; 
       unsigned int max_circles = 0;
-      unsigned int max_lines = 0;
       unsigned int turn_idx = 0; // Keeps track of which player is making the current move
       unsigned int line_counter = 0;
 
