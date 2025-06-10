@@ -12,7 +12,6 @@ class board : public entity {
       unsigned int board_size;
 
       unsigned int num_players_ = 2; 
-      unsigned int max_circles = 0;
       unsigned int turn_idx = 0; // Keeps track of which player is making the current move
       unsigned int line_counter = 0;
 
@@ -52,14 +51,14 @@ class board : public entity {
 
    public:
       std::vector<line> lines;
-      board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& num_players, const std::vector<Color>& colors_v); 
+      board(const Vector2& position, const unsigned int& board_size, const unsigned int& num_players, const std::vector<Color>& colors_v); 
       board(const Vector2& position, const unsigned int& board_size);
       ~board();
 
       void update(const float& delta);
       void draw();
 
-      void init_circles(const float& poly_radius, const float& circle_radius);
+      void init_circles(const float& poly_radius, const float& circle_radius, const unsigned int& num_circles);
 
       unsigned int get_size() const;
       void set_size(const unsigned int& size);
@@ -80,8 +79,6 @@ class board : public entity {
       void set_player_colors(const std::vector<Color>& colors_v);
       std::vector<Color> get_player_colors() const;
 
-      void set_max_circles(const unsigned int& max_circles);
-
       void set_ai_enabled(const bool& b);
       bool get_ai_enabled() const;
 
@@ -94,7 +91,6 @@ class board : public entity {
       std::vector<circle>& get_circles();
 
       unsigned int get_turn_idx() const;
-      unsigned int get_max_circles() const;
       unsigned int get_line_counter() const;
       int get_losing_player() const;
 

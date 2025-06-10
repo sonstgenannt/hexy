@@ -4,12 +4,11 @@
 #include <iostream>
 #include "../include/raymath.h"
 
-board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& max_circles, const unsigned int& num_players, const std::vector<Color>& colors_v ) : entity(position) 
+board::board(const Vector2& position, const unsigned int& board_size, const unsigned int& num_players, const std::vector<Color>& colors_v ) : entity(position) 
 {
    this->board_size = board_size;
    this->num_players_ = num_players;
    this->p_colors_v_ = colors_v;
-   this->max_circles = max_circles;
 
    const bool success = this->init_triangle_shader();
    if ( success )
@@ -42,7 +41,7 @@ void board::update(const float& delta)
       const float time_elapsed = static_cast<float>(this->_timer.time_elapsed());
       SetShaderValue(this->triangle_shader, this->time_uniform_loc, &time_elapsed, SHADER_UNIFORM_FLOAT);
 
-      for (int i = 0; i < this->max_circles; ++i) 
+      for (int i = 0; i < this->circles.size(); ++i) 
       {
          circles[i].update(delta);
          if ( this->circles[i].is_mouse_over() && !this->game_over && ( this->turn_idx == this->player_idx || !this->ai_enabled) ) 
@@ -198,13 +197,13 @@ void board::draw()
    }
 }
 
-void board::init_circles(const float& poly_radius, const float& circle_radius) 
+void board::init_circles(const float& poly_radius, const float& circle_radius, const unsigned int& num_circles) 
 {
    int centre_x = this->get_position().x + (this->board_size / 2); 
    int centre_y = this->get_position().y + (this->board_size / 2);
-   double angle = (2.0f * 3.14159265358979323846) / (double)this->max_circles; 
+   double angle = (2.0f * 3.14159265358979323846) / (double)num_circles;
 
-   for (int i = 0; i < this->max_circles; ++i) 
+   for (int i = 0; i < num_circles; ++i) 
    {
       circle c {};
 
@@ -229,7 +228,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius)
 void board::move_circles_to(const std::vector<Vector2>& positions)
 {
 	if ( this->circles.size() == positions.size() ) {
-		for ( int i = 0; i < max_circles; i++ ) {
+		for ( int i = 0; i < this->circles.size(); i++ ) {
 			if (!this->circles[i].is_frozen())
 				this->circles[i].set_target_position(positions[i]);
 		}
@@ -376,15 +375,11 @@ void board::set_player_colors(const std::vector<Color>& colors_v) { this->p_colo
 
 std::vector<Color> board::get_player_colors() const { return this->p_colors_v_; }
 
-void board::set_max_circles(const unsigned int& max_circles) { this->max_circles = max_circles; }
-
 unsigned int board::get_line_counter() const { return this->line_counter; }
 
 std::vector<circle>& board::get_circles() { return this->circles; }
 
 unsigned int board::get_turn_idx() const { return this->turn_idx; }
-
-unsigned int board::get_max_circles() const { return this->max_circles; }
 
 bool board::is_game_over() const { return this->game_over; }
 

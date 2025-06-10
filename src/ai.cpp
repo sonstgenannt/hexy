@@ -9,11 +9,11 @@ void ai::make_move(board& b)
 {
    std::vector<std::pair<circle*, circle*>> move_candidates;
    std::vector<std::pair<circle*, circle*>> losing_moves;
-   const unsigned int max_circles = b.get_max_circles();
+   const unsigned int num_circles = b.get_circles().size();
 
-   for (size_t i = 0; i < max_circles - 1; ++i)
+   for (size_t i = 0; i < num_circles - 1; ++i)
    {
-      for (size_t j = i + 1; j < max_circles; ++j) 
+      for (size_t j = i + 1; j < num_circles; ++j) 
       {
          circle* circ_a = &b.get_circles()[i];
          circle* circ_b = &b.get_circles()[j];

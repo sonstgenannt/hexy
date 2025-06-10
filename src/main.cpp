@@ -211,8 +211,8 @@ int main(void)
 
             b.set_color(CYBER_BLUE);
             b.set_player_colors(player_colors);
-            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); b.set_max_circles(selected_board_size);
-            b.init_circles(300.0f, 30.0f);
+            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); 
+            b.init_circles(300.0f, 30.0f, selected_board_size);
          }
          else 
          {
