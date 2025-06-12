@@ -84,13 +84,13 @@ int main(void)
    Image arrows = LoadImage("icons/inward_arrows.png");
    if ( IsImageValid (door) && IsImageValid(arrows)) 
       std::cout << "Loaded images successfully." << std::endl;
-   const Texture2D t = LoadTextureFromImage(door);
-   const Texture2D tt = LoadTextureFromImage(arrows);
+   const Texture2D door_tex = LoadTextureFromImage(door);
+   const Texture2D arrows_tex = LoadTextureFromImage(arrows);
    UnloadImage(door);
    UnloadImage(arrows);
 
-   rect_button home_button ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, t, Vector2(128,128));
-   rect_button arrows_button ( Vector2(128, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, tt, Vector2(128,128));
+   rect_button home_button ( Vector2(20, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, door_tex, Vector2(128,128));
+   rect_button arrows_button ( Vector2(128, 20), Vector2 {128, 128}, CYBER_BLUE, CYBER_LIGHT, arrows_tex, Vector2(128,128));
    home_button.set_hover_background_color(CYBER_BASE);
    arrows_button.set_hover_background_color(CYBER_BASE);
    arrows_button.set_rounded(false);
@@ -368,6 +368,8 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
    
    UnloadFont(rockwell);
+   UnloadTexture(door_tex);
+   UnloadTexture(arrows_tex);
    CloseWindow();
    return 0;
 }
