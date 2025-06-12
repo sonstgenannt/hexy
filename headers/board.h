@@ -1,4 +1,5 @@
 #ifndef BOARD
+
 #define BOARD
 #include "line.h"
 #include "../headers/timer.h"
@@ -51,6 +52,8 @@ class board : public entity {
 
    public:
       std::vector<line> lines;
+      std::vector<Vector2> circle_initial_positions;
+
       board(const Vector2& position, const unsigned int& board_size, const unsigned int& num_players, const std::vector<Color>& colors_v); 
       board(const Vector2& position, const unsigned int& board_size);
       ~board();
@@ -59,22 +62,24 @@ class board : public entity {
       void draw();
 
       void init_circles(const float& poly_radius, const float& circle_radius, const unsigned int& num_circles);
-
-      unsigned int get_size() const;
-      void set_size(const unsigned int& size);
-
-      std::vector<Vector2> circle_initial_positions;
-
       void move_circles_to(const std::vector<Vector2>& positions);
       void return_circles_to_initial_positions();
+      void thaw_circles();
+
       void make_move(circle*& circ_a, circle*& circ_b);
+      bool is_move_valid(circle*& circ_a, circle*& circ_b);
       bool simulate_move(circle*& circ_a, circle*& circ_b);
+
+      std::tuple<bool, std::vector<circle*>, Color> contains_monochromatic_triangle();
+
+      // Getters and setters
+
+      void set_size(const unsigned int& size);
+      unsigned int get_size() const;
 
       void set_default_circle_color(const Color& col);
       void set_frozen_circle_color(const Color& col);
       void set_source_circle_color(const Color& col);
-
-      void thaw_circles();
 
       void set_player_colors(const std::vector<Color>& colors_v);
       std::vector<Color> get_player_colors() const;
@@ -94,8 +99,6 @@ class board : public entity {
       unsigned int get_line_counter() const;
       int get_losing_player() const;
 
-      bool is_move_valid(circle*& circ_a, circle*& circ_b);
-
       bool is_game_over() const;
 
       bool get_game_started() const;
@@ -108,7 +111,5 @@ class board : public entity {
 
       void set_player_idx(const bool& b);
       bool get_player_idx() const;
-
-      std::tuple<bool, std::vector<circle*>, Color> contains_monochromatic_triangle();
 };
 #endif
