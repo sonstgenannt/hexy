@@ -34,7 +34,6 @@ class board : public entity {
 
       std::tuple<bool, std::vector<circle*>, Color> mono_tri_data;
 
-      bool game_started = false;
       bool game_over = false;
       bool ai_enabled = false;
       bool initialised = false;
@@ -100,9 +99,6 @@ class board : public entity {
       int get_losing_player() const;
 
       bool is_game_over() const;
-
-      bool get_game_started() const;
-      void set_game_started(const bool& b);
 
       bool get_initialised() const;
 

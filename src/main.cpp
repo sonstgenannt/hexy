@@ -42,6 +42,8 @@ int main(void)
 
    bool mode_selector_edit = false;
 
+   bool is_game_active = false; // Has the player transitioned out of the main menu and started a game
+
    //////////////////////////////////////////////////////////////////////////////
    //// DATA LOADING (WIN/LOSS; RESOLUTION OPTIONS)
    //////////////////////////////////////////////////////////////////////////////
@@ -69,7 +71,6 @@ int main(void)
    SetWindowIcon(w_i);
    SetWindowState(FLAG_VSYNC_HINT); 
    Vector2 window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
-
 
    UnloadImage(w_i);
 
@@ -129,7 +130,7 @@ int main(void)
       //// HANDLING MAIN MENU UI
       //////////////////////////////////////////////////////////////////////////////
 
-      if (!b.get_game_started()) 
+      if (!is_game_active) 
       {
          // Text labels
          GuiLabel((Rectangle){ 4, static_cast<float>(window_height) - 40.0f, 300, 48}, VERSION_STR);
@@ -141,8 +142,7 @@ int main(void)
          change_resolution = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y - 200, 100, 48}, "Apply");
 
          // Play button
-         bool game_status = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y, 100, 48}, "Play");
-         b.set_game_started(game_status);
+         is_game_active = GuiButton((Rectangle) { window_centre.x + 150, window_centre.y, 100, 48}, "Play");
 
          // Resolution selector
          if ( GuiDropdownBox((Rectangle){ window_centre.x - 100, window_centre.y - 200, 200, 48 }, "800x800;900x900;1000x1000;1100x1100;1200x1200", &sr_dd_active_item, sr_dd_edit) ) 
@@ -260,7 +260,7 @@ int main(void)
       //// HANDLING RETURN TO MAIN MENU BEHAVIOUR
       //////////////////////////////////////////////////////////////////////////////
       
-      if ( (IsKeyPressed(KEY_M) || home_button.get_activated() ) && b.get_game_started() )
+      if ( (IsKeyPressed(KEY_M) || home_button.get_activated() ) && is_game_active )
       {
          // If the opponent is a human
          if ( mode_selector_active_item == 1 )
@@ -288,6 +288,7 @@ int main(void)
          if ( !show_warning_box )
          {
             updated_win_loss = false;
+            is_game_active = false;
             show_warning_box = false;
             b.hard_reset_board();
          }
@@ -321,6 +322,7 @@ int main(void)
          }
          updated_win_loss = false;
          show_warning_box = false;
+         is_game_active = false;
          b.hard_reset_board();
       }
       else if ( warning_output == 2 )
