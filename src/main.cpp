@@ -10,6 +10,16 @@
 #include <vector>
 #include <string>
 
+void recentre_window(const int& window_width, const int& window_height)
+{
+   int monitor_width = GetMonitorWidth(GetCurrentMonitor());
+   int monitor_height = GetMonitorHeight(GetCurrentMonitor());
+   int monitor_centre_x = monitor_width / 2;
+   int monitor_centre_y = monitor_height / 2;
+
+   SetWindowPosition(monitor_centre_x - (window_width / 2), monitor_centre_y - (window_height / 2));
+}
+
 unsigned int window_width = ~0U;
 unsigned int window_height = ~0U;
 
@@ -183,17 +193,12 @@ int main(void)
          {
             window_width = resolutions[sr_dd_active_item].first;
             window_height = resolutions[sr_dd_active_item].second;
+            window_centre = { static_cast<float>(window_width / 2), static_cast<float>(window_height / 2) };
+            recentre_window(window_width, window_height);
             SetWindowSize(window_width, window_height);
+
             data_manager::save_sr_config(window_width, window_height, sr_dd_active_item);
             b.set_size(window_width);
-            window_centre = {static_cast<float>(window_width / 2), static_cast<float>(window_height / 2)};
-
-            int monitor_width = GetMonitorWidth(GetCurrentMonitor());
-            int monitor_height = GetMonitorHeight(GetCurrentMonitor());
-            int monitor_centre_x = monitor_width / 2;
-            int monitor_centre_y = monitor_height / 2;
-
-            SetWindowPosition(monitor_centre_x - (window_width / 2), monitor_centre_y - (window_height / 2));
          }
       }
 
