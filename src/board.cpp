@@ -388,7 +388,7 @@ void board::set_ai_enabled(const bool& b) { this->ai_enabled = b; }
 
 bool board::get_ai_enabled() const { return this->ai_enabled; }
 
-bool board::get_initialised() const { return this->initialised; }
+bool board::is_initialised() const { return this->initialised; }
 
 double board::get_time_since_last_move() const { return this->_timer.time_elapsed(); }
 

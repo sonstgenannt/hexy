@@ -100,7 +100,7 @@ class board : public entity {
 
       bool is_game_over() const;
 
-      bool get_initialised() const;
+      bool is_initialised() const;
 
       void reset_board();
       void hard_reset_board();

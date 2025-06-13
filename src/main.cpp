@@ -208,7 +208,7 @@ int main(void)
 
       else
       {
-         if (!b.get_initialised())
+         if (!b.is_initialised())
          {
             // If opponent is computer
             if ( mode_selector_active_item == 0 )
@@ -341,7 +341,7 @@ int main(void)
 
       BeginDrawing();
 
-      if (b.get_initialised() && !show_warning_box)
+      if (b.is_initialised() && !show_warning_box)
       {
          b.draw();
          home_button.draw();
