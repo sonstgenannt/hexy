@@ -74,7 +74,12 @@ int main(void)
 
    UnloadImage(w_i);
 
+   // Board set-up
    board b(Vector2(0,0), window_width);
+   b.set_color(CYBER_BLUE);
+   b.set_player_colors(player_colors);
+   b.set_default_circle_color(CYBER_BASE); 
+   b.set_frozen_circle_color(CYBER_LIGHT); 
 
    //////////////////////////////////////////////////////////////////////////////
    //// RECT BUTTON INITIALISATION
@@ -209,9 +214,6 @@ int main(void)
             else
                b.set_ai_enabled(false);
 
-            b.set_color(CYBER_BLUE);
-            b.set_player_colors(player_colors);
-            b.set_default_circle_color(CYBER_BASE); b.set_frozen_circle_color(CYBER_LIGHT); 
             b.init_circles(300.0f, 30.0f, selected_board_size);
          }
          else 
