@@ -3,6 +3,7 @@
 #include "../headers/board.h"
 #include "../headers/ai.h"
 #include "../headers/data_manager.h"
+#include "../headers/game_manager.h"
 #include "../headers/rect_button.h"
 #include <numbers>
 #include <cmath>
@@ -33,8 +34,7 @@ const std::vector<std::pair<int, int>> resolutions =
    {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
 };
 
-unsigned int selected_board_size = 6U;
-unsigned int old_selected_board_size = selected_board_size;
+unsigned int old_selected_board_size;
 
 bool change_resolution = false;
 
@@ -42,6 +42,8 @@ const char* VERSION_STR = "takaku v0.08";
 
 int main(void)
 {
+   old_selected_board_size = game_manager::selected_board_size;
+
    bool show_warning_box = false;
    int warning_output = false;
    bool updated_win_loss = false;
@@ -58,7 +60,7 @@ int main(void)
    //// DATA LOADING (WIN/LOSS; RESOLUTION OPTIONS)
    //////////////////////////////////////////////////////////////////////////////
 
-   std::pair<int, int> win_loss_data = data_manager::load_win_loss_data(selected_board_size);
+   std::pair<int, int> win_loss_data = data_manager::load_win_loss_data(game_manager::selected_board_size);
 
    data_manager::load_sr_config(window_width, window_height, sr_dd_active_item);
 
@@ -172,13 +174,13 @@ int main(void)
                mode_selector_edit = !mode_selector_edit;
 
             // Board size selector
-            GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", (int*)&selected_board_size, 6, 12, false);
+            GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", (int*)&game_manager::selected_board_size, 6, 12, false);
 
             // If the user has selected a different board size
-            if ( selected_board_size != old_selected_board_size )
+            if ( game_manager::selected_board_size != old_selected_board_size )
             {
-               old_selected_board_size = selected_board_size;
-               win_loss_data = data_manager::load_win_loss_data( selected_board_size );
+               old_selected_board_size = game_manager::selected_board_size;
+               win_loss_data = data_manager::load_win_loss_data( game_manager::selected_board_size );
             }
          }
 
@@ -219,7 +221,7 @@ int main(void)
             else
                b.set_ai_enabled(false);
 
-            b.init_circles(300.0f, 30.0f, selected_board_size);
+            b.init_circles(300.0f, 30.0f, game_manager::selected_board_size);
          }
          else 
          {
@@ -251,12 +253,12 @@ int main(void)
                if ( b.get_losing_player() == !b.get_player_idx() )
                {
                   win_loss_data.first++;
-                  data_manager::save_storage_value(2U * (selected_board_size - 6U), win_loss_data.first);
+                  data_manager::save_storage_value(2U * ( game_manager::selected_board_size - 6 ), win_loss_data.first);
                }
                else
                {
                   win_loss_data.second++;
-                  data_manager::save_storage_value( (2U * ( selected_board_size - 6U )) + 1U, win_loss_data.second);
+                  data_manager::save_storage_value( (2U * ( game_manager::selected_board_size - 6 )) + 1U, win_loss_data.second);
                }
                updated_win_loss = true;
             }
@@ -325,7 +327,7 @@ int main(void)
          if ( !b.is_game_over() && mode_selector_active_item == 0 )
          {
             win_loss_data.second++;
-            data_manager::save_storage_value( (2U * ( selected_board_size - 6U )) + 1U, win_loss_data.second);
+            data_manager::save_storage_value( (2U * ( game_manager::selected_board_size - 6 )) + 1U, win_loss_data.second);
          }
          updated_win_loss = false;
          show_warning_box = false;

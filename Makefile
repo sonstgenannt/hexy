@@ -14,7 +14,7 @@ CXXFLAGS_LINUX_NO_SANITIZE = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE)
 CXXFLAGS_WINDOWS = $(CXXFLAGS_COMMON) -I$(RAYLIB_INCLUDE) -static
 
 # Source files
-SOURCES = src/rect_button.cpp src/entity.cpp src/line.cpp src/circle.cpp src/timer.cpp src/board.cpp src/ai.cpp src/data_manager.cpp src/main.cpp
+SOURCES = src/rect_button.cpp src/entity.cpp src/line.cpp src/circle.cpp src/timer.cpp src/board.cpp src/ai.cpp src/data_manager.cpp src/game_manager.cpp src/main.cpp
 
 # Output names
 OUTPUT_LINUX = takaku_v$(VERSION)
