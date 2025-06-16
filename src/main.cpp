@@ -34,16 +34,12 @@ const std::vector<std::pair<int, int>> resolutions =
    {800, 800}, {900, 900}, {1000, 1000}, {1100, 1100}, {1200, 1200}
 };
 
-unsigned int old_selected_board_size;
-
 bool change_resolution = false;
 
 const char* VERSION_STR = "takaku v0.08";
 
 int main(void)
 {
-   old_selected_board_size = game_manager::selected_board_size;
-
    bool show_warning_box = false;
    int warning_output = false;
    bool updated_win_loss = false;
@@ -177,9 +173,9 @@ int main(void)
             GuiSpinner((Rectangle){ window_centre.x - 100, window_centre.y - 100, 200, 48 }, "", (int*)&game_manager::selected_board_size, 6, 12, false);
 
             // If the user has selected a different board size
-            if ( game_manager::selected_board_size != old_selected_board_size )
+            if ( game_manager::selected_board_size != game_manager::old_selected_board_size )
             {
-               old_selected_board_size = game_manager::selected_board_size;
+               game_manager::old_selected_board_size = game_manager::selected_board_size;
                win_loss_data = data_manager::load_win_loss_data( game_manager::selected_board_size );
             }
          }

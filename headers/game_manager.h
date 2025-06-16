@@ -4,7 +4,8 @@
 class game_manager 
 {
    public:
-      static unsigned int selected_board_size;
+      static unsigned int selected_board_size; 
+      static unsigned int old_selected_board_size;
 };
 
 #endif
