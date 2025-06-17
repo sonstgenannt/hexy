@@ -40,7 +40,6 @@ const char* VERSION_STR = "takaku v0.08";
 
 int main(void)
 {
-   bool show_warning_box = false;
    int warning_output = false;
    bool updated_win_loss = false;
 
@@ -270,31 +269,31 @@ int main(void)
          // If the opponent is a human
          if ( mode_selector_active_item == 1 )
          {
-            show_warning_box = false;
+            game_manager::show_warning_box = false;
          }
          // If the opponent is a robot, the player moves first, and they haven't moved yet
          else if ( b.get_player_idx() == 0 && b.get_line_counter() < 1 )
          {
-            show_warning_box = false;
+            game_manager::show_warning_box = false;
          }
          // If the opponent is a robot, the player moves second, and they haven't moved yet
          else if ( b.get_player_idx() == 1 && b.get_line_counter() < 2 )
          {
-            show_warning_box = false;
+            game_manager::show_warning_box = false;
          }
          // If the game is over
          else if ( b.is_game_over() )
          {
-            show_warning_box = false;
+            game_manager::show_warning_box = false;
          }
          else
-            show_warning_box = true;
+            game_manager::show_warning_box = true;
 
-         if ( !show_warning_box )
+         if ( !game_manager::show_warning_box )
          {
             updated_win_loss = false;
             is_game_active = false;
-            show_warning_box = false;
+            game_manager::show_warning_box = false;
             b.hard_reset_board();
          }
       }
@@ -311,14 +310,14 @@ int main(void)
          GuiTextBox( Rectangle((window_width / 2) - 200, window_height - 100, 400, 48), text.data(), 24, 0 );
       }
 
-      if ( show_warning_box )
+      if ( game_manager::show_warning_box )
       warning_output = GuiMessageBox( (Rectangle) {(static_cast<float>(window_width) / 2.0f) - 300.0f, (static_cast<float>(window_height) / 2.0f) - 150, 600, 300}, 
             "", "Returning to the main menu now will forfeit \nthe current game and count as a loss.",
             "Return to main menu;Continue playing");
       else
          warning_output = -1;
 
-      if ( show_warning_box && warning_output == 1 )
+      if ( game_manager::show_warning_box && warning_output == 1 )
       {
          if ( !b.is_game_over() && mode_selector_active_item == 0 )
          {
@@ -326,12 +325,12 @@ int main(void)
             data_manager::save_storage_value( (2U * ( game_manager::selected_board_size - 6 )) + 1U, win_loss_data.second);
          }
          updated_win_loss = false;
-         show_warning_box = false;
+         game_manager::show_warning_box = false;
          is_game_active = false;
          b.hard_reset_board();
       }
       else if ( warning_output == 2 )
-         show_warning_box = false;
+         game_manager::show_warning_box = false;
 
       //////////////////////////////////////////////////////////////////////////////
       //// DRAWING BEGINS
@@ -339,7 +338,7 @@ int main(void)
 
       BeginDrawing();
 
-      if (b.is_initialised() && !show_warning_box)
+      if (b.is_initialised() && !game_manager::show_warning_box)
       {
          b.draw();
          home_button.draw();
