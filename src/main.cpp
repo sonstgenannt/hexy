@@ -11,6 +11,8 @@
 #include <vector>
 #include <string>
 
+#include <../headers/net.h>
+
 void recentre_window(const int& window_width, const int& window_height)
 {
    int monitor_width = GetMonitorWidth(GetCurrentMonitor());
@@ -40,6 +42,9 @@ const char* VERSION_STR = "takaku v0.08";
 
 int main(void)
 {
+   server s;
+   s.initialize();
+
    int warning_output = false;
    bool updated_win_loss = false;
 
@@ -133,6 +138,8 @@ int main(void)
 
    while (!WindowShouldClose())    
    {
+      s.listen(0);
+
       ClearBackground(CYBER_BLUE);
       home_button.update();
       arrows_button.update();
@@ -370,7 +377,8 @@ int main(void)
    //////////////////////////////////////////////////////////////////////////////
    //// MAIN LOOP ENDS; PERFORM CLEANUP
    //////////////////////////////////////////////////////////////////////////////
-   
+   s.stop();   
+
    UnloadFont(rockwell);
    UnloadTexture(door_tex);
    UnloadTexture(arrows_tex);
