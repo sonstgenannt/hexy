@@ -4,7 +4,7 @@ CXX_LINUX = g++
 CXX_WINDOWS = x86_64-w64-mingw32-g++
 
 # Raylib paths
-RAYLIB_INCLUDE = /include/
+RAYLIB_INCLUDE = include
 WINDOWS_LIB = /usr/x86_64-w64-mingw32/lib
 
 # Compiler flags
