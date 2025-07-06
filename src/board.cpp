@@ -20,7 +20,6 @@ board::board(const Vector2& position, const unsigned int& board_size, const unsi
 board::board(const Vector2& position, const unsigned int& board_size) : entity(position) 
 {
    this->board_size = board_size;
-
    const bool success = this->init_triangle_shader();
    if ( success )
       std::cout << "triangle_shader loaded successfully" << std::endl;
@@ -131,6 +130,10 @@ bool board::simulate_move(circle*& circ_a, circle*& circ_b)
 void board::make_move(circle*& circ_a, circle*& circ_b) 
 {
    this->lines.push_back( line(circ_a, circ_b, this->p_colors_v_[this->turn_idx]) );
+
+   data(circ_a->ID,circ_b->ID) = turn_idx+1;
+   data(circ_b->ID,circ_a->ID) = turn_idx+1;
+
    this->line_counter++;
 
    circ_a = nullptr;
@@ -147,6 +150,8 @@ void board::make_move(circle*& circ_a, circle*& circ_b)
       this->turn_idx = ( 1 + this->turn_idx ) % this->num_players_;
 
    this->_timer.start();
+
+   std::cout << data << std::endl;
 }
 
 void board::draw() 
@@ -206,6 +211,7 @@ void board::init_circles(const float& poly_radius, const float& circle_radius, c
    for (int i = 0; i < num_circles; ++i) 
    {
       circle c {};
+      c.ID = i;
 
       int x = centre_x + (poly_radius * std::cos(i * angle));
       int y = centre_y + (poly_radius * std::sin(i * angle));
@@ -223,6 +229,9 @@ void board::init_circles(const float& poly_radius, const float& circle_radius, c
    }
    this->_timer.start();
    this->initialised = true;
+
+   data.resize(num_circles, num_circles);
+   data.setZero();
 }
 
 void board::move_circles_to(const std::vector<Vector2>& positions)
@@ -336,6 +345,8 @@ void board::reset_board()
 
    for (size_t i = 0; i < this->circles.size(); ++i)
       this->circles[i].kill_outgoing_lines();
+
+   data.setZero();
 }
 
 void board::hard_reset_board() 

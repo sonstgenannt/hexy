@@ -55,6 +55,8 @@ class circle : public entity
       void draw();
       void draw_shadow() const;
       void update(const float& delta);
+
+      int ID;
 };
 
 #endif

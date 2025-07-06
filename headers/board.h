@@ -8,9 +8,14 @@
 #include <utility>
 #include <tuple>
 
+#include<Eigen/Dense>
+using Eigen::MatrixXd;
+
 class board : public entity {
    private:
       unsigned int board_size;
+
+      MatrixXd data;
 
       unsigned int num_players_ = 2; 
       unsigned int turn_idx = 0; // Keeps track of which player is making the current move
